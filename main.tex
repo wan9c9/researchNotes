@@ -1,0 +1,202 @@
+\documentclass[12pt,a4paper]{book}
+\usepackage[utf8x]{inputenc}
+%\usepackage[latin1]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{makeidx}
+
+\usepackage[encapsulated]{CJK}
+\usepackage{ucs}
+\usepackage[utf8x]{inputenc}
+% use one of bsmi(trad Chinese), gbsn(simp Chinese), min(Japanese), mj(Korean); see:
+% /usr/share/texmf-dist/tex/latex/cjk/texinput/UTF8/*.fd
+\newcommand{\cntext}[1]{\begin{CJK}{UTF8}{bkai}#1\end{CJK}}
+%\newcommand{\cntext}[1]{\begin{CJK}{UTF8}{bsmi}#1\end{CJK}}
+%\newcommand{\cntext}[1]{\begin{CJK}{Bg5}{kai}#1\end{CJK}}
+
+\usepackage{pdflscape}
+\usepackage{color}
+%\usepackage{times}
+%\usepackage[cmbold]{mathtime}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[colorlinks,citecolor=blue,urlcolor=blue,breaklinks=true]{hyperref}
+\usepackage{amsfonts}
+%\usepackage{pbox}
+\usepackage{tabularx}
+\usepackage{makeidx}
+\usepackage{multirow}
+\usepackage{lscape}
+\usepackage{float}
+\usepackage{graphicx}
+%\usepackage{lineno}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{subfig}
+%\usepackage{times}
+%\usepackage[cmbold]{mathtime}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{amsfonts}
+\usepackage{makeidx}
+\usepackage{multirow}
+\usepackage{lscape}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{lineno}
+\usepackage{enumerate}
+\usepackage[authoryear,round]{natbib}
+%\linenumbers
+\usepackage{enumitem}
+
+\newenvironment{steps}[1]{\begin{enumerate}[label=#1 \arabic*]}{\end{enumerate}}
+\makeatletter% http://tex.stackexchange.com/questions/29517/forcing-new-line-after-item-number-in-enumerate-environment/29518#29518
+\def\step{%
+   \@ifnextchar[ \@step{\@noitemargtrue\@step[\@itemlabel]}}
+\def\@step[#1]{\item[#1]\mbox{}\\\hspace*{\dimexpr-\labelwidth-\labelsep}}
+\makeatother
+
+\makeatletter
+\newcommand{\rmnum}[1]{\romannumeral #1}
+\newcommand{\Rmnum}[1]{\expandafter\@slowromancap\romannumeral #1@}
+\makeatother
+
+\newcommand{\E}{\mathop{\mathbb{E}}}
+\newcommand{\R}{\mathop{\mathbb{R}}}
+\newcommand{\la}{\lambda}
+\newcommand{\pr}{\textrm{pr}}
+
+\def \iid {\stackrel{\mathrm{iid}}{\sim}}
+\def \logit {\mbox{logit}}
+
+\def \mean{\mbox{mean}}
+\def \median{\mbox{median}}
+\def \var{\mbox{var}}
+\def \cov{\mbox{cov}}
+\def \trans{^\intercal}
+
+\def \inprob {\stackrel{P}{\longrightarrow}}
+\def \asconv {\stackrel{a.s.}{\longrightarrow}}
+\def \indist {\stackrel{\mathcal{L}}{\longrightarrow}}
+\def \sumn {\displaystyle\sum_{t=1}^n}
+\def \dotwt {\dot{W_t}}
+\def \minim {\displaystyle\min}
+\def \maxum {\displaystyle\max}
+\def \limit {\displaystyle\lim}
+\def \sumi {\displaystyle\sum_{i=0}^{\infty}}
+\def \lamow {\lambda_0,\lambda_1}
+\def \suminf {\displaystyle\sum_{n=0}^{\infty}}
+\def \sumk {\displaystyle\sum_{k=0}^{\infty}}
+\def \var{\mbox{var}}
+\def \tv{_{TV}}
+\def \E{\mbox{E}}
+\def \xx{\mathbf{x}}
+\def \yy{\mathbf{y}}
+\def \XX{\mathbf{X}}
+\def \argmin{\mbox{argmin}}
+\def \argmax{\mbox{argmax}}
+\def \Pois{\mbox{Pois}}
+\def \bfdelta{\boldsymbol{\delta}}
+\def \bflambda {\boldsymbol{\lambda}}
+
+\def \A {\mathbf{A}}
+\def \B {\mathbf{B}}
+\def \J {\mathbf{J}}
+\def \Y {\mathbf{Y}}
+\def \U {\mathbf{U}}
+\def \I {\mathbf{I}}
+\def \u {\mathbf{u}}
+\def \x {\mathbf{x}}
+\def \z {\mathbf{z}}
+\def \y {\mathbf{y}}
+
+\def \F {\mathcal{F}}
+
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newenvironment{remark}[1][Remark]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\linenumbers
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\author{Wang Chao}
+\title{Research notes}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\chapter{Probability Theories}
+\input{probability_theory.tex}
+\input{brownian_motion.tex}
+
+\chapter{M- and Z- estimators}
+
+  \citet{}
+\begin{theorem}
+
+  Let $M_n$ be random functions and let $M$ be a fixed function of $\theta$ s.t.
+  \begin{itemize}
+	\item $\sup_{\theta\in\Theta}|M_n(\theta) - M(\theta)|\inprob 0$,
+	\item $\forall \varepsilon, \sup_{\theta:d(\theta,\theta_0)>\varepsilon} M(\theta) < M(\theta_0)$,
+  \end{itemize}
+  then 
+  \label{<++>}
+\end{theorem}<++>
+
+ \chapter{Random walks and Renewal Theory}
+\input{random_walks_and_renewal_theory.tex}
+\chapter{Applications in Finance}
+\input{option_pricing.tex}
+\input{OHLC_data.tex}
+
+\chapter{Semimartingales and stochastic integrals}
+\input{semimartingales_stochastic_integral.tex}
+
+\chapter{Financial Terminologies}
+\input{spillover_effect.tex}
+\input{leverage_effect.tex}
+
+
+\chapter{Test for non-randomness}
+\begin{itemize}
+\item Haigh $\chi^2$ test, good, powerful
+
+\item Grenander-Rosenblatt test
+
+\item HOC high-order crossing test
+
+
+\end{itemize}
+
+\chapter{High-dimensional data analysis }
+
+\begin{chapter}{A point process with interactive marks}
+
+  \begin{enumerate}
+    \item Epidemic type aftershock sequence (ETAS) model. 
+      
+      Ground intensity function
+      \begin{align*}
+	\lambda_g(t|\mathcal{F}_t)=\mu+A\sum_{i:t_i<t} e^{\alpha(M_i-M_0)}(1+\frac{t-t_i}{c})^{-p}
+      \end{align*}<++>
+     
+    \item 
+  \end{enumerate}<++>
+
+\end{chapter}<++>
+
+\chapter{Estimating theory}
+\input{estimatingTheory.tex}
+
+\bibliographystyle{jtsa1}
+%\bibliography{ref}
+\bibliography{/home/chao/researches/bibfile/ref}
+
+\end{document} 

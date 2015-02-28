@@ -1,0 +1,75 @@
+\documentclass[12pt,a4paper]{book}
+\usepackage[utf8x]{inputenc}
+%\usepackage[latin1]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{makeidx}
+
+\newtheorem{thm}{Theorem}
+\usepackage[encapsulated]{CJK}
+\usepackage{ucs}
+\usepackage[utf8x]{inputenc}
+% use one of bsmi(trad Chinese), gbsn(simp Chinese), min(Japanese), mj(Korean); see:
+% /usr/share/texmf-dist/tex/latex/cjk/texinput/UTF8/*.fd
+\newcommand{\cntext}[1]{\begin{CJK}{UTF8}{bkai}#1\end{CJK}}
+%\newcommand{\cntext}[1]{\begin{CJK}{UTF8}{bsmi}#1\end{CJK}}
+%\newcommand{\cntext}[1]{\begin{CJK}{Bg5}{kai}#1\end{CJK}}
+
+
+\author{Wang Chao}
+\title{Research notes}
+
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\chapter{Probability Theories}
+\input{probability_theory.tex}
+\input{brownian_motion.tex}
+
+\chapter{Random walks and Renewal Theory}
+\input{random_walks_and_renewal_theory.tex}
+\chapter{Applications in Finance}
+\input{option_pricing.tex}
+\input{OHLC_data.tex}
+
+\chapter{Semimartingales and stochastic integrals}
+\input{semimartingales_stochastic_integral.tex}
+
+\chapter{Financial Terminologies}
+\input{spillover_effect.tex}
+\input{leverage_effect.tex}
+
+
+\chapter{Test for non-randomness}
+\begin{itemize}
+\item Haigh $\chi^2$ test, good, powerful
+
+\item Grenander-Rosenblatt test
+
+\item HOC high-order crossing test
+
+
+\end{itemize}
+
+\chapter{High-dimensional data analysis }
+
+\begin{chapter}{A point process with interactive marks}
+
+  \begin{enumerate}
+    \item Epidemic type aftershock sequence (ETAS) model. 
+      
+      Ground intensity function
+      \begin{align*}
+	\lambda_g(t|\mathcal{F}_t)=\mu+A\sum_{i:t_i<t} e^{\alpha(M_i-M_0)}(1+\frac{t-t_i}{c})^{-p}
+      \end{align*}<++>
+     
+    \item 
+  \end{enumerate}<++>
+
+\end{chapter}<++>
+
+\end{document} 

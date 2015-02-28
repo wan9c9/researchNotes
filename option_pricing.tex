@@ -1,0 +1,12 @@
+\section{Option Picing}
+\textit{2010.08.13,10:37} P171, Applied Stochastic Processes by Lin Yuanlie, finished Ch5.1.
+
+\textit{2010.08.13,15:55}
+Barrier option: an option with a payoff depending on the close value, but conditionally on the extrema lying in some region.
+
+Assume that under some measure $ \mathbb{Q} $, $ S_T=S_0 \exp(\mu+cX) $, where $ X $ has cdf $ F$. To compare it wit B-S model, some constraints are put on $\mu, c $. Note that the variance of log-return in B-S model over length $ T $ is $ \sigma^2T $, where $ \sigma^2 $ is the annual volatility(?? precise need here), then $ var(cX)=\sigma^2T\Rightarrow c=\sqrt{\sigma^2T/var(X)} $. Another constraint required of all option-pricing measures is the martingale constraint, this implies $ e^{-rT}E_Q S_t=S_0 \Rightarrow e^{\mu-rT}E_Q\exp(cX)=1\Rightarrow e^{\mu-rT}m(c)=1 $, where $ m(\cdot) $ is the moment generating function of $ X $. Then $ \mu=rT-\log(m(c)) $. 
+
+The price of a call option with stike price K with mature date T will be priced with $ e^{-rT}E_Q(S_T-K)^+ $. To estimate its value, use $ e^{-rT}\frac{1}{N}\sum_{i=1}^N(S_{T_i}-K)^+=\frac{1}{N}\sum_{i=1}^N{(\frac{S_0}{m(c)}e^{cX_i}-e^{-rT}K)^+} $, where $ X_i\sim_{iid} F $. To compare it with that of a normal distribution, suppose we can invert $ F $, and the above $ X_i=F^{-1}(U_i) $, the same $ U_i $ are transformed to normal random number by $ \Phi^{-1}(U_i) $, then the difference is given by 
+
+$ \frac{1}{N}\sum_{i=1}^N{((\frac{S_0}{m(c)}e^{cF^{-1}(U_i)}-e^{-rT}K)^+-(\frac{S_0}{m(c)}e^{c\Phi^{-1}(U_i)}-e^{-rT}K)^+}) $. In case that $ m $ and $ var(X) $ is unknown, they can be simulated.
+

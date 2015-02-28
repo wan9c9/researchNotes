@@ -1,0 +1,60 @@
+\section{Slutsky's Theorem}
+Let $\left\{ X_n \right\}$, $\left\{ Y_n \right\}$ be sequences of random elements. If $X_n\xrightarrow{d} X$, $Y_n\xrightarrow{p}c$, where $c$ is a constant, then
+\begin{enumerate}
+  \item $X_n+Y_n\xrightarrow{d}X+c$;
+  \item $X_n Y_n\xrightarrow{d}cX$;
+  \item $Y_n^{-1}X_n \xrightarrow{d}c^{-1}X$.
+\end{enumerate}
+
+Slustsky's theorem is very useful when proving convergence of some (complicated) random elements.
+
+\section{others}
+\begin{enumerate}
+\item the intepretation of conditional expectation $ E(\xi|\mathcal{F}) $ as a version of the density $ d(\xi\cdot P)/dP $ on the $ \sigma $-field $ \mathcal{F} $? (on Kallenberg p103).
+\item \textbf{A general CLT}\\
+Let $ \{X_{n,t}, n\geq 1,t=1,\cdots,n\} $ be a triangular stochastic array, \\
+let $ \{\mathbf{V}_{n,t}, -\infty<t<\infty, n\geq 1\} $ be a (possibly vector-valued) stochastic array,\\
+and $ \mathcal{F}_{n,t-m}^{t+m}=\sigma(\mathbf{V}_{n,s},t-m\leq s \leq t+m) $.
+Also, let $ S_n=\sum_{t=1}^n X_{n,t} $.
+Suppose the following assumptions hold:
+\begin{enumerate}
+\item $ X_{n,t} $ is $ \mathcal{F}_{n,-\infty}^t/\mathcal{B} $-measurable, with $ E(X_{n,t})=0 $ and $ E(S_n^2)=1 $.
+\item $ \exists \{c_{n,t}>0\} $ s.t. $ \sup_{n,t}\|X_{n,t}/c_{n,t}\|_r<\infty $ for some $ r>2 $.
+\item $ X_{n,t} $ is $ L_2-NED $ of size $ -1 $ on $ \{\mathbf{V}_{n,t} \} $ w.r.t. $ \{c_{n,t}\} $ specified above, and $ \{\mathbf{V}_{n,t}\} $ is $ \alpha-mixing $ of size $ -(1+2\theta)r/(r-2) $, for some $ \theta\in [0,1/2) $.
+\item Let $ b_n=[n^{1-\alpha}] $ and $ r_n=[n/b_n] $ for some $ \alpha\in(0,1] $, and defining $ M_{n,i}=\max_{(i-1)b_n<t\leq i b_n} c_{n,t} $ for $ i=1,\cdots,r_n $ and $ M_{n,r_n+1}=\max_{r_nb_n<t\leq n}\{c_{n,t}\} $, the following conditions hold:
+\[\max_{1\leq i\leq r_n+1}M_{n,i}=o(b_n^{-1/2}),\]
+\[\sum_{i=1}^{r_n+1}M_{n,i}=O(b_n^{\theta-1/2}),\]
+where $ \theta $ is given in $ (c) $, and
+\[ \sum_{i=1}^{r_n+1} M_{n,i}^2=O(b_n^{-1}). \]
+\item $ X_{n,t} $ is $ L_2-NED $ of size $ -1 $ on $ \{\mathbf{V}_{n,t}\} $, which is $ \alpha-mixing $ of size $ -r/(r-2) $.
+\item Let $ M_n=\max_{1\leq t \leq n}c_{n,t} $,  $ \sup_n nM_n^2<\infty $.
+\end {enumerate}
+Then under assumptions $ (a),(b),(c),(d) $, or $ (a),(b),(e),(f) $
+\[ S_n\xrightarrow{D}N(0,1). \]
+
+To interpret this result, consider the case that $ X_{n,t}=(Y_t-\mu_t)/s_n $, $ s_n=E(\sum_{t=1}^n(Y_t-\mu_t))^2 $, then we may set $ c_{n,t}=(1\vee\sigma_t)/s_n $, where $ \sigma_t=Var(Y_t) $
+\item The sum of a series
+
+ $$ \sum_{j=1}^{k-1}jx^{j-1}=\frac{1-kx^{k-1}+(k-1)x^k}{(1-x)^2} $$
+  $$ \sum_{j=1}^{T-1}(T-j)x^{j-1}=\frac{T}{1-x}-\frac{1-x^T}{(1-x)^2} $$
+
+\item Substochastic matrix\\
+A real matrix is called substochastic, if all of its elements lie in $ [0,1] $ and 1 is a upper bound for its row sums.
+Accordingly, a substochastic transition kernel $ T(x,A) $ should be a kernel measure with $ T(\omega,\Omega)\leq 1 $, for all $ \omega $.
+
+
+\item The indicator function $ I_{C} $ where $ C $ is open is not continuous! Since the preimage of the open set $ (0-\epsilon,0+\epsilon) $ is a closed set! But this function is lower semicontinuous, i.e., its value at any point is not larger than the lower limit of any series in its neighbourhood converging to itself.
+
+This is the reason why we need the Feller condition.
+%\begin{cjk}{utf8}
+??
+%\end{cjk}
+
+\item Sample paths and limit theorems of Markov chains.\\
+CLT for postive Harris chain with invariant probability $ \pi $.
+positive Harris chain if Harris recurrent and positive.
+
+\item
+intradaily prices --- lognormal diffusion, whose coefficient $ \leftarrow $ conditional variance equation
+
+\end{enumerate}

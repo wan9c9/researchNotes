@@ -1,0 +1,2294 @@
+%        File: carx.tex
+%
+\documentclass[a4paper,12pt]{article}
+%\usepackage{utf8}{inputenc}
+\usepackage{pdflscape}
+\usepackage{color}
+%\usepackage{times}
+%\usepackage[cmbold]{mathtime}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[colorlinks,citecolor=blue,urlcolor=blue,breaklinks=true]{hyperref}
+\usepackage{amsfonts}
+\usepackage{pbox}
+\usepackage{tabularx}
+\usepackage{makeidx}
+\usepackage{multirow}
+\usepackage{lscape}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{subfig}
+%\usepackage{times}
+%\usepackage[cmbold]{mathtime}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{amsfonts}
+\usepackage{makeidx}
+\usepackage{multirow}
+\usepackage{lscape}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{lineno}
+\usepackage{enumerate}
+\usepackage[authoryear,round]{natbib}
+\usepackage{enumitem}
+
+\newenvironment{steps}[1]{\begin{enumerate}[label=#1 \arabic*]}{\end{enumerate}}
+		\makeatletter% http://tex.stackexchange.com/questions/29517/forcing-new-line-after-item-number-in-enumerate-environment/29518#29518
+\def\step{%
+\@ifnextchar[ \@step{\@noitemargtrue\@step[\@itemlabel]}}
+\def\@step[#1]{\item[#1]\mbox{}\\\hspace*{\dimexpr-\labelwidth-\labelsep}}
+\makeatother
+
+\makeatletter
+\newcommand{\rmnum}[1]{\romannumeral #1}
+\newcommand{\Rmnum}[1]{\expandafter\@slowromancap\romannumeral #1@}
+\makeatother
+
+\newcommand{\E}{\mathop{\mathbb{E}}}
+\newcommand{\R}{\mathop{\mathbb{R}}}
+\newcommand{\la}{\lambda}
+\newcommand{\pr}{\textrm{pr}}
+
+\def \iid {\stackrel{\mathrm{iid}}{\sim}}
+\def \logit {\mbox{logit}}
+
+\def \mean{\mbox{mean}}
+\def \median{\mbox{median}}
+\def \var{\mbox{var}}
+\def \cov{\mbox{cov}}
+\def \trans{^\intercal}
+
+\def \inprob {\stackrel{P}{\longrightarrow}}
+\def \asconv {\stackrel{a.s.}{\longrightarrow}}
+\def \indist {\stackrel{\mathcal{L}}{\longrightarrow}}
+\def \sumn {\displaystyle\sum_{t=1}^n}
+\def \dotwt {\dot{W_t}}
+\def \minim {\displaystyle\min}
+\def \maxum {\displaystyle\max}
+\def \limit {\displaystyle\lim}
+\def \sumi {\displaystyle\sum_{i=0}^{\infty}}
+\def \lamow {\lambda_0,\lambda_1}
+\def \suminf {\displaystyle\sum_{n=0}^{\infty}}
+\def \sumk {\displaystyle\sum_{k=0}^{\infty}}
+\def \var{\mbox{var}}
+\def \tv{_{TV}}
+\def \E{\mbox{E}}
+\def \xx{\mathbf{x}}
+\def \yy{\mathbf{y}}
+\def \XX{\mathbf{X}}
+\def \argmin{\mbox{argmin}}
+\def \argmax{\mbox{argmax}}
+\def \Pois{\mbox{Pois}}
+\def \bfdelta{\boldsymbol{\delta}}
+\def \bflambda {\boldsymbol{\lambda}}
+
+\def \A {\mathbf{A}}
+\def \B {\mathbf{B}}
+\def \J {\mathbf{J}}
+\def \Y {\mathbf{Y}}
+\def \U {\mathbf{U}}
+\def \I {\mathbf{I}}
+\def \u {\mathbf{u}}
+\def \x {\mathbf{x}}
+\def \z {\mathbf{z}}
+\def \y {\mathbf{y}}
+
+\def \F {\mathcal{F}}
+\def \G {\mathcal{G}}
+
+\makeatletter
+\newcommand*\nobreakhyphen{\hbox{-}\nobreak\hskip\z@skip}
+\makeatother
+
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newenvironment{remark}[1][Remark]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+%\linenumbers
+\title{Censored time series with linear regression models and  autoregressive residuals}
+\author{Chao Wang\\ Kung-Sik Chan}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+A novel estimation procedure for estimating the parameters of a model for censored time series data is proposed.
+The time series is assumed to follow a linear regression model with autoregressive residuals. The estimation procedure is based on maximizing the expectation of logarithm of conditional likelihood conditional on some lagged observations. The consistency and asymptotic normality of the estimator is proved under regularity assumptions. Simulation studies are presented and an application to model the phosphorus concentration is reported as well.
+
+\end{abstract}
+
+\newpage
+
+\section{Introduction}
+
+Censored time series data are frequently observed in scientific investigation such as environmental studies, medical records, economics and social sciences. Such censored data occur if the measuring device has some detection limit beyond which the device cannot give reliable reading, or the data reported are truncated at some limit. For instance, the total phosphorus concentration in stream water is an important indicator about the water quality and are monitored in environmental studies, but the concentration cannot be detected when it falls below some detection limit of the monitor devices or under extreme weather conditions.
+
+There are have been many studies on regression models when the response variable is censored. It seems that \citet{Buckley1979} first studied a regression model where the dependent variables can be censored.
+However, few studies exist on regression models when both response variable and covariates are censored. Censored time series data falls in this category and there are a lot of examples. An early study conducted by \citet{ZegerBrookmeyer1986} is focused on regression models with autoregressive (AR) errors, where the regressors were assumed to be known and the error distribution follows an AR model. \citet{ZegerBrookmeyer1986} developed a modified Markovian result for censored data, based on which a maximum likelihood estimator was proposed. Although the method might be very efficient, as is indicated in their paper, it might be computationally intensive when the censoring rate is high. A pseudo-likelihood approach was also briefly discussed there, but it was not fully developed.
+\citet{ParkGentonGhosh2007} introduced a imputation method to estimate censored time series assuming the complete data is generated from an autoregressive moving average (ARMA) process. They proposed to impute the censored values by some random values simulated from the conditional distribution of the censored values on all observations and then treated the simulated censored values as part of the observations, which can be used in ordinary estimation procedure to get the parameter estimates. However, their discussion was focused on AR(1) model and simulation studies with little theoretical properties were discussed.
+
+In this paper, a novel approach is proposed to estimate models of time series data in the presence of covariates and censoring. The model for the time series data allows for covariates with the regression errors following an autoregressive model thus can be applied widely in real data analysis.
+The estimation procedure requires only efficient calculating of expectation of log-likelihood given some lagged observations. Furthermore, the consistency and asymptotic normality of the estimator is discussed and established under general settings and regularity conditions. A special case when the distribution of the innovation sequence of the AR model for the regression errors follows normal distribution is discussed in detail and the estimation procedure can be carried out readily.
+
+In the following, Section~\ref{model} specifies the model in detail and discusses the estimating procedure and its properties. Section~\ref{simulation} shows some simulation studies and reports a application to a series of the phosphorus concentration data. Section~\ref{conclusion} discusses some possible future work and concludes the study. All technical details are postponed to Section~\ref{appen}.
+%Section~\ref{simulation} presents some simulation studies. 
+
+
+\section{ The model and estimation procedure\label{model}}
+\subsection{The CARX model}
+Let $\left\{ y_t^*\right\}$ denote the real-valued time series of interest.
+Let a subset $C \subset \R$ be the censoring region such that if $y_t^*\in C$, $y_t^*$ cannot be observed.
+The censoring region is frequently an interval of the form $(-\infty,c)$ or $(c,\infty)$, or the union of two disjoint intervals $(-\infty, c_l) \cup (c_u,\infty)$, which are referred to as left censoring, right censoring, and interval censoring respectively \citep{ParkGentonGhosh2007}. 
+In practice, for data subject to left censoring with censoring limit $c$, the reported value $y_t = \max \left\{ c,y_t^* \right\}$, $y_t=\min\left\{ c,y_t^*\right\}$ for right censoring, and $y_t= \median\left\{ c_l,y_t^*,c_u \right\}$ for interval censoring.
+In this paper, the censoring pattern is not restricted, but fixed, our discussion can be applied to left censoring, right censoring, interval censoring, or more general censoring patterns.
+%{\color{red} In this paper, we only discuss the case of left censoring with constant censoring region $C = (-\infty,c)$. However, extension to the cases of right censoring and interval censoring is straightforward. }
+
+Some explanatory variable $x_t $ might also be present, in which case, with out loss of generality, a linear regression relationship between $y_t$ and $x_t$ is assumed.
+Different from $y_t^*$ in the sense that $y_t^*$ might be censored, $x_t$ is assumed to be always observable.
+
+To accommodate the time series nature of $\left\{ y_t^* \right\}$, the sequences of regression errors between $y_t^*$ and $x_t$ is assumed to follow an autoregressive model with order $p$ where $p$ is some non-zero integer.
+
+In the following, let $v\trans$ be the transpose of a vector or matrix $v$. 
+For a time series $\left\{ s_t \right\}$, let $s_{i:j} = (s_i,s_{i-1},\dots,s_{j})$ if $i>j$, and $s_{i:j} = (s_i,s_{i+1},\dots,s_{j}) $ otherwise.
+
+
+In summary, we have the following model,
+\begin{align}
+y_t^* &= x_t\trans \beta + \eta_t,\label{regEqn}\\ 
+\eta_t &= \sum_{i=1}^p \psi_i \eta_{t-i} + \varepsilon_t\label{arEqn}\\
+c_t &= 1\left\{y_t^* \in C  \right\},\label{cenEqn}\\
+y_t &= \left\{
+\begin{array}[c]{ll}
+C, &  c_t=1,\\
+y_t^*,& c_t=0,
+\end{array}\right.\label{yEqn}
+\end{align}
+where $\varepsilon_t \iid WN(0,\sigma^2)$ is a white-noise process with mean 0 and variance $\sigma^2$.
+
+The model defined by Eq~\eqref{regEqn}~\eqref{arEqn}~\eqref{cenEqn}~\eqref{yEqn} is referred to as the Censored Auto-Regressive model with eXgenous variables (CARX).
+With the backshift operator $B$ in time series literature and $\Psi(B) = \sum_{i=1}^p \psi_i B^i$, Eq~\eqref{regEqn} and Eq~\eqref{arEqn} can be rewritten compactly as
+\begin{align}
+(1-\Psi(B))(y_t^*-x_t\trans\beta) =  \varepsilon_t. \label{arEqn2}
+\end{align}
+
+Note that no intercept in the AR specification for $\eta_t$ in Eq~\eqref{arEqn} is assumed as the intercept can be absorbed into $x_t$.
+
+Let $\psi = (\psi_1,\cdots,\psi_p)\trans$, then $\theta  = (\beta\trans,\psi\trans,\sigma)\trans$ is the parameter vector. Let $\theta_0$ denote true parameter vector and $\theta$ be an arbitrary parameter vector.
+
+\subsection{Estimation}
+Suppose a series of data $\left\{ (y_t,x_t),t=1,\dots,n \right\}$ generated from the CARX model with parameter $\theta_0$ is observed, our task is to estimate the parameter $\theta_0$.
+For ease of presentation, the following $\sigma$-algebra's are defined for each $t$,
+\begin{align*}
+  \F^*_t&=\sigma\left\{ x_{t:t-p},y_{t-1:t-p}^* \right\},\\
+  \F_t&=\sigma\left\{ x_{t:t-p},y_{t-1:t-p}\right\},\\
+\G_t&=\sigma\left\{ y_t,\F_t \right\}.
+\end{align*}
+
+A natural candidate for estimation procedure is the maximum likelihood estimator. If $\left\{ y_t^* \right\}$ are all observable,
+and the white noise process $\left\{ \varepsilon_t \right\}$ has probability density function $f_\theta(\cdot)$,
+%assuming the normality of the white noise process $\left\{ \varepsilon_t \right\}$, 
+then the joint log-likelihood function for $ y_{n:1}^*$ conditional on $x_{n:1}$ is given by
+\begin{align*}
+  \ell(y_{n:1}^*|x_{n:1};\theta) =\sum_{t=p+1}^n \ell(y_t^*|\F^*_t;\theta) + \ell(y_{p:1}^*|x_{p:1};\theta),
+\end{align*}
+where $\ell(y_t^*|\F_t^*;\theta)=\log f_\theta( (1-\Phi(B))(y_t^*-x_t\trans\beta))$, due to the $AR(p)$ representation of the regression errors $\left\{ \eta_t \right\}$.
+
+However, for the observed time series $\left\{ y_t \right\}$, due to the possibly censored values, their joint log-likelihood cannot be reduced to a simple form similar to the one for $\left\{ y_t^* \right\}$ (\citet{ZegerBrookmeyer1986}).
+
+The proposed method of estimation is motivated by the following observation. 
+For any $t=p+1,\dots,n$,
+instead of calculating the exact likelihood for $y_t$, 
+the expectation of the conditional log-likelihood $\ell(y_t^*|\F_t^*;\theta)$ 
+given observed data and parameter can be calculated, and maximization of the expectations should also give an estimate of the parameters.
+However, it is tricky to choose how much information should be used to calculate the expectation. 
+To exploit all the information, 
+the whole sequence $\left\{y_t\right\}_{t=1}^n$ should be used, 
+which, however, is very difficult to calculate in general cases. \footnote{Note that a second reflection shows that we can actually take the expectation over all observations, which is similar to what \citet{ParkGentonGhosh2007} did using a permutation matrix.}
+Here the following conditional expectation
+\begin{align}
+Q_t(\theta|\theta^{(c)})=\E_{\theta^{(c)}}\left[ \ell_t^*(y_t^*|\F_t^*;\theta)|\G_t \right]
+\label{qt}
+\end{align}
+for any given parameter $\theta^{(c)}$ is proposed,
+which has an interesting property, if no observations at time $t,t-1,\dots,t-p$ are censored, then 
+$Q(\theta|\theta^{(c)})=\ell_t^*(y_t^*|\F_t^*;\theta)$.
+
+Let $Q(\theta|\theta^{(c)})=\sum_{t=p+1}^n Q_t(\theta|\theta^{(c)})$, the following iterative procedure is proposed to estimate the parameters.
+
+\vspace{0.4cm}
+{\em Estimation Procedure}
+\begin{enumerate}
+\item[Step(1)] \label{iStep}
+Initialize the parameter estimate by other means, denoted by $\theta^{(0)}$.
+\item[Step(2)] \label{mStep} 
+For each $k=1,\dots$, obtain an update of estimate $\theta^{(k)}$ by
+\begin{align}
+\theta^{(k)} = \argmax_{\theta} \; Q(\theta|\theta^{(k-1)}),
+\label{maxQ}
+\end{align}
+\item[Step(3)] \label{iterStep}
+Iterate Step(2) until $|\theta^{(k)} - \theta^{(k-1)}|<\epsilon$ for some positive tolerance $\epsilon \approx 0$.
+Let $\hat{\theta}$ be the $\theta^{(k)}$ obtained from the last iteration.
+\end{enumerate}
+
+\begin{remark}
+There are several ways to initialize the parameter estimates.
+First, if the censoring rate is not high,
+and there are sufficient number of $p$ consecutive uncensored observations,
+one can use these observations and use maximum likelihood method to get a consistent estimator.
+Second, one can substitute the censored data by the corresponding censoring limit and treat them as observed,
+which, although leads to biased and inefficient estimates \citep{ParkGentonGhosh2007},
+might serve as initial estimates when no other option is available.
+\end{remark}
+
+
+
+Note that in order for the above method to be applicable,
+it should not be difficult to compute the conditional expectation in Eq~\eqref{qt}.
+
+In many cases $Q(\theta|\theta^{(c)})$ is differentiable with respect to $\theta$, in which case, Eq~\eqref{maxQ} is equivalent to solving the equation
+\begin{align}
+\frac{\partial Q(\theta|\theta^{(k-1)})}{\partial \theta} = 0.
+\label{zEqn}
+\end{align}
+
+Under regularity conditions, the differentiation and expectation can be exchanged.
+Let $S(\cdot,\theta)$ be the score function of a distribution with density function $f(\cdot,\theta)$, 
+$B(\cdot,\theta)$ be the second-order differential of a probability density function $f(\cdot,\theta)$,
+$\nabla f(x,\theta) = \frac{\partial f(x,\theta)}{\partial \theta}$.
+For instance, 
+\begin{align*}
+S(y_t^*|\F_t^*,\theta) &= \nabla \log f(y_t^*|\F_t^*,\theta),\\
+S(y_{t:t-p}^*|\G_t,\theta) &= \nabla \log f(y_{t:t-p}^*|\G_t,\theta).
+\end{align*}
+
+Throughout the paper, we assume that 
+\begin{align*}
+  \frac{\partial Q(\theta|\theta^{(k-1)})}{\partial \theta}
+  = \E_{\theta^{(k-1)}}\left[S(y_t^*|\F_t^*,\theta)|\G_t\right]
+\end{align*}
+then $\theta^{(k)}$ also solves  
+\begin{align}
+%\sum_{t=p+1}^n \E_{\theta^{(k-1)}}\left[  \frac{\partial \ell_t^*(y_t^*|\F_t^*,\theta)}{\partial \theta} |\G_t \right]= 0.
+\sum_{t=p+1}^n \E_{\theta^{(k-1)}}\left[  S(y_t^*|\F_t^*,\theta)|\G_t \right]= 0.
+\label{zEqn2}
+\end{align}
+
+At the estimated parameter vector $\hat{\theta}$, it holds that
+\begin{align}
+%\sum_{t=p+1}^n \E_{\hat{\theta}}\left[ \left. \left. \frac{\partial \ell_t^*(y_t^*|\F_t^*,\theta)}{\partial \theta}\right|_{\theta=\hat{\theta}} \right|\G_t \right]= 0.
+\sum_{t=p+1}^n \E_{\hat{\theta}}\left[ \left. S(y_t^*|\F_t^*,\hat{\theta}) \right|\G_t \right]= 0.
+\label{hatEqn}
+\end{align}
+
+%However, with given parameter $\theta_{(c)}$, one can compute $\E\left[ \ell_t^*(\theta) | y_t,\dots,y_{t-p},\theta_{(c)} \right]$.
+\subsection{Asymptotic properties of the estimator}
+In general it is very difficult to establish the global consistency of an estimator, so is our case. It is assumed that the initial estimate $\theta^{(0)}$ is consistent so that our discussion can be restricted to a neighbourhood of $\theta_0$, $\Theta$, which, without loss of generality, is assumed to be compact.
+
+First of all, some assumptions about the process $\left\{ x_t \right\}$ must be made. In general, $\left\{ x_t \right\}$ can be any process, stationary or non-stationary. However, non-stationary process requires special technique which is beyond the current scope of this study. It is assumed to be $\beta$-mixing with exponentially decaying mixing coefficients, which is not a very strong assumption.
+
+The parameters $\psi_i$ and the distribution of $\varepsilon_t$ also effect the data and thus the estimation procedure. It is natural to require the induced AR process to be stationary, which need the polynomial $1-\sum_{j=1}^p \psi_jz^j$ has no root within the unit circle for any $z$ such that $|z|\le 1$ \citep{FanYao2003}. The $\beta$-mixing condition will be used here, so the AR process is assumed to be $\beta$-mixing, of which a sufficient condition is that $\varepsilon_t$ has probability density \citep{PhamTran1985}.
+
+The asymptotic property of the estimator depends on the following $Z$ functions,
+\begin{align*}
+Z_t(\theta) &= \frac{\partial Q_t(\theta|\theta^{(c)})}{\partial \theta}|_{\theta^{(c)}=\theta} =
+\E_{\theta}\left[ S(y_t^*|\F_t^*,\theta)|\G_t \right],\\
+Z^{(n)}(\theta) &= \frac{1}{n-p}\sum_{t=p+1}^n Z_t(\theta),\\
+Z(\theta) &= \E_{\theta_0}\left[ Z_t(\theta) \right].
+\end{align*}
+
+For the final estimator, it is equivalent to solve 
+\begin{align}
+Z^{(n)}(\theta)=0.
+%\sum_t\left.\frac{\partial Q_t(\theta|\hat{\theta})}{\partial \theta}\right|_{\theta=\hat{\theta}} = 0
+%	\label{}
+\end{align}
+
+To establish the consistency and asymptotic normality with the central limit theorem of V-C class in \citet{ArconesYu1994}, the process $\left\{ Z_t(\theta);\theta\in \Theta \right\}$ need to be a V-C class satisfying some moment condition. For the concept of V-C class, see the reference therein.
+
+In summary, the following assumptions are imposed as below.
+Let $q\in(2,\infty)$ be some fixed real number.
+
+\vspace{0.4cm}
+{\em Assumptions:}
+\begin{enumerate}
+  \item \label{ass:init} The initial estimate $\theta^{(0)}$ in the estimating procedure is a consistent estimator.
+\item \label{ass:xMixing} The covariate process $\left\{ x_t \right\}$ is $\beta$-mixing with exponentially decaying mixing coefficients.
+\item \label{ass:root} For all $|z| \le 1$, the polynomial $1-\sum_{j=1}^p\psi_j z^j \ne 0 $.
+\item \label{ass:innoDis} The distribution of $\varepsilon_t$ has a probability density function which is at least twice differentiable with respect to its parameters.
+\item \label{ass:innoDis2} The class of functions $\left\{ \E_\theta\left[S(y_t^*|\F_t^*,\theta) | \G_t\right] :\theta \in \Theta\right\}$ is a V-C subgraph class and there exists an envelope function $F$ such that $\sup_{\theta\in\Theta}\E_\theta\left[S(y_t^*|\F_t^*,\theta) | \G_t\right]<F$ with $F\in L^{q}$.
+%\item \label{ass:innoDis2n} For a neighbourhood of the true parameter $\theta_0$, $\Theta$, for each $i=0,\dots,p$ and $j=1,2$, the class of functions $\left\{ \E_\theta\left[ (y^*_{t-i})^j|\G_t \right]:\theta \in \Theta\right\}$ are V-C subgraph classes and there exists an envelope function $F$ such that $\max_{i=0,\dots,p}\max_{j=1,2}\sup_{\theta\in\Theta}\E_\theta\left[ (y^*_{t-i})^j|\G_t\right]<F$ with $F\in L^{2q}$.
+\item \label{ass:nonsingular} The matrix $\E_{\theta_0}\left[ \nabla Z_t(\theta) \right]$ is continuous in $\theta$ and it is nonsingular	at the true parameter $\theta_0$.
+    %\item \label{ass:nonsingular} The matrix $\E_{\theta_0}\left[ \nabla \E_\theta\left[S(y_t^*|\F_t^*,\theta) | \G_t\right] \right]$ is continuous in $\theta$ and it is nonsingular	at the true parmeter $\theta_0$.
+
+    %\item \label{a3} The joint probability density function of $(y^*_{t:t-p}|x_{t:t-p})$ is bounded uniformly over a neighbourhood of $\theta_0$.
+    %\item \label{a4} There exists $p\in (2,\infty)$ such that the processes $\left\{ x_t \right\}$ and $\left\{ y_t^* \right\}$ belong to $L^{2p}$.
+    \end{enumerate}
+
+    %The assumption \ref{ass:root} ensures that the regression error series $\left\{ \eta_t \right\}$ is a stationary AR process \citep[Theorem 2.1]{FanYao2003}. 
+    %Furthermore, the existence of a probability density function in assumption \ref{ass:innoDis} for $\varepsilon_t$ implies that $\left\{ \eta_t \right\}$ is $\beta$-mixing with exponentially decaying mixing coefficients \citep{PhamTran1985}.
+    %The assumption \ref{ass:innoDis2} is essentially imposed on the distribution of $\varepsilon_t$, 
+    %with which the central limit theorem in \citet{ArconesYu1994} can be employed to prove the consistency and asymptotic normality of our estimator.For the concept of V-C class, see the reference therein.
+
+    The asymptotic properties of our estimator are established in the following theorem.
+
+\begin{theorem}
+Under the Assumptions \ref{ass:init}, \ref{ass:xMixing}, \ref{ass:root},\ref{ass:innoDis},\ref{ass:innoDis2}, the estimate $\hat{\theta}$ is consistent, i.e., $\hat{\theta}\inprob \theta_0$.
+
+Furthermore, if Assuption~\ref{ass:nonsingular} holds, it is also asymptotically normal, i.e.,
+\begin{align*}
+\sqrt{n}\left( \hat{\theta} - \theta_0 \right)\indist N(0,\Sigma),
+\end{align*}
+where $\Sigma = M_1\trans M_0 M_1 $, $M_0=\sum_{i=0}^\infty \E_{\theta_0}\left[ Z_{t+i}(\theta_0)\trans Z_t(\theta_0) \right]$, $M_1 = \E_{\theta_0}\left[ (\nabla Z_t)(\theta_0) \right]$.
+\label{thm:consistency}
+\end{theorem}
+
+\begin{remark}
+Note that the asymptotic variance is in a sandwich form, which involves two matrices. The first one $M_1 $ is assumed to be non-singular, and the second matrix $M_0$ is a infinite sum of the covariance matrices. 
+Both matrices might not be easy to compute. Furthermore, there is no simple criteria to get a
+consistent estimator for $M_0$ in application in the presence of the infinite sum. 
+In this regard, a parametric bootstrap procedure is proposed to estimate the covariance matrices and confidence intervals for the estimators. Specifically, for any estimated parameter vector $\hat{\theta}$, using available observed $\left\{ x_t \right\}$, a series of observations with the same sample size can be simulated easily. Then this series with censor pattern determined by the same censoring limits and $\left\{ x_t \right\}$, is used to get a new estimate $\tilde{\theta}$. Replicate the aforementioned procedure for many times, then the sample covariance matrix of the new estimates is an estimate of the covariance matrix of $\hat{\theta}$, and confidences intervals can be constructed directly from the sample quantiles of estimates from the bootstrap procedure.
+\end{remark}
+
+
+    \subsection{When $\varepsilon_t\sim N(0,\sigma^2)$}
+    In addition to the above general discussion, we discuss the following important case where $\varepsilon_t$ follows a normal distribution with variance $\sigma^2$. Note that apart from a constant,
+    \begin{align*}
+	    \ell(y_t^*|\F_t^*,\theta)= &-\frac{1}{2}\log(\sigma^2) 
+	    - \frac{
+	    \left( (y^*_{t}-x_t\trans \beta) -\sum_{j=1}^p\left(y^*_{t-j}-x_{t-j}\trans\beta \right) \right)^2}{2\sigma^2}.
+    \end{align*}
+
+    For any given parameter vector $\theta$, let
+    $$z_{t_1,t_2}(\theta) = \E_\theta[y_{t_1}^*|\G_{t_2}],$$
+    $$\Sigma_t(\theta)  = \cov(y_{t:t-p}^*|\G_t;\theta),$$
+    The explicit formula for moments of truncated multivariate normal variables has been derived by \citet{Tallis1961} and there is also an R \citep{R} package called \verb$mvtnorm$ \citep{mvtnorm, GenzBretz2009} which can be readily used in R environment. Then
+
+    \begin{align*}
+	    &Q_t(\theta| \theta^{(c)})= \E_{\theta^{(c)}}\left[ \ell_t^*(\theta)|\G_t\right]\\
+	    = &-\frac{1}{2}\log(\sigma^2) - \frac{\left( 
+	    (z_{t,t}(\theta^{(c)})-x_t\trans \beta) 
+	    -\sum_{j=1}^p\left( z_{t-j,t}(\theta^{(c)})-x_{t-j}\trans\beta \right)
+	    \right)^2 + (1,-\psi\trans)\Sigma_t(\theta^{(c)}) (1,-\psi\trans)\trans}{2\sigma^2}.
+    \end{align*}
+
+    Due to the quadratic nature of $Q_t$ as a function of $\theta$, the maximization problem in {Step(2)} can be further split into three parts with some modification:
+    \begin{enumerate}
+	    \item For given $\theta^{(k)}$, $\psi$, and $\sigma$, to update the regression coefficient $\beta$, it is equivalent to a least-square problem of regressing
+		    $ z_{t,t}(\theta^{(k)}) - \sum_{j=1}^p \psi_j z_{t-j,t}(\theta^{(k)})$ on $ (x_t - \sum_{j=1}^p \psi_j x_{t-j})$ for $t=p+1,\dots,n$.
+	    \item For given $\theta^{(k)}$, $\beta$, and $\sigma$, to update $\psi$, the $Q$ function is a quadratic function of $\psi$, which is easy to maximize. Furthermore, since we have an outer iteration procedure, the quadratic function does not necessarily to be maximized, it suffices to update $\psi$ to another feasible vector.
+
+	    \item For given $\theta^{(k)}$, $\beta$, and $\psi$, the updated estimate of $\sigma$ is given by
+		    \begin{align*}
+			    \sigma^2 = &\frac{1}{n-p}\sum_{t=p+1}^n \left[ \left( (z_{t,t}(\theta^{(k)})-x_t\trans \beta) - \sum_{j=1}^p \psi_j (z_{t-j,t}(\theta^{(k)}) - x_{t-j}\trans \beta)\right)^2 \right.\\
+			    &+\left. (1,-\psi\trans)\Sigma_t(\theta^{(k)}) (1,-\psi\trans)\trans \right]
+		    \end{align*}
+    \end{enumerate}
+
+Furthermore, it is obvious that Assumption \ref{ass:innoDis} is true. Assumption \ref{ass:innoDis2} is also verified in Proposition~\ref{prop:normal}. 
+
+\section{Simulation study and real data example}
+\label{simulation}
+In this section, some simulation studies and a real data analysis example presented.
+
+\subsection{Simulation study}
+In this section a simulation study for series subject to left-censoring is reported.
+$x_t$ is two dimensional and the AR order is 3. 
+$x_t$'s are generated from standard normal distribution and $\varepsilon_t\iid N(0,\sigma^2)$.
+
+For the selected true parameter set, 
+censoring limits are chosen to be $-1.5$, $-0.7$, and $-0.5$ so that censoring ratios equal approximately to $5\%$, $20\%$, and $40\%$ respectively.
+For each sample censoring limit, sample sizes of $100$, $200$, $500$, $1000$ are generated and estimated. 
+We also compare our method (labeled with ``1'') with the naive method (labeled with ``0'')
+in the sense that the estimates are performed through ordinary maximum likelihood where the censored observation are filled by the censor limit and all data are treated observed values.
+
+The simulation result is shown in Table~\ref{tab:sim}.
+Then for each sample size and censoring limit, 1000 replications are repeated and the sample mean and standard deviation in round brackets for each parameter are reported for both methods.
+In addition, the average coverage rate of 95\% confidence interval given by bootstrap procedure for our method is reported in square brackets, 
+which is not reported for the naive methods as they are biased when censoring rate is not low.
+
+It is seen that our method perform well in all cases, while the bias of the naive method emerges as censoring rate increases. For both methods, the variance of estimates increases with censoring ratio and decreases with sample size. The coverage rate shows that the bootstrap method gives good estimates about confidence intervals.
+
+\begin{landscape}
+\begin{table}\tiny
+\centering
+\begin{tabular}{cccllllll}
+\hline
+\hline
+n & l & method & $\beta_1$ & $\beta_2$ & $\beta_3$ & $\psi_1$ & $\psi_2$ & $\sigma$ \\
+\hline
+- & - &  -     & 0.1 & 0.3 & -0.2 & 0.2 & 0.4 & 0.707 \\
+
+\hline
+\multirow{6}{*}{100} & 
+\multirow{2}{*}{-1.5} 
+			& 0  & 0.0936 (0.10)   & 0.282 (0.10)   &-0.183 (0.10)   & 0.187 (0.07) &0.380 (0.07)  &0.666 (0.05) \\
+			&                       & 1  & 0.0969 (0.10) [95.0\%]  & 0.286 (0.10) [94.3\%]  &-0.187 (0.10) [95.2\%]   & 0.195 (0.07) [93.4\%]  &0.398 (0.06) [93.6\%] &0.690 (0.05) [77.5\%] \\
+& \multirow{2}{*}{-0.7}   & 0  & 0.0930 (0.10)  & 0.273 (0.10)  &-0.148 (0.10)  & 0.154 (0.063)  &0.314 (0.059)  &0.587 (0.047)\\
+&                       & 1  & 0.0934 (0.11) [94.2\%]  & 0.285 (0.11) [93.7\%]  &-0.187 (0.11) [95.9\%]   & 0.196 (0.077)  [92.8\%]  &0.399 (0.074) [95.4\%]  &0.689 (0.060) [87.4\%] \\
+& \multirow{2}{*}{-0.2} & 0  & 0.162 (0.097)  & 0.339 (0.11)  &-0.0269 (0.095)  & 0.116 (0.054) &0.235 (0.054)  &0.509 (0.050)\\
+&                       & 1  & 0.0909 (0.12) [94.9\%] & 0.278 (0.12)  [93.7\%] &-0.189 (0.13) [96.4\%]  & 0.195 (0.083) [93.5\%] &0.399 (0.083) [93.4\%]  &0.682 (0.068) [85.5\%] \\
+
+
+\hline
+\multirow{6}{*}{200} & 
+\multirow{2}{*}{-1.5}   & 0  & 0.0956 (0.069)   &0.290 (0.069)  &-0.188 (0.068)  &0.190 (0.045)  &0.381 (0.045)  &0.675 (0.034)\\
+&                       & 1  & 0.0980 (0.070) [95.6\%]  &0.294 (0.070) [94.1\%] &-0.193 (0.070) [96.1\%]  &0.199 (0.047) [94.6\%]  &0.399 (0.049) [93.9\%]   &0.699 (0.038) [90.1\%] \\
+& \multirow{2}{*}{-0.7}   & 0& 0.0975 (0.070)	&0.282 (0.074) & -0.149 (0.066) & 0.157 (0.040) &0.315 (0.041) & 0.596 (0.034)\\
+&                       & 1  &  0.0979 (0.075) [95.1\%]   &0.293 (0.073) [93.9\%]  &-0.193 (0.074) [95.1\%]  &0.200 (0.049) [94.7\%] &0.400 (0.052) [93.9\%]  &0.698 (0.042) [89.6\%]\\
+& \multirow{2}{*}{-0.2} & 0  & 0.165  (0.066) &0.346 (0.077)   &-0.0287 (0.063) &0.117 (0.036) &0.235 (0.038)  &0.517 (0.036) \\
+&                       & 1  & 0.0974 (0.084) [95.0\%]  &0.290 (0.083) [93.3\%]  &-0.193 (0.086) [95.5\%]  &0.199 (0.054) [95.1\%] &0.400 (0.059)[93.8\%]  &0.695 (0.048)  [90.1\%] \\
+
+\hline
+\multirow{6}{*}{500} & 
+\multirow{2}{*}{-1.5} & 0 & 0.0965 (0.045)  &0.294 (0.042)  &-0.193 (0.043)  &0.192 (0.028) &0.382 (0.029)   &0.678 (0.021) \\
+&                       & 1 & 0.0987 (0.045) [94.7\%]   &0.298 (0.042) [95.5\%]  &-0.197 (0.044) [95.7\%]  &0.201 (0.029) [94.5\%] &0.399 (0.031) [94.6\%]  &0.704 (0.024) [93.7\%]\\
+& \multirow{2}{*}{-0.7} & 0 & 0.0992 (0.044)  &0.287 (0.045)  &-0.154 (0.043)  &0.158 (0.025) &0.314 (0.026)  &0.600 (0.021)\\
+&                       & 1 & 0.0996 (0.048) [94.2\%]   &0.298 (0.045) [94.8\%]  &-0.198 (0.046) [95.9\%]  &0.201 (0.031) [94.2\%]  &0.400 (0.033) [94.1\%]  &0.703 (0.027) [92.9\%]\\
+& \multirow{2}{*}{-0.2} & 0 & 0.167 (0.041)  &0.350 (0.049)  &-0.033 (0.042)  &0.118 (0.023) &0.235 (0.024)  &0.522 (0.023)\\
+&                       & 1 & 0.0985 (0.053) [93.7\%] &0.296 (0.050) [94.8\%]  &-0.196 (0.053) [95.9\%]  &0.200 (0.033) [94.7\%] &0.399 (0.036) [94.2\%]  &0.702 (0.030) [93.3\%]\\
+
+\hline
+\multirow{6}{*}{1000} & 
+\multirow{2}{*}{-1.5}   & 0 & 0.0969 (0.031)  &0.294 (0.030)  &-0.196 (0.031)  &0.190 (0.020) &0.381 (0.020)   &0.681 (0.014) \\
+&                       & 1 & 0.0991 (0.031) [94.2\%]   &0.299 (0.030) [94.5\%]  &-0.200 (0.031) [94.9\%]  &0.199 (0.021) [95.1\%] &0.399 (0.022) [94.8\%]  &0.705 (0.016) [95.2\%]\\
+& \multirow{2}{*}{-0.7} & 0 & 0.0990 (0.031)  &0.288 (0.032)  &-0.156 (0.030)   &0.156 (0.018)  &0.314 (0.019)  &0.603 (0.014)\\
+&                       & 1 & 0.0987 (0.033) [95.5\%]   &0.298 (0.032) [94.4\%]  &-0.200 (0.033) [95.0\%]  &0.199 (0.022) [95.3\%]  &0.399 (0.023) [94.2\%]  &0.705 (0.018) [95.1\%]\\\
+& \multirow{2}{*}{-0.2} & 0 & 0.11381   &0.2991   &-0.12056   &0.14365  &0.2852   &0.3263 \\
+&                       & 1 & 0.09939   &0.2975   &-0.19828   &0.20090  &0.3993   &0.4943 \\
+
+
+\hline
+\hline
+\end{tabular}
+\caption{Simulation study. The true parameters are displayed in the first row. For each sample size 100, 200 ,500, or 1000 and censor limit -100, -1, or -0.5, the estimates of both the naive and our methods with 1000 replications are displayed with method label ``0'' and ``1'' respectively. For each parameter, the reported values are the sample mean and sample standard deviation in round brackets. In addition, the coverage rate of 95\% confidence intervals for our method is reported in square brackets.}
+\label{tab:sim}
+\end{table}
+\end{landscape}
+
+
+%\bibliographystyle{jtsa1}
+%\bibliography{ref}
+%\bibliography{/home/chao/researches/bibfile/ref}
+%\end{document}
+
+
+\newpage
+
+
+
+
+\subsection{An application to the total phosphorus concentration in river water}
+In this section, the model is applied to a series of monthly phosphorus concentration (P) which is
+measured in unit of mg/L in river water collected at the ambient site Whitebreast Creek near Knoxville 
+in the State of Iowa, USA from October, 1998 to March, 2010, with a gap from September
+2008 to March 2009, in total 120 observations. The P data is provided by Iowa Department of Natural Resources. Due to the limitation of measuring device, some data were not observed when the
+concentration fell below some limit. P is found to be correlated with the water discharge
+(Q). The interest is to model the relationship between P and Q in the presence of censored observations for P. The Q data can be downloaded from the website of the U.S. Geological Survey. See Figure~\ref{fig:tsOrig} for an illustration for the P, Q, and censoring limit data.
+
+\begin{figure}
+\begin{center}
+%\includegraphics[scale=0.5]{10030001_tsPlot_totalPm_streamDischarge.ps}
+\includegraphics[scale=0.5]{tsplot.eps}
+\end{center}
+\caption{Tims Series plot of P and Q. The P, censor limit and Q data are plotted in black, red,
+and blue lines. The first two are of the left vertical axis, and the censored values are not plotted which
+results discontinuity in the P line. The Q data are plotted with respect to the right vertical axis.}
+\label{fig:tsOrig}
+\end{figure}
+
+%\begin{figure}[h]
+%	\begin{center}
+%		\includegraphics[scale=0.5]{10030001_logScatterPlot_PvD_2.ps}
+%	\end{center}
+%	\caption{The scatter plot of P vs Q data on the logarithmic scale. A linear regression fit (blue
+%	line) and a second-order polynomial regression fit (red line) are also shown for exploratory
+%	purpose. }
+%	\label{fig:scatter}
+%\end{figure}
+
+Empirical analysis shows that on the logarithmic scale the regression relationship might be modeled
+by a linear relation. Let $p_t = \log(P_t)$ and $q_t =
+\log(Q_t)$. Diagnosis for a model with linear regression $p_t = \beta_0 + \beta_1 q_t$ with the
+censored observations imputed by the censoring limit showed that the model need further
+improvement. Firstly, there exists serial dependence for the regression errors, which is to be 
+modeled by an autoregressive model. Secondly, there might be seasonal effect as the river discharge
+typically varies with seasons. To deal with the seasonable effects, we propose to replace the
+constant $\beta_i$ by a quarterly constant function, defined as
+for $i=0,1$, $\beta_{i} = \sum_{j=1}^4\beta_{i,j}1_{1+\frac{m_t}{4}}(t)$, where $m_t$ 
+represents the month when the measurement are taken and takes values from $1,\dots,12$,
+corresponding January,$\dots$, December.
+normal distribution.
+%However, some data points might violate the normality assumption which cannot be are accounted for in the model and are treated as outliers. Outlier detection is another important topic but here for illustration purpose detecting if whether a data point is an outlier is performed by computing the 1-sided p-value as the probability of having a random datum that is more extreme than the observed value or the detection limit if it is censored based on the predictive distribution given the model fit and the preceding $p$ observations with $p$ being the AR order of the regression errors. If the p-value is less than $0.025/n$, where $n$ is the sample size, then that observation is treated an outlier, and a dummy variable for the outlier is added as a covariate in $x_t$. The outlier test is applied one by one. As the incorporation of an outlier affects the model structure normality assumptions, outlier detection is carried iteratively, i.e., as long as an outlier is detected for the model, the regression structure and model fit are updated before before detecting other outliers. The procedure is repeated until no further outlier is detected. 
+In summary, the
+regression part of the model is assumed to be
+\begin{align*}
+p_t = \beta_{0}(t) + \beta_{1}(t) q_t + \eta_t,  %+\sum_{i}c_i 1\left\{ p_t \textrm{ is an outlier} \right\}.
+\end{align*}
+And the regression errors $\left\{ \eta_t \right\}$ are assumed to follow a autoregressive model as
+in Eq~\eqref{arEqn} with $\varepsilon_t \iid N(0,\sigma^2)$.
+
+The AR order, the inclusion of seasonal effects call for some model
+selection procedure. The best model is selected tentatively based on an procedure similar to the AIC
+with the log-likelihood replaced by the conditional expectation as in Eq~\eqref{qt} from a pool of
+models with AR order up to 3, with or without seasonal intercepts $\beta_0$ and/or $\beta_1$. %, and possible dummy variable indicating outlier for each observation.
+
+The selected model and its estimated parameters are summarized in the Table~\ref{tab:prmtr}. It can be seen that the model with seasonal effect is selected and the regression errors can be modelled by an AR(2) process with possible coefficients. See Figure~\ref{fig:fitted} for a plot of the P data and the fitted values as exponential of the fitted values of the model for the logarithmic data $\left\{ p_t \right\}$.
+
+\begin{table}
+\centering
+\resizebox{40em}{!}{
+\begin{tabular}{cccc}
+$\beta_0$ & $\beta_1$ & $\psi$ & $\sigma$\\ \hline
+\pbox{4cm}{ 
+-4.26 (-4.8, -3.7) \\ 
+-3.83 (-4.7, -3.0)  \\
+-2.54 (-3.0, -2.1)  \\
+-3.36 (-3.9, -2.8)  
+} & \pbox{4cm}{
+0.605 (0.47, 0.72)  \\
+0.489 (0.32, 0.67)  \\
+0.192 (0.07, 0.32) \\
+0.478 (0.33, 0.64)  
+} &  \pbox{4cm}{ 
+0.281 (0.04, 0.45)  \\
+0.254 (0.01, 0.44)  
+} & \pbox{4cm}{ 
+0.593 (0.48, 0.64)  
+}
+\end{tabular}
+}
+\caption{Estimated parameters: each parameter are followed by a $95\%$ confidence interval. For
+outliers, the time at which an outlier is identified precedes the estimate of its coefficient by a
+colon.}
+\label{tab:prmtr}
+\end{table}
+
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.5]{10630001_obs2.eps}
+\end{center}
+\caption{The P and fitted values. The fitted values are the exponential of the fitted values of the $\log(P_t)$.} 
+\label{fig:fitted}
+\end{figure}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.5]{10630001_resAcf.eps}
+\end{center}
+\caption{The ACF of the residuals of the AR model of the regression errors.} 
+\label{fig:acf}
+\end{figure}
+
+
+
+
+
+
+
+\section{Discussion and Conclusion}
+\label{conclusion}
+In this paper we proposed a new method to estimate a regression model with autoregressive errors where the response variable is subject to censoring. The consistency and asymptotic properties are established under general conditions. A special discussion was also addressed to the case when the innovation sequence of regression errors follows normal distribution. Simulation studies verified empirically the validity of our method and its advantage over the naive method where the censored values are imputed by their corresponding limits and produces biased estimates. We also showed its applicability by applying the model to a phosphorus concentration data.
+
+Despite the fact that our method is conceptually natural and easy to implement, there are some points which deserve further study. The asymptotic properties are established under assumptions which might not be easy to verify. For instance, when the order of autoregressive model of regression errors is greater than 1 and follows normal distribution, it is still difficult to verify the integrability of envelope functions and need to be investigated further. Other possible future work includes studying an analogous estimating procedure for model with autoregressive moving average regression errors and the properties of the estimator when the covariate process $x_t$ is non-stationary, which might occur in the case that the interest is to study whether there is a trend in the observed series.
+
+\section{Appendix}
+\label{appen}
+
+\subsection{A Proposition}
+\begin{proposition}
+\label{prop:m1}
+In the following, let $\theta = \theta_0$, it holds that 
+\begin{align*}
+&\E_{\theta_0}\left[ \nabla \E_\theta\left[S(y_t^*|\F_t^*,\theta) | \G_t\right] \right]\\
+=&-\E_{\theta_0}\left[ \E\left[S(y_{t:t-p}|x_{t:t-p},\theta)\right]S\trans(y_{t:t-p}|x_{t:t-p},\theta)\right]\\
+&+\E_{\theta_0}\left[ \E\left[S(y_{t-1:t-p}|x_{t:t-p},\theta) \right]S\trans(y_{t:t-p}|x_{t:t-p},\theta)\right]\\
+\end{align*}
+\end{proposition} 
+
+
+\begin{proof}
+
+\begin{align*}
+&\E_{\theta_0}\left[ \nabla \E_\theta\left[S(y_t^*|\F_t^*,\theta) | \G_t\right] \right]\\
+%=& \E_{ \theta_0}\left[ \nabla \int S(y_t^*|\F_t^*,\theta) f(y_{t:t-p}^*|\G_t) dy^*_{t:t-p} \right]\\
+%=&\\
+=&\E_{\theta_0} \left[ \E_\theta\left[ H(y_t^*|\F_t^*,\theta)|\G_t \right] \right]
++\E_{\theta_0}\left[ \E_\theta\left[ S(y_t^*|\F_t^*,\theta) S\trans(y_{t:t-p}^* |\G_t,\theta) | \G_t \right]\right]\\
+=&\E_{\theta_0} \left[ \E_\theta\left[ H(y_t^*|\F_t^*,\theta)|\G_t \right] \right]
++\E_{\theta_0}\left[ \E_\theta\left[  S(y_t^*|\F_t^*,\theta) \left( S(y_{t:t-p}^*|x_{t:t-p},\theta) - S(y_{t:t-p}|x_{t:t-p},\theta)\right)\trans|\G_t\right]\right]\\
+&\textrm{Evaluate $\theta=\theta_0$,}\\
+=&\E_{\theta_0} \left[ H(y_t^*|\F_{t}^*,\theta_0) \right]
++\E_{\theta_0}\left[  S(y_t^*|\F_{t}^*,\theta_0) S\trans(y_{t:t-p}^*|x_{t:t-p},\theta_0)\right]\\
+&-\E_{\theta_0}\left[ \E_{\theta_0}\left[  S(y_t^*|\F_{t}^*,\theta_0) S\trans(y_{t:t-p}|x_{t:t-p},\theta_0)|\G_t\right]\right]\\
+&\textrm{Note that the sum of the first two terms are zero,}\\
+=&-\E_{\theta_0}\left[ \E\left[  S(y_t^*|\F_{t}^*,\theta) S\trans(y_{t:t-p}|x_{t:t-p},\theta)|\G_t\right]\right]\\
+=&-\E_{\theta_0}\left[ \E\left[  S(y_t^*|\F_{t}^*,\theta) |\G_t\right]S\trans(y_{t:t-p}|x_{t:t-p},\theta)\right]\\
+=&-\E_{\theta_0}\left[ \E\left[  S(y_{t:t-p}^*|x_{t:t-p},\theta) - S(y_{t-1:t-p}^*|x_{t:t-p},\theta) |\G_t\right]S\trans(y_{t:t-p}|x_{t:t-p},\theta)\right]\\
+=&-\E_{\theta_0}\left[ \E\left[S(y_{t:t-p}|x_{t:t-p},\theta)\right] -\E\left[S(y_{t-1:t-p}|x_{t:t-p},\theta) \right]S\trans(y_{t:t-p}|x_{t:t-p},\theta)\right]\\
+=&-\E_{\theta_0}\left[ \E\left[S(y_{t:t-p}|x_{t:t-p},\theta)\right]S\trans(y_{t:t-p}|x_{t:t-p},\theta)\right]\\
+&+\E_{\theta_0}\left[ \E\left[S(y_{t-1:t-p}|x_{t:t-p},\theta) \right]S\trans(y_{t:t-p}|x_{t:t-p},\theta)\right]\\
+\end{align*}
+
+To see 
+\begin{align*}
+\E_{\theta_0} \left[ H(y_t^*|\F_{t}^*,\theta_0) \right] +\E_{\theta_0}\left[  S(y_t^*|\F_{t}^*,\theta_0) S\trans(y_{t:t-p}^*|x_{t:t-p},\theta_0)\right]=0
+\end{align*}
+Note that for any $\theta$,
+\begin{align*}
+\E\left[ S(y_t^*|\F_t^*) \right] = 0,
+\end{align*}
+which implies
+\begin{align*}
+\E\left[ \E[S(y_t^*|\F_{t}^*)|x_{t:t-p}] \right]=0
+\end{align*}
+Then take another differentiation for the inner conditional expectation, it follows that
+\begin{align*}
+&\E\left[ \E[H(y_t^*|\F_{t}^*)|x_{t:t-p}] \right]
++
+\E\left[ \E[S(y_t^*|\F_{t}^*) S(y_{t:t-p}^*|x_{t:t-p})|x_{t:t-p}] \right]\\
+=&
+\E\left[ H(y_t^*|\F_{t}^*)\right]
++
+\E\left[ S(y_t^*|\F_{t}^*) S(y_{t:t-p}^*|x_{t:t-p}) \right]\\
+=&0
+\end{align*}
+
+\end{proof}
+
+\subsection{Proof of Theorem~\ref{thm:consistency}}
+\begin{proof}
+First, note that the function $Z_t(\theta)$ is continuously differentiable with respect to $\theta$. 
+Since in Assumption~\ref{ass:init} a consistent initial estimate for the parameter is assumed, 
+the parameter space is restricted to some compact neighbourhood $\Theta$ of $\theta_0$, which is assumed to satisfy some conditions specified below as well.
+
+The functional central limit theorem of \citet{ArconesYu1994} will be used to prove 
+\begin{align*}
+\left\{ \sqrt{n}\left( Z^{(n)}(\theta) - \E_{\theta_0}\left[ Z_t(\theta) \right] \right) :\theta\in\Theta\right\} \indist G(\theta),
+\end{align*}
+where $G(\theta)$ is a Gaussian process which has a version with uniformly bounded and uniformly
+continuous paths with respect to the $L^2$ norm. See also \citet{ChanTsay1998}.
+In order to apply the functional central limit theorem to $\left\{ Z_t \right\}$, we need to prove 
+\begin{enumerate}
+\item the class of functions $\left\{ Z_t(\theta),\theta \in \Theta \right\}$ is a
+Vapnick-Cervonenkis subgraph class of measurable functions,
+\item there exists an envelope function $F\in L^p$ for some $p>2$ such that $Z_t(\theta) < F $ for all $\theta \in \Theta$.
+\item $\left\{ y_t \right\}$ has a geometrically decaying $\beta$-mixing rate.
+\end{enumerate}
+The first two conditions are essentially stated by Assumption~\ref{ass:innoDis2}. The third
+condition is ensured by Assumption~\ref{ass:xMixing},~\ref{ass:root}, and~\ref{ass:innoDis}.
+
+
+Then the proof for consistency follows the lines of proofs of Theorem 5.9 of \citet{vaart}.
+The key steps are established below. 
+
+
+Firstly, it is seen from below that $\theta_0$ is a zero of $Z(\theta)$,
+\begin{align*}
+&\E_{\theta_0}\left[ Z_t(\theta_0) \right] \\
+= &\E_{\theta_0}\left[ \E_{\theta_0}\left[
+\frac{\partial \ell(y_t^*|\F^*_t,\theta)}{\partial \theta}|_{\theta=\theta_0}|\G_t
+\right] \right] \\
+= &\E_{\theta_0}\left[ \frac{\partial \ell(y_t^*|\F^*_t,\theta)}{\partial \theta}|_{\theta=\theta_0}\right]\\
+= &\E_{\theta_0}\left[ \E_{\theta_0}\left[ \frac{\partial \ell(y_t^*|\F^*_t,\theta)}{\partial
+\theta}|_{\theta=\theta_0}|\F_t^*  \right]\right]\\
+= &\E_{\theta_0}\left[ 0\right]\\
+= &0
+\end{align*}
+
+By assumption \ref{ass:nonsingular}, it can be seen that for any small enough $\varepsilon>0$,
+$\E_{\theta_0}\left[ \nabla Z_t(\theta) \right]$ is non-singular for all $\theta$ such that
+$d(\theta,\theta_0)<\varepsilon$,
+As $Z(\theta) = Z(\theta_0) + \nabla Z_t(\theta_0)(\theta - \theta_0) + o(\|\theta - \theta_0\|)$
+around $\theta_0$, the non-singularity of $\nabla Z$ around $\theta_0$ implies that $Z(\theta)\ne 0$
+for all $\|\theta-\theta_0\|<\varepsilon$ and $\theta \ne \theta_0$, and further it holds that for 
+any $\varepsilon>0$,
+$\inf_{\theta \in \Theta, d(\theta,\theta_0)>\varepsilon}\|\E_{\theta_0}\left[ Z_t(\theta)
+\right]\| > 0$.
+
+The uniform convergence 
+\begin{align*}
+\sup_{\theta\in\Theta}\|Z^{(n)}(\theta)-Z(\theta)\|\inprob 0
+\end{align*}
+follows from the functional limit theorem for $Z_t(\theta)$.
+
+
+
+The consistency follows from Theorem 5.9 of \citet{vaart}.
+
+The asymptotic normality also follows from the proof of Theorem 5.21 of
+\citet{vaart} and \citet{ArconesYu1994}.
+
+
+
+\end{proof}
+
+\subsection{ The normal distribution}
+In this subsection, we show that the asymptotic results hold for when $\varepsilon_t$ follows normal distribution. In particular, Assumption~\ref{ass:innoDis} holds obviously, in the following we verify the following proposition,
+\begin{proposition}
+Assumption \ref{ass:innoDis2} is true for normal $\varepsilon_t$ if $x_t\in L_{2q}$.
+\label{prop:normal}
+\end{proposition}
+
+First note that the score function has the following form,
+\begin{align*}
+S(y_t^*|\F_t^*,\theta)
+=\frac{1}{\sigma^2}
+\left[\begin{array}{c}
+\varepsilon_t(x_t - \sum_{j=1}^p \psi_j x_{t-j})\\
+\varepsilon_t\eta_{t-1:t-p}\\
+\frac{1}{2}\left(1 - \frac{\varepsilon_t^2}{\sigma^2} \right)
+\end{array} \right]
+\end{align*}
+where $\eta_t = y_{t}^* - x_t\trans \beta$ and $\varepsilon_t = (1-\Phi(B))\eta_t$. 
+
+Expanding each term in the score function, it can be seen that each element in the vector $Z_t(\theta)$ can be written as linear combination of conditional expectations 
+\begin{align}
+  \E_\theta\left[ (y_{t-i}^*)^j|\G_t \right]x_{t-l}^m,\label{ce}
+\end{align}
+where $i,l=0,\dots,p$, $j,m=0,1,2$, and $j+m\le 2$.
+
+To show the V-C property for $Z_t(\theta)$,
+it suffices to show that 
+$\E_\theta\left[ y_{t-i}^j|y_t,\F_t \right]$ is V-C class, then $Z_t(\theta)$ is V-C class.
+For normal innovation sequence, \citet{Tallis1961} gives the expressions for first and second order moments for truncated distributions, from which the V-C property is seen.  
+(Note that product, sum, of V-C class is still V-C class.)
+
+Then we need to find an envelope function for the score function $Z_{t}(\theta)$, and in fact we need only to find adequate envelope function for $\E_\theta\left[ (y_{t-i}^*)^j|\G_t \right]$ in Eq~\eqref{ce}. We present a general result here.
+
+Suppose we have a conditional expectation $\E_\theta\left[ W|\G \right]$ where $W$ is some random variable and $\G$ is a $\sigma$-algebra, and $ \theta $ is the parameter for the probability measure $P_{\theta}$ and $\theta$ lies in a neighborhood of $\theta_0$ denoted by $N_{\theta_0}$.
+We want to find simple conditions sufficient for the existence of an envelope function for $\E_{\theta}\left[ W|\G \right]$ with finite absolute $q$-th moment under  $P_{\theta_0}$.
+
+%Let $P_\theta$ be a probability measure indexed by the parameter vector $\theta$ lying in a neighborhood $N_{\theta_0}$ of the true parameter $\theta_0$. 
+Suppose $P_\theta, \theta\in N_{\theta_0}$ are pairwise mutually absolutely continuous 
+so that  $\frac{dP_{\theta_1}}{dP_{\theta_2}}$ is well-defined for all $\theta_1, \theta_2 \in N_{\theta_0}$.
+The following lemma expresses the conditional expectation $E_\theta(W|\G)$ in terms of a product of two expectations calculated under $\theta_0$. 
+
+\begin{lemma}
+\begin{equation}
+\E_\theta(W|\G)=\E_{\theta_0}\left(W\frac{dP_{\theta}}{dP_{\theta_0}}|\G\right)\E_{\theta}\left(\frac{dP_{\theta_0}}{dP_{\theta}}|\G\right) a.s.. 
+\label{lemma1}
+\end{equation}
+\end{lemma} 
+\begin{proof}
+Note that the conditional expectation $E_\theta(W|\G)$ is characterized by  (i) $E_\theta(W|\G)$ is $\G$-measurable function and (ii) for all $A\in\G$, the following equality holds:
+$$
+\int_A W dP_\theta=\int_A E_\theta(W|\G) dP_\theta.
+$$
+Consider the following display, where $A$ is an arbitrary element in $\G$:
+\begin{eqnarray*}
+\int_A W dP_\theta &=&\int_A W  \frac{dP_{\theta}}{dP_{\theta_0}} dP_{\theta_0} \\
+&=& \int_A  E_{\theta_0} \left(W\frac{dP_{\theta}}{dP_{\theta_0}}|\G\right) dP_{\theta_0}
+\\
+&=& \int_A  E_{\theta_0} \left(W\frac{dP_{\theta}}{dP_{\theta_0}}|\G\right) \frac{dP_{\theta_0}}{dP_{\theta}} dP_{\theta} \\
+&=& \int_A  E_{\theta_0} \left(W\frac{dP_{\theta}}{dP_{\theta_0}}|\G\right) E_\theta\left(\frac{dP_{\theta_0}}{dP_{\theta}}|\G\right) dP_{\theta}.
+\end{eqnarray*} 
+The claim follows from the preceding equality and that the right side of (\ref{lemma1}) is $\G$-measurable.
+\end{proof}
+Setting $W\equiv 1$ in (\ref{lemma1}) yields the 
+identity 
+$$
+E_{\theta}\left(\frac{dP_{\theta_0}}{dP_{\theta}}|\G\right) = E^{-1}_{\theta_0}\left(\frac{dP_{\theta}}{dP_{\theta_0}}|\G\right).
+$$
+Hence, 
+$$
+E_\theta(W|\G)=E_{\theta_0}\left(W\frac{dP_{\theta}}{dP_{\theta_0}}|\G\right)E^{-1}_{\theta_0}\left(\frac{dP_{\theta}}{dP_{\theta_0}}|\G\right).
+$$
+Jensen's inequality then implies that 
+$$
+|E_\theta(W|\G)|\le E_\theta(|W||\G)| = E_{\theta_0}\left(|W|\frac{dP_{\theta}}{dP_{\theta_0}}|\G\right)E^{-1}_{\theta_0}\left(\frac{dP_{\theta}}{dP_{\theta_0}}|\G\right).
+$$
+As the function $f(x)=1/x, x>0$ is convex, Jensen's inequality entails that
+\begin{equation}
+|E_\theta(W|\G)|\le E_{\theta_0}\left(|W|\frac{dP_{\theta}}{dP_{\theta_0}}|\G\right)E_{\theta_0}\left(\frac{dP_{\theta_0}}{dP_{\theta}}|\G\right).
+\label{ineq1}
+\end{equation}
+
+
+We shall assume that the neighborhood $N_{\theta_0}$ is chosen such that there exists a random variable $H$ of finite absolute $r$-th moment under $P_{\theta_0}$ and  such that it is larger than $\frac{dP_{\theta_1}}{dP_{\theta_2}}$  for all $\theta_1, \theta_2 \in N_{\theta_0}$. This is the case for multivariate normal distributions and $N_{\theta_0}$ sufficiently small open neighborhood of $\theta_0$ where $\theta$ indexes both the mean vector and covariance matrix.  It then follows from  (\ref{ineq1}) that 
+\begin{equation}
+  \sup_{\theta\in N_{\theta_0}} |E_\theta(W|\G)|\le E_{\theta_0}\left(|W| H|\G\right)E_{\theta_0}\left(H|\G\right).
+\label{ineq2}
+\end{equation}
+The right side of (\ref{ineq2}) is then an envelope function of $\{ E_\theta(W|\G), \theta\in N_{\theta_0}\}$. This shows that for sufficiently large $r$ and $W$ has sufficient moment under $P_{\theta_0}$, the envelope function has finite $q$-th moment under $P_{\theta_0}$.
+
+From the above discussion, it is seen that an envelope function for Eq~\eqref{ce} can be chosen in a similar way.
+
+\bibliographystyle{jtsa1}
+\bibliography{ref}
+
+\end{document}
+
+
+\newpage
+
+\section{outline}
+
+Specifically,
+    let 
+    $e_1= (1,0,\dots,0)\trans \in \R^{p+1}$,
+
+    $\Gamma = [0,\dots,0;0,1,0,\dots,0;\dots;0,\dots,0,1]\in \R^{(p+1)\times p}$.
+
+    \begin{align*}
+	    \frac{\partial Q_t(\theta|\theta^{(c)})}{\partial \beta}
+	    = \frac{(z_{t,t}(\theta^{(c)}) - x_t\trans \beta -\sum_{j=1}^p z_{t-j,t}(\theta^{(c)}) - x_{t-j}\trans \beta ) )}{\sigma^2} \left((1-\Psi(B))x_t\right)
+    \end{align*}
+
+    Let 
+    $$\zeta_{t_1,t_2}(\theta | \theta^{(c)})= z_{t_1,t_2}(\theta^{(c)})-x_{t_1}\trans \beta,$$
+
+    $$\zeta_{t-1:t-p,t}(\theta | \theta^{(c)}) =\left( \zeta_{t-1,t}(\theta | \theta^{(c)}),\dots, \zeta_{t-p,t}(\theta | \theta^{(c)}) \right)\trans ,$$
+
+    then
+    \begin{align*}
+	    &\frac{\partial Q_t(\theta|\theta^{(c)})}{\partial \psi}\\
+	    = &\frac{1}{\sigma^2}\left( \zeta_{t,t}(\theta|\theta^{(c)})\cdot \zeta_{t-1:t-p,t}(\theta|\theta^{(c)}) + e_1\trans \Sigma_t(\theta^{(c)})\Gamma\right. \\
+	    &\quad \left.- \left[ \zeta_{t-1:t-p,t}(\theta|\theta^{(c)}) \zeta_{t-1:t-p,t}(\theta|\theta^{(c)})\trans + \Gamma\trans\Sigma(\theta^{(c)})\Gamma  \right]\psi \ \right).\\
+    \end{align*}
+
+    and
+    \begin{align*}
+	    &\frac{\partial Q_t(\theta|\theta^{(c)})}{\partial \sigma^2}\\
+	    = &-\frac{1}{2\sigma^2} + \frac{\left( z_{t,t}(\theta^{(c)})-x_t\trans \beta- \sum_{j=1}^p z_{t-j,t}(\theta^{(c)})-x_{t-j}\trans \beta \right)^2 + (1,-\psi\trans)\Sigma_t(\theta^{(c)}) (1,-\psi\trans)\trans}{2\sigma^4}.
+    \end{align*}
+
+Let $\phi$ and $\Phi$ be the p.d.f and c.d.f of the standard normal distribution, respectively.
+
+For a truncated normal distribution $X\sim N(\mu,\sigma^2)$ conditional on $X\in [a,b]$. Let $\alpha = (a-\mu)/\sigma$, $\beta=(b-\mu)/\sigma$, $Z=\Phi(\beta)-\Phi(\alpha)$, then its mean is $\mu + \frac{\phi(\alpha)-\phi(\beta)}{Z}\sigma$, variance is $\sigma^2\left( 1+\frac{\alpha\phi(\alpha)-\beta\phi(\beta)}{Z}-\left( \frac{\phi(\alpha)-\phi(\beta)}{Z}\right)^2 \right)$.  In particular, if $a=-\infty$, the mean is reduced to $\mu - \frac{\phi( (b-\mu)/\sigma)}{\Phi((b-\mu)/\sigma)}\sigma$, and the variance is $\sigma^2\left( 1 -\beta\frac{\phi(\beta)}{\Phi(\beta)}-\left( \frac{\phi(\beta)}{\Phi(\beta)}\right)^2 \right)$.
+
+For a 2-D normal r.v. $(X_1,X_2)$ with mean 0 and correlation $\rho$, $X_1|X_2=x_2 \sim N(\rho x_2,1-\rho^2)$. In general, if they have mean $(\mu_1,\mu_2)$ and variance $ (\sigma_1^2,\sigma_2^2) $. Then
+$X_1 | X_2= x_2 \sim N(\mu_1+ \rho \sigma_1\frac{x_2-\mu_2}{\sigma_2}, \sigma_1^2(1-\rho^2))$.
+
+
+Based on preceding results, we can get the first two moments of  $X_1 |(X_1 < c, X_2=x_2)$.
+
+Based on \citet{Tallis1961}, we can get 
+$X_1 |(X_1 <c_1, X_2<c_2) $
+for any interval $C_i,\;i=1,2$.
+
+
+
+The CARX model:
+assume
+\begin{itemize}
+\item $Y_t = Y_t^* 1\left\{ Y_t^* >c_t \right\}+ c_t1\left\{ Y_t^*\le c_t \right\}$,
+\item $Y_t^* = a + b t + c D_t + \eta_t$,
+\item $\eta_t = \rho \eta_{t-1} + \varepsilon_t$, where $\varepsilon_t \iid  N(0,\sigma_\varepsilon^2)$.
+\end{itemize}
+
+The log-likelihood for $Y_t^*$ given $Y_{t-1}^*,D_t,D_{t-1}$ is
+
+\begin{align*}
+\ell_t^* 
+&= - \frac{ \left( [Y_t^* - (a+bt+cD_t)] - \rho [ Y_{t-1}^* - (a+b(t-1)+cD_{t-1}] \right)^2}{2\sigma_\varepsilon^2} - \frac{1}{2} \log \sigma_\varepsilon^2\\
+&=: - \frac{ \left( Y_t^* - \rho Y_{t-1}^* -  f_t \right)^2}{2\sigma_\varepsilon^2} - \frac{1}{2} \log \sigma_\varepsilon^2\\
+\end{align*}
+
+Let $\mathcal{F}_t= \sigma\left\{ Y_{t}, Y_{t-1}, D_t, D_{t-1} \right\}$. Let $\theta$ denote the vector of all the parameters of the model, i.e., $\theta = (a,b,c,\rho,\sigma_\varepsilon^2)^t$. Suppose we have a current parameter $\theta^{(c)}$. As we have only the censored $Y_t$, instead of $Y_t^*$, we cannot get $\ell_t^*$, however, we can calculate
+$E[\ell_t^*|\mathcal{F}_t]$.
+
+\begin{align*}
+&E[\ell_t^*|\mathcal{F}_t]\\
+=& - E\left[ \frac{ \left( Y_t^* - \rho Y_{t-1}^* -  f_t \right)^2}{2\sigma_\varepsilon^2} | \mathcal{F}_t \right]- \frac{1}{2} \log \sigma_\varepsilon^2\\
+\end{align*}
+
+To calculate $E[\left( Y_t^* - \rho Y_{t-1}^* -  f_t \right)^2| \mathcal{F}_t]$,
+write
+
+\begin{align*}
+&E[\left( Y_t^* - \rho Y_{t-1}^* -  f_t \right)^2 | \mathcal{F}_t]\\
+=& E[ \left( <(1,-\rho), (Y_t^*, Y_{t-1}^*)> - f_t \right)^2 | \mathcal{F}_t]\\
+=& \left( <(1,-\rho), E[(Y_t^*, Y_{t-1}^*)|\mathcal{F}_t]> - f_t \right)^2 \\
+& + (1,-\rho) Cov[(Y_t^*, Y_{t-1}^*)|\mathcal{F}_t] (1,-\rho)^\prime\\
+\end{align*}
+
+Thus, we need to calculate $E[(Y_t^*, Y_{t-1}^*)|\mathcal{F}_t]$ and $Cov[(Y_t^*, Y_{t-1}^*)|\mathcal{F}_t]$.
+
+There are three cases when calculating the expectations.
+\begin{itemize}
+\item If neither $Y_t$ or $ Y_{t-1}$ is censored, the expectation is just the observed value. 
+\item If only one is censored, we need to calculate the expectation like $E(X_i|X_i<c, X_2=x_2)$.
+\item If both are censored, we need to calculate the expectation of truncated normal.
+\end{itemize}
+
+
+By \citet{Tallis1961}, we can get for any finite $c_1,c_2$, and standard normal variates $X_1, X_2$ with correlation $\rho$, it holds that  
+\begin{align*}
+E[X_1|X_1>c_1,X_2>c_2] &= \frac{\phi(c_1)}{1-\Phi(c_1)}+ \rho \frac{\phi(c_2)}{1-\Phi(c_2)}\\
+&=: m_1(c_1,c_2,\rho)\\
+E[X_1^2|X_1>c_1,X_2>c_2] &= 1 + c_1 \frac{\phi(c_1)}{1-\Phi(c_1)} + \rho c_2 \frac{\phi(c_2)}{1-\Phi(c_2)}+\rho(1-\rho^2)\phi(c_1,c_2,\rho)\\
+&=: m_2(c_1,c_2,\rho)\\
+E[X_1 X_2|X_1>c_1,X_2>c_2] &= \rho(1 + c_1 \frac{\phi(c_1)}{1-\Phi(c_1)} + c_2 \frac{\phi(c_2)}{1-\Phi(c_2)})+(1-\rho^2) \frac{\phi(c_1,c_2,\rho)}{(1-\Phi(c_1))(1-\Phi(c_2))}\\
+&= m_3(c_1,c_2,\rho)\\
+\end{align*}
+which implies for general normal variates $X_1\sim N(\mu_1,\sigma_1^2)$ and $X_2\sim N(\mu_2,\sigma_2^2)$ with correlation $\rho$,
+\begin{align*}
+E[X_1|X_1 < c_1,X_2 < c_2] &= \mu_1 - \sigma_1 m_1(\frac{\mu_1-c_1}{\sigma_1},\frac{\mu_1-c_1}{\sigma_1},\rho)\\
+&=\mu_1 - \sigma_1 \left[  \frac{\phi( \frac{\mu_1-c_1}{\sigma_1})}{1-\Phi(\frac{\mu_1-c_1}{\sigma_1})}+ \rho \frac{\phi(\frac{\mu_2 - c_2}{\sigma_2})}{1-\Phi(\frac{\mu_2 - c_2}{\sigma_2})} \right] 
+\end{align*}
+
+
+However the conditional density function of $Y_t|Y_{t-1},\cdots, Y_{t-p}$ can still be computed, and we can formulate a composite likelihood of conditional probabilities.
+
+If the underlying $\left\{ \eta_t \right\}$ is stationary, the joint distribution of any vector of $Y_{t_i},Y_{t_2},\dots,Y_{t_n}$ is multivariate normal. Specifically, $(Y_{t-i}-\tau_{t-i},i=0,\cdots,p) \sim N(0,\sigma_\eta^2 \Sigma)$ and $\Sigma_{i,j} = \rho_\eta(|i-j|)$, $\rho_\eta$ and $\sigma_\eta^2$ is the autocorrelation function and marginal variance of the AR(p) process $\eta_t$ respectively.
+
+Let $R_t = \left\{ y_t \right\}$ if $Y_t$ is not censored, otherwise, $R_t = (-\infty,c_t]$. The exact conditional likelihood of $Y_t\in R_t| [Y_{t-i}\in R_{t-i},i=1,\cdots,p]$ is given by
+{\tiny
+\begin{align*}
+\ell_t &= \ell(Y_t\in R_t|Y_{t-i}\in R_{t-i},i=1,\cdots,p;X_{t:t-p},\theta)\\
+&= \frac{\int_{\prod_{i=0,\cdots,p, Y_{t-i} \le c_t}R_{t-i}} f_{Y_t,Y_{t-1},\cdots,Y_{t-p}}(y_t,\cdots,y_{t-p})\prod_{i=0,\cdots,p, Y_{t-i} \le c_t}dy_{t-i}}
+{\int_{\prod_{i=1,\cdots,p, Y_{t-i} \le c_t}R_{t-i}} f_{Y_{t-1},\cdots,Y_{t-p}}(y_{t-1},\cdots,y_{t-p})\prod_{i=1,\cdots,p, Y_{t-i} \le c_t}dy_{t-i}}\\
+&= \frac{\int_{\prod_{i=0,\cdots,p, Y_{t-i} \le c_t}R_{t-i}} f_{Y_t|Y_{t-1},\cdots,Y_{t-p}}(y_t| y_{t-1},\cdots,y_{t-p})f_{Y_{t-1},\cdots,Y_{t-p}}(y_{t-1},\cdots,y_{t-p})\prod_{i=0,\cdots,p, Y_{t-i} \le c_t}dy_{t-i}}
+{\int_{\prod_{i=1,\cdots,p, Y_{t-i} \le c_t}R_{t-i}} f_{Y_{t-1},\cdots,Y_{t-p}}(y_{t-1},\cdots,y_{t-p})\prod_{i=1,\cdots,p, Y_{t-i} \le c_t}dy_{t-i}}\\
+\end{align*}
+}
+The likelihood $\ell_t$ can be calculated, but it involves the integration of multivariate normal density function over some region for which no analytic expression is available, which makes the implementation difficult ???
+
+
+
+
+
+\section{ The general CARX model}
+
+Suppose that
+\begin{align*}
+Y_t &= Y_t^* 1\left\{Y_t>c_t  \right\}  + c_t 1\left\{ Y_t^* <= c_t \right\}\\
+Y_t^* &= \tau(X_t,\beta) + \eta_t\\ 
+\eta_t &= \sum_{i=1}^p \psi_i \eta_{t-i} + \varepsilon_t,\; \varepsilon_t\sim_{IID} N(0,\sigma^2)
+\end{align*}
+
+No intercept is in the AR specification as the intercept can be parametrized into the trend function $\tau(\cdot)$. Hereafter, a linear trend function is assumed, i.e., $\tau(X,\beta)= X_t^\prime\beta$.
+Let $\psi = (\psi_1,\cdots,\psi_p)^\prime$, and $\theta  = (\psi^\prime,\sigma,\beta^\prime)^\prime$ be the parameter vector.
+
+Note that with all $Y_t^*$, it follows that the joint log-likelihood function for $\left\{ Y_t^*,t=1,\cdots,T \right\}$ is given by
+\begin{align*}
+&\ell^*(Y_T^*,\cdots,Y_1^*|X_T,\cdots,X_1;\theta)\\
+=&\sum_{t=p+1}^T \ell_t^*(Y_t^*|Y_{t-1},\cdots,Y_{t-p}^*,X_t,\cdots,X_{t-p};\theta) + \ell^*(Y_p^*,\cdots,Y_1^*|X_p,\cdots,X_1;\theta),
+\end{align*}
+due to the AR(p) representation of the innovation process $\left\{ \eta_t \right\}$.
+
+For the observed time series $\left\{ Y_t \right\}$, due to the possibly censored values, the joint log-likelihood of them cannot be reduced to a form similar to the one for $\left\{ Y_t^* \right\}$.
+
+However the conditional density function of $Y_t|Y_{t-1},\cdots, Y_{t-p}$ can still be computed, and we can formulate a composite likelihood of conditional probabilities.
+
+If the underlying $\left\{ \eta_t \right\}$ is stationary, the joint distribution of any vector of $Y_{t_i},Y_{t_2},\dots,Y_{t_n}$ is multivariate normal. Specifically, $(Y_{t-i}-\tau_{t-i},i=0,\cdots,p) \sim N(0,\sigma_\eta^2 \Sigma)$ and $\Sigma_{i,j} = \rho_\eta(|i-j|)$, $\rho_\eta$ and $\sigma_\eta^2$ is the autocorrelation function and marginal variance of the AR(p) process $\eta_t$ respectively.
+
+Let $R_t = \left\{ y_t \right\}$ if $Y_t$ is not censored, otherwise, $R_t = (-\infty,c_t]$. The exact conditional likelihood of $Y_t\in R_t| [Y_{t-i}\in R_{t-i},i=1,\cdots,p]$ is given by
+{\tiny
+\begin{align*}
+\ell_t &= \ell(Y_t\in R_t|Y_{t-i}\in R_{t-i},i=1,\cdots,p;X_{t:t-p},\theta)\\
+&= \frac{\int_{\prod_{i=0,\cdots,p, Y_{t-i} \le c_t}R_{t-i}} f_{Y_t,Y_{t-1},\cdots,Y_{t-p}}(y_t,\cdots,y_{t-p})\prod_{i=0,\cdots,p, Y_{t-i} \le c_t}dy_{t-i}}
+{\int_{\prod_{i=1,\cdots,p, Y_{t-i} \le c_t}R_{t-i}} f_{Y_{t-1},\cdots,Y_{t-p}}(y_{t-1},\cdots,y_{t-p})\prod_{i=1,\cdots,p, Y_{t-i} \le c_t}dy_{t-i}}\\
+&= \frac{\int_{\prod_{i=0,\cdots,p, Y_{t-i} \le c_t}R_{t-i}} f_{Y_t|Y_{t-1},\cdots,Y_{t-p}}(y_t| y_{t-1},\cdots,y_{t-p})f_{Y_{t-1},\cdots,Y_{t-p}}(y_{t-1},\cdots,y_{t-p})\prod_{i=0,\cdots,p, Y_{t-i} \le c_t}dy_{t-i}}
+{\int_{\prod_{i=1,\cdots,p, Y_{t-i} \le c_t}R_{t-i}} f_{Y_{t-1},\cdots,Y_{t-p}}(y_{t-1},\cdots,y_{t-p})\prod_{i=1,\cdots,p, Y_{t-i} \le c_t}dy_{t-i}}\\
+\end{align*}
+}
+The likelihood $\ell_t$ can be calculated, but it involves the integration of multivariate normal density function over some region for which no analytic expression is available, which makes the implementation difficult ???
+
+\section{Parameter Estimation}
+We propose an expectation-maximization algorithm.
+
+Instead of calculating $\ell_t$, suppose we have an estimate of the parameter vector $\theta^{(c)}$,
+\begin{align*}
+Q_t(\theta| \theta^{(c)}) = E\left[ \log f_{Y_t^*|Y_{t-1}^*,\cdots,Y_{t-p}^*}(y_t^*|y_{t-1}^*,\cdots,y_{t-p}^*;\theta)|Y_{t},\cdots,Y_{t-p};\theta^{(c)}\right]
+\end{align*}
+where apart from a constant,
+\begin{align*}
+&\log f_{Y_t^*|Y_{t-1}^*,\cdots,Y_{t-p}^*}(y_t^*|y_{t-1}^*,\cdots,y_{t-p}^*;\theta)\\
+=& -\frac{\left( y_t^*-\tau_t - \sum_{i=1}^p\beta_i \left( y_{t-i}^*-\tau_{t-i} \right) \right)^2}{2\sigma_\varepsilon^2}-\frac{1}{2}\log(\sigma_\varepsilon^2) \\
+=& -\frac{\left( \eta_t^* - \sum_{i=1}^p\beta_i  \eta_{t-i}^* \right)^2}{2\sigma_\varepsilon^2}-\frac{1}{2}\log(\sigma_\varepsilon^2) 
+\end{align*}
+where $\tau_t = \tau(X_t,\psi)$, and $\eta_t^* = y_t^* - \tau_t$.
+
+%Let $\F_t = \sigma\left\{ X_t,Y_{t-1},X_{t-1},\cdots,Y_{t-p},X_{t-p} \right\}$, $z_{t_1,t_2} = E[y_{t_1}^*|\mathcal{F}_{t;\theta^{(c)}]$, $\Sigma_t = cov(y_t^*,y_{t-1},\cdots,y_{t-p}| \mathcal{F}_t;\theta^{(c)})$, then
+\begin{align*}
+&Q_t(\theta|\theta^{(c)})\\
+%=& -\frac{1}{2}\log(\sigma_\varepsilon^2) - 
+%\frac{\left( E_{\theta^{(c)}}[\eta_t^*|\mathcal{F}_{t}] - \psi^\top  E_{\theta^{(c)}}[\eta_{t-1:t-p}^*|\mathcal{F}_t]  \right)^2 + (1,-\psi^\top) \textrm{cov}_{\theta^{(c)}}(\eta_{t:t-p}|\mathcal{F}_t)(1,-\psi\top)^\top}{2\sigma_\varepsilon^2}\\
+=:& -\frac{1}{2}\log(\sigma_\varepsilon^2) - 
+\frac{\left( (z_t-\tau_t) - \sum_{j=1}^p \psi_j (z_{t-j} - \tau_{t-j})\right)^2 + (1,-\psi^\top)\Sigma_t (1,-\psi^\top)^\top}{2\sigma_\varepsilon^2}.
+%\frac{\left( (1,-\psi^\top)^\top (z_t -\tau_{t:t-p}) \right)^2 + (1,-\psi^\top)\Sigma_t (1,-\psi^\top)^\top}{2\sigma_\varepsilon^2}
+\end{align*}
+
+Given $\theta^{(c)}$, the parameter is updated by maximizing $\sum_t Q_t(\theta|\theta^{(c)})$,i.e., 
+\begin{align}
+\theta = \arg\max \sum_tQ_t(\theta|\theta^{(c)}),
+\label{}
+\end{align}
+The M-step can be split into three parts:
+\begin{itemize}
+\item For given $\theta^{(c)}$, $\psi$, and $\sigma_\varepsilon$, to update $\beta$ in $\tau$, it is equivalent to a least-square problem, 
+    $Q_t \approx \left( z_{t} - \sum_{j=1}^p \psi_j z_{t-j}  \right) - (X_t - \sum_{j=1}^p \psi_j X_{t-j})^\prime \beta$, 
+\item For given $\theta^{(c)}$, $\beta$, and $\sigma_\varepsilon$, to update $psi$, the Q function is a quadratic function of $\psi$, 
+
+\item For given $\theta^{(c)}$, $\beta$, and $\psi$, the updated estimate of $\sigma^2$ is given by
+    \begin{align*}
+	    \sigma_{\varepsilon}^2 = \frac{1}{n-p}\sum_{t=p+1}^n \left[ \left( (z_t-\tau_t) - \sum_{j=1}^p \psi_j (z_{t-j} - \tau_{t-j})\right)^2 + (1,-\psi^\top)\Sigma_t (1,-\psi^\top)^\top \right]
+    \end{align*}
+\end{itemize}
+
+The final estimate is given by iteration the above maximization procedure. Note that in each step, the maximization is equivalent to solving the equation,
+\begin{align}
+\sum_t\frac{\partial Q_t(\theta|\theta^{(c)})}{\partial \theta} = 0
+\label{}
+\end{align}
+For the final estimation, we have
+\begin{align}
+\sum_t\left.\frac{\partial Q_t(\theta|\hat{\theta})}{\partial \theta}\right|_{\theta=\hat{\theta}} = 0
+\label{}
+\end{align}
+
+
+					\section{Question 1: Is this estimator consistent?}
+
+					How to view the problem in the sense of estimating equation?
+
+
+					The true parameter as a solution when $n\to\infty$. To see this, note that
+					\begin{align}
+						&\sum_t\left.\frac{\partial Q_t(\theta|\theta_0)}{\partial \theta}\right|_{\theta=\theta_0} \\
+						=&  \sum_t \frac{\partial}{\partial \theta}  E\left[ \log f_{Y_t^*|Y_{t-1}^*,\cdots,Y_{t-p}^*}(y_t^*|y_{t-1}^*,\cdots,y_{t-p}^*;\theta)|Y_{t},\cdots,Y_{t-p};\theta_0\right]\\
+						=&  \sum_t  E\left[ \frac{\partial}{\partial \theta} \log f_{Y_t^*|Y_{t-1}^*,\cdots,Y_{t-p}^*}(y_t^*|y_{t-1}^*,\cdots,y_{t-p}^*;\theta)|Y_{t},\cdots,Y_{t-p};\theta_0\right]\\
+						\to&  E_{\theta_0}\left[ \frac{\partial}{\partial \theta} \log f_{Y_t^*|Y_{t-1}^*,\cdots,Y_{t-p}^*}(y_t^*|y_{t-1}^*,\cdots,y_{t-p}^*;\theta)\right] \;\textrm{(assuming stationary)}\\
+						\label{}
+					\end{align}
+
+
+					How to prove 
+					\begin{align*}
+						E_{\theta_0}\left[ \frac{\partial}{\partial \theta} \log f_{Y_t^*|Y_{t-1}^*,\cdots,Y_{t-p}^*}(y_t^*|y_{t-1}^*,\cdots,y_{t-p}^*;\theta)\right] |_{\theta=\theta_0}=0
+					\end{align*}
+					This can be proved by a conditional likelihood approach.
+					%\begin{align*}
+					%  \frac{\partial Q_t(\theta^\prime|\theta)}{\partial \beta)
+					%\end{align*}
+
+					For ease of notation, let $S(\cdot,\theta)$ be the score function of a distribution with density function $f(\cdot,\theta)$, 
+					let $H(\cdot,\theta)$ be the second derivative of a distribution with density function $f(\cdot,\theta)$.
+
+					Let $\nabla f(x,\theta) = \frac{\partial f(x,\theta)}{\partial \theta}$.
+					For instance, 
+								\begin{align*}
+									S(y_t^*|y_{t-1}^*,\theta) &= \nabla \log f(y_t^*|y_{t-1}^*,\theta)\\
+									S(y_t^*,y_{t-1}^*|y_t,y_{t-1},\theta) &= \nabla \log f(y_t^*,y_{t-1}^*|y_t,y_{t-1},\theta)\\
+								\end{align*}
+
+								Consider a pure AR(p) model with no regressors.
+								We need to find the matrix:
+								\begin{align}
+									\E_{\theta_0}\left[ \nabla \E\left[S(y_t^*|y_{t-1}^*,\theta) |y_{t},y_{t-1},\theta \right] \right]
+									\label{d1}
+								\end{align}
+
+								It's easy to see 
+								\begin{lemma}
+									We have
+									\begin{align*}
+										&\E_{\theta_0}\left[ \nabla \E\left[S(y_t^*|y_{t-1}^*,\dots,y_{t-p}^*,\theta) |y_{t},y_{t-1},\dots,y_{t-p},\theta \right] \right]\\
+										=&\E_{\theta_0} \left[ \E\left[ H(y_t^*|y_{t-1}^*,\dots,y_{t-p}^*,\theta)|y_{t},y_{t-1},\dots, y_{t-p},\theta \right] \right]\\
+										&+\E_{\theta_0}\left[ \E\left[ S(y_t^*|y_{t-1}^*,\dots,y_{t-p}^*,\theta) S^T(y_t^*,y_{t-1}^*,\dots,y_{t-p}^* |y_{t},y_{t-1},\dots, y_{t-p},\theta) | y_t,\dots,y_{t-p} \right]\right]\\
+										=&\E_{\theta_0} \left[ H(y_t^*|y_{t-1}^*,\dots,y_{t-p}^*,\theta) \right]\\
+										&+\E_{\theta_0}\left[ \E\left[  S(y_t^*|y_{t-1}^*,\dots,y_{t-p}^*,\theta) \left( S(y_t^*,y_{t-1}^*,\dots,y_{t-p}^*) - S(y_{t},y_{t-1},\dots, y_{t-p},\theta)\right)^T|y_t,\dots,y_{t-p}\right]\right]\\
+										=&\E_{\theta_0} \left[ B(y_t^*|y_{t-1}^*,\dots,y_{t-p}^*,\theta) \right]
+										+\E_{\theta_0}\left[  S(y_t^*|y_{t-1}^*,\dots,y_{t-p}^*,\theta) S^T(y_t^*,y_{t-1}^*,\dots,y_{t-p}^*)\right]\\
+										&-\E_{\theta_0}\left[ \E\left[  S(y_t^*|y_{t-1}^*,\dots,y_{t-p}^*,\theta) \left(S(y_{t},y_{t-1},\dots, y_{t-p},\theta)\right)^T|y_t,\dots,y_{t-p}\right]\right]\\
+									\end{align*}
+									\label{}
+								\end{lemma} 
+
+								Consider the case with first-order AR model with no regressors.
+								We need to find the matrix:
+								\begin{align}
+									E_{\theta_0}\left[ \frac{\partial}{\theta^T} E\left[ \frac{\partial \log f(y_t^*|y_{t-1}^*,\theta)}{\partial \theta} |y_{t},y_{t-1},\theta \right]\right]
+									\label{d2}
+								\end{align}
+								we need only to concern above when $\theta = \theta_0$
+
+								Note that
+								\begin{align*}
+									&E_{\theta_0}\left[ \frac{\partial}{\theta^T} E\left[ \frac{\partial \log f(y_t^*|y_{t-1}^*,\theta)}{\partial \theta} |y_{t},y_{t-1},\theta \right]\right]\\
+									=&E_{\theta_0} \left[ E\left[ \frac{\partial^2 \log f(y_t^*|y_{t-1}^*,\theta)}{\partial \theta \partial \theta^T} |y_{t},y_{t-1},\theta \right] \right]\\
+									&+E_{\theta_0}\left[\int \frac{\partial \log f(y_t^*|y_{t-1}^*,\theta)}{\partial \theta} \frac{\partial f(y_t^*,y_{t-1}^* |y_{t},y_{t-1},\theta)}{\partial \theta^T}dy_t^* dy_{t-1}^* \right]\\
+									=& (A) + (B)	
+								\end{align*}
+
+								Evaluating (A) at $\theta=\theta_0$, we have
+								\begin{align}
+									(A) = E_{\theta_0}\left[ \frac{\partial^2 \log f(y_t^*|y_{t-1}^*,\theta)}{\partial \theta \partial \theta^T}\right]|_{\theta=\theta_0}
+								\end{align}
+
+								For (B),
+								\begin{align*}
+									&E_{\theta_0}\left[\int \frac{\partial \log f(y_t^*|y_{t-1}^*,\theta)}{\partial \theta} \frac{\partial f(y_t^*,y_{t-1}^* |y_{t},y_{t-1},\theta)}{\partial \theta^T}dy_t^* dy_{t-1}^* \right]\\
+									=&E_{\theta_0}\left[\int \frac{\partial \log f(y_t^*|y_{t-1}^*,\theta)}{\partial \theta} \frac{\partial f(y_t^*,y_{t-1}^* |y_{t},y_{t-1},\theta)}{\partial \theta^T}\frac{f(y_t^*,y_{t-1}^* |y_{t},y_{t-1},\theta)}{f(y_t^*,y_{t-1}^* |y_{t},y_{t-1},\theta)} dy_t^* dy_{t-1}^* \right]\\
+									=&E_{\theta_0}\left[\int \frac{\partial \log f(y_t^*|y_{t-1}^*,\theta)}{\partial \theta} \frac{\partial \log f(y_t^*,y_{t-1}^* |y_{t},y_{t-1},\theta)}{\partial \theta^T} f(y_t^*,y_{t-1}^* |y_{t},y_{t-1},\theta) dy_t^* dy_{t-1}^* \right]\\
+									=& E_{\theta_0}\left[ E_{\theta_0}\left[   \frac{\partial \log f(y_t^*|y_{t-1}^*,\theta)}{\partial \theta} \frac{\partial \log f(y_t^*,y_{t-1}^* |y_{t},y_{t-1},\theta)}{\partial \theta^T} | y_{t},y_{t-1},\theta_0  \right]\right] 
+								\end{align*}
+
+								We need to view $y_t$ as a mixture of the point mass $c$ and the other one on the line $[c,\infty)$.
+								Then we can give the joint distribution of $(y_t,y_{t-1})$.
+
+								The conditional distribution $y_t^*,y_{t-1}^*|y_t,y_{t-1}$ is given by
+								\begin{align*}
+									& f(y_t^*,y_{t-1}^* |y_{t},y_{t-1},\theta) \\
+									= &1\{y_t\ge c,y_{t-1}\ge c\} 1\left\{ y_t^* =y_t \right\} 1\left\{ y_{t-1}^*=y_{t-1} \right\}\\
+									&+1\left\{ y_t^* <c, y_{t-1}^*=y_{t-1}\ge c \right\} f(y_t^*|y_t^*<c, y_{t-1}^*=y_{t-1})\\
+									&+1\left\{ y_{t}^*=y_t> c, y_{t-1}^* <c \right\} f(y_{t-1}^*|y_{t-1}^*<c, y_{t}^*=y_{t})\\
+									&+1\left\{ y_{t}^*<c,  y_{t-1}^* <c \right\} f(y_t^*,y_{t-1}^*) /P(y_t^*<c,y_{t-1}^*<c )\\
+									=& (P1) + (P2) + (P3) + (P4)
+								\end{align*}
+								we have
+								\begin{align*}
+									\nabla\log (P1) &= 0\\
+								\end{align*}
+								\begin{align*}
+									\log (P2) 
+									&= 1\left\{ y_t^* <c, y_{t-1}^*=y_{t-1}\ge c \right\} 
+									\log f(y_t^*|y_t^*<c, y_{t-1}^*=y_{t-1})\\
+									&= 1\left\{ y_t^* <c, y_{t-1}^*=y_{t-1}\ge c \right\} 
+									(\log f(y_t^*,y_{t-1}^*) -\log P(y_t^*<c|y_{t-1}^*)) \\
+									\nabla \log(P2) 
+									&= 1\left\{ y_t^* <c, y_{t-1}^*=y_{t-1}\ge c \right\}
+									\left( \nabla (\log f(y_{t}^*,y_{t-1}^*)) - \nabla (\log (\Phi(\frac{c-\rho y_{t-1}^*}{\sigma}))) \right)
+								\end{align*}
+
+								\begin{align*}
+									\log (P3) 
+									&= 1\left\{ y_{t-1} <c, y_t^* = y_{t}\ge c \right\}
+									\log f(y_{t-1}^*|y_{t-1}^*<c, y_{t}^*=y_t,\theta_0)\\
+									&= 1\left\{ y_{t-1} <c, y_t^* = y_{t}\ge c \right\}
+									(\log f(y_{t}^*,y_{t-1}^*) -\log P(y_{t-1}^*<c|y_{t})^*) \\
+									\nabla (\log (P3))
+									&= 1\left\{ y_{t-1} <c, y_t^* = y_{t}\ge c \right\}
+									( \nabla(\log f(y_t^*,y_{t-1}^*)) - \nabla \log( \Phi( (c- \rho y_{t}^*)/\sigma)))
+								\end{align*}
+
+								\begin{align*}
+									\log(P4) 
+									=&1\left\{ y_{t-1}^* <c, y_{t}^*<c \right\}
+									\left( 
+									\log f(y_t^*,y_{t-1}^*) -\log P(y_t^*<c,y_{t-1}^*<c )
+									\right)\\
+									\nabla \log(P4)
+									=&1\left\{ y_{t-1}^* <c, y_{t}^*<c \right\}
+									(\nabla \log f(y_t^*,y_{t-1}^*) - \nabla \log P(y_t^*<c,y_{t-1}^*<c))\\
+									%=&1\left\{ y_{t-1} <c, y_{t}<c \right\} (
+									%\nabla \log f(y_t^*|y_{t-1}^*) + 
+									%\nabla \log f(y_{t-1}^*) - 
+									%\nabla \log P(y_t^*<c,y_{t-1}^*<c))\\
+									\end{align*}
+
+									------------------------------------------------------
+
+									Identity:
+
+									\begin{align}
+										E[\nabla^2 \log f(y_t^*| y_{t-1}^*,\theta)] 
+										+ E[\nabla \log f(y_{t}^*|y_{t-1}^*,\theta) \cdot  \left( \nabla \log f(y_{t}^*, y_{t-1}^*,\theta) \right)^T] 
+										= 0\label{id1}
+									\end{align}
+
+
+									proof:
+
+									It is easily seen that 
+									\begin{align*}
+										E[ \nabla \log f(y_{t}^* | y_{t-1}^*) ] =0
+									\end{align*}
+
+									Take another differentiation w.r.t. $\theta$,
+									\begin{align*}
+										&\nabla E[ \nabla \log f(y_{t}^* | y_{t-1}^*) ]\\
+										=&E\left[ \nabla^2 \log f(y_{t}^* | y_{t-1}^*)  \right]
+										+ \int \nabla \log f(y_{t}^* | y_{t-1}^*) \nabla f(y_t^*,y_{t-1}^*) \\
+										=&E\left[ \nabla^2 \log f(y_{t}^* | y_{t-1}^*)  \right]
+										+ \int \nabla\log f(y_{t}^* | y_{t-1}^*) \nabla (\log f(y_t^*,y_{t-1}^*)) f(y_t^*,y_{t-1}^*)\\
+										=&E\left[ \nabla^2 \log f(y_{t}^* | y_{t-1}^*)  \right]
+										+ E[\nabla \log f(y_{t}^*|y_{t-1}^*,\theta) \cdot  \left( \nabla \log f(y_{t}^*, y_{t-1}^*,\theta) \right)^T] \\
+										=0\\
+									\end{align*}
+
+									-------------------------------------------------------------------	
+
+
+									Based on the identity, we have
+
+									\begin{align*}
+										&(A) + (B)\\
+										=&-E_{\theta_0}\left[ 
+										E\left[ 
+										\nabla \log f(y_t^*|y_{t-1}^*)\left( 
+										\nabla \log f(y_t^*,y_{t-1}^*)
+										%+\nabla \log f(y_{t-1}^*)
+										-\nabla(P1+P2+P3+P4)
+										\right)^T|y_t,y_{t-1}
+										\right]
+										\right]\\
+										=&-E_{\theta_0}\left[
+										E\left[ 
+										\nabla \log f(y_t^*|y_{t-1}^*)\left( \right.\right.\right.1_{P1}\nabla \log f(y_t^*,y_{t-1}^*)\\
+										&+1_{P2}\nabla \log P(y_t^*<c|y_{t-1}^*) +1_{P3}\nabla \log P(y_{t-1}^*<c|y_t^*) +1_{P4}\nabla \log P(y_t^*<c,y_{t-1}^*<c)\\
+										&\left.\left.\left.\right)^T|y_t,y_{t-1} \right] \right]\\
+										=&-E_{\theta_0}\left[
+										E\left[ 
+										\nabla \log f(y_t^*|y_{t-1}^*)\left( \right.\right.\right.1_{P1}\nabla \log f(y_t^*|y_{t-1}^*)\\
+										&+1_{P1} \nabla \log f(y_{t-1}^*)
+										+1_{P2}\nabla \log P(y_t^*<c|y_{t-1}^*)
+										+1_{P3}\nabla \log P(y_{t-1}^*<c|y_t^*)
+										+1_{P4}\nabla \log P(y_t^*<c,y_{t-1}^*<c)\\
+										&\left.\left.\left.\right)^T|y_t,y_{t-1} \right] \right]\\
+										=&-\left( 
+										E_{\theta_0}\left[ E\left[ \nabla \log f(y_t^*|y_{t-1}^*)\left( \nabla \log f(y_t^*|y_{t-1}^*) 1_{P1}\right)^T|y_t,y_{t-1}\right]\right]\right.\\
+										&+E_{\theta_0}\left[ E\left[ \nabla \log f(y_t^*|y_{t-1}^*)\left( 1_{P1} \nabla \log f(y_{t-1}^*)+ 1_{P2}\nabla \log P(y_t^*<c|y_{t-1}^*) \right.\right.\right.\\
+										&\left.\left.\left.\left.
+										+1_{P3}\nabla \log P(y_{t-1}^*<c|y_t^*) 
+										+1_{P4}\nabla \log P(y_t^*<c,y_{t-1}^*<c)
+										\right)^T|y_t,y_{t-1} \right] \right]\right)\\
+										%=&-E_{\theta_0}\left[
+										%E\left[ 
+										%\nabla \log f(y_t^*|y_{t-1}^*)\left( \right.\right.\right.1_{P1}\nabla \log f(y_t^*|y_{t-1}^*)\\
+										%&+1_{P1} \nabla \log f(y_{t-1}^*)
+										%+1_{P2}\nabla \log P(y_t^*<c|y_{t-1}^*)
+										%+1_{P3}\nabla \log P(y_{t-1}^*<c|y_t^*)
+										%+1_{P4}\nabla \log P(y_t^*<c,y_{t-1}^*<c)\\
+										%&\left.\left.\left.\right)^T|y_t,y_{t-1} \right] \right] \right)\\
+										\end{align*}
+
+
+
+
+										As $P(y_t^* <c| y_{t-1}^*) = \Phi(\frac{c-\psi_1y_{t-1}^*}{\sigma})$,
+										we have
+
+										\begin{align*}
+											\nabla \log P(y_t^* <c| y_{t-1}^*) = \Phi(\frac{c-\psi_1y_{t-1}^*}{\sigma})^{-1}\phi(\frac{c-\psi_1y_{t-1}^*}{\sigma})
+											\left[ 
+											\begin{array}[c]{c}
+												-\frac{y_{t-1}^*}{\sigma}\\
+												-\frac{c-\psi_1y_{t-1}^*}{\sigma^2}
+											\end{array}
+											\right]
+										\end{align*}
+
+										By symmetry,
+										\begin{align*}
+											\nabla \log P(y_{t-1}^* <c| y_{t}^*) = \Phi(\frac{c-\psi_1y_{t}^*}{\sigma})^{-1}\phi(\frac{c-\psi_1y_{t}^*}{\sigma})
+											\left[ 
+											\begin{array}[c]{c}
+												-\frac{y_{t}^*}{\sigma}\\
+												-\frac{c-\psi_1y_{t}^*}{\sigma^2}
+											\end{array}
+											\right]
+										\end{align*}
+
+
+										how about 
+										\begin{align*}
+											\nabla \log P(y_t^*<c,y_{t-1}^*<c)
+										\end{align*}
+
+										\newpage
+
+										\begin{align*}
+											\log f(y_{t-1}^*) &= -\frac{1}{2} (\log 2\pi \frac{\sigma^2}{1-\psi_1^2} + \frac{(1-\psi_1^2)y_{t-1}^{*2}}{\sigma^2} )\\
+											\nabla \log f(y_{t-1}^*)&=
+											\left[ 
+											\begin{array}[c]{c}
+												\psi_1\left( \frac{y_{t-1}^{*2}}{\sigma^2}-\frac{1}{1-\psi_1^2} \right)\\
+												\frac{1}{\sigma}\left( \frac{(1-\psi_1^2)y_{t-1}^{*2}}{\sigma^2}-1 \right)
+											\end{array}
+											\right]
+											= (y_{t-1}^{*2}-\frac{\sigma^2}{1-\psi_1^2})
+											\left[ 
+											\begin{array}{c}
+												\frac{\psi_1}{\sigma^2}\\
+												\frac{1}{\sigma \frac{\sigma^2}{1-\psi_1^2}}
+											\end{array}
+											\right]
+											\\
+										\end{align*}
+
+										We have
+										\begin{align*}
+											(y_t^*,y_{t-1}^*)^T \sim N(0,\Sigma)
+										\end{align*}
+										with 
+										$$
+										\Sigma=
+										\frac{\sigma^2}{1-\psi_1^2}
+										\left[ 
+										\begin{array}{cc}
+											1 & \psi_1 \\
+											\psi_1 & 1 \end{array} \right]
+											$$
+
+											\begin{align*}
+												\nabla \log f(y_t^*|y_{t-1}^*) = 
+												\left[
+												\begin{array}[c]{c}
+													\frac{y_t^* - \psi y_{t-1}^*}{\sigma^2} y_{t-1}^*	\\
+													-\frac{1}{\sigma}(1-\frac{(y_{t}^*-\psi y_{t-1}^*)^2}{\sigma^2})
+												\end{array}
+												\right]
+												= 
+												\left[
+												\begin{array}[c]{c}
+													\frac{\varepsilon_t}{\sigma^2} y_{t-1}^*	\\
+													\frac{1}{\sigma}(\frac{\varepsilon_t^2}{\sigma^2}-1)
+												\end{array}
+												\right]
+											\end{align*}
+
+											\begin{align*}
+												E[\nabla \log f(y_t^*|y_{t-1}^*) (\nabla \log f(y_t^*|y_{t-1}^*))^T]
+												=E\left[ 
+												\begin{array}[c]{cc}
+													\varepsilon_t^2y_{t-1}^{*2}/\sigma^4 & 0\\
+													0 & \frac{1}{\sigma^2}(\frac{\varepsilon_t^2}{\sigma^2}-1)^2
+												\end{array}
+												\right]
+												=\left[ 
+												\begin{array}[c]{cc}
+													\frac{1}{1-\psi_1^2}& 0\\
+													0 & \frac{2}{\sigma^2}
+												\end{array}
+												\right]
+											\end{align*}
+
+
+											By symmetry, we have
+											\begin{align*}
+												f(y_{t-1}^*|y_t^*) = f(y_t^*|y_{t-1}^*)
+											\end{align*}
+											thus,
+											\begin{align*}
+												\nabla \log f(y_{t-1}^*|y_{t}^*) = 
+												\left[
+												\begin{array}[c]{c}
+													\frac{y_{t-1}^* - \psi y_{t}^*}{\sigma^2} y_{t}^*	\\
+													-\frac{1}{\sigma}(1-\frac{(y_{t-1}^*-\psi y_{t}^*)^2}{\sigma^2})
+												\end{array}
+												\right]
+											\end{align*}
+
+
+											let $S(\cdot,\theta)$ be the score function of $f(\cdot,\theta)$.
+
+											Claim:
+											\begin{align*}
+												&(B) \\
+												&= E\left[ 
+												E\left[ 
+												S(y_t^*|y_{t-1}^*,\theta) S^T(y_{t}^*,y_{t-1}^*|y_t,y_{t-1},\theta) | y_t,y_{t-1}
+												\right]
+												\right]\\
+												&= E\left[ 
+												E\left[ 
+												S(y_t^*|y_{t-1}^*,\theta) \left( S(y_{t}^*,y_{t-1}^*,\theta) - S(y_t,y_{t-1},\theta) \right)^T| y_t,y_{t-1}
+												\right]
+												\right]\\
+												&= E\left[ 
+												E\left[ 
+												S(y_t^*|y_{t-1}^*,\theta) S^T(y_{t}^*,y_{t-1}^*,\theta)| y_t,y_{t-1}
+												\right]
+												\right]\\
+												&\quad-E\left[ 
+												E\left[ 
+												S(y_t^*|y_{t-1}^*,\theta) S^T(y_t,y_{t-1},\theta) | y_t,y_{t-1}
+												\right]
+												\right]\\
+												&= E\left[S(y_t^*|y_{t-1}^*,\theta) S^T(y_{t}^*,y_{t-1}^*,\theta) \right]\\
+												&\quad-E\left[ 
+												E\left[ S(y_t^*|y_{t-1}^*,\theta)  | y_t,y_{t-1} \right]
+												S^T(y_t,y_{t-1},\theta)
+												\right]\\
+											\end{align*}
+
+											Then
+											\begin{align}
+												Eq~\eqref{d2} 
+												&=  (A) +(B)\\
+												&= -E\left[ E\left[ S(y_t^*|y_{t-1}^*,\theta) | y_t,y_{t-1} \right] S^T(y_t,y_{t-1},\theta) \right]\\
+												&= -E\left[ E\left[ S(y_t^*,y_{t-1}^*,\theta) - S(y_{t-1}^*,\theta)  | y_t,y_{t-1} \right] S^T(y_t,y_{t-1},\theta) \right]\\
+												&= -\E\left[ S\left( y_t,y_{t-1},\theta \right)  S^T(y_t,y_{t-1},\theta)\right] \\
+												&\quad + E\left[ E\left[ S(y_{t-1}^*,\theta)  | y_t,y_{t-1} \right] S^T(y_t,y_{t-1},\theta) \right]\\
+												& or \\
+												&= -\E\left[ \E[S\left( y_t^*|y_{t-1}^*,\theta \right)|y_t,y_{t-1}]  \E[S^T(y_t^*|y_{t-1}^*,\theta)|y_t,y_{t-1}]\right] \\
+												&\quad - E\left[ E\left[ S(y_t^*|y_{t-1}^*,\theta)  | y_t,y_{t-1} \right] \E\left[  S^T(y_{t-1}^*,\theta)|y_t,y_{t-1} \right]\right]
+											\end{align}
+
+											Can we prove
+											\begin{align*}
+												\E\left[ S\left( y_t,y_{t-1},\theta \right)  S^T(y_t,y_{t-1},\theta)\right] 
+												> E\left[ E\left[ S(y_{t-1}^*,\theta)  | y_t,y_{t-1} \right] S^T(y_t,y_{t-1},\theta) \right]
+											\end{align*}
+											under any circumstance?
+
+
+											First, let's compute
+											\begin{align*}
+												\E\left[ \E[S\left( y_t^*|y_{t-1}^*,\theta \right)|y_t,y_{t-1}]  \E[S^T(y_t^*|y_{t-1}^*,\theta)|y_t,y_{t-1}]\right] \\
+											\end{align*}
+
+											Let $C=(-\infty, c]$ be the censored region. Let $\bar{C}$ be the uncensored region.
+
+											Consider
+											\begin{align*}
+												&\E\left[ S(y_t^*,y_{t-1}^*)|y_t,y_{t-1}^* \right]\\
+												=&\int S(y_t^*,y_{t-1}^*) f(y_t^*,y_{t-1}^*|y_t,y_{t-1}) dy_{t}^* dy_{t-1}^*\\
+												=&\left\{
+												\begin{array}{ll}
+													S(y_t|y_{t-1}) &y_t>c,y_{t-1}>c\\
+													\int_C S(y_t^*|y_{t-1}^*) \frac{f(y_t^*,y_{t-1})}{\int_C f(y_t^*,y_{t-1})dy_{t}^*} dy_{t}^* & y_t\le c, y_{t-1}>c\\
+													\int_C S(y_t^*|y_{t-1}^*) \frac{f(y_t^*,y_{t-1}^*)}{\int_C f(y_t^*,y_{t-1}^*)dy_{t-1}^*} dy_{t-1}^* & y_t > c, y_{t-1}\le c\\
+													\int_{C\times C} S(y_t^*|y_{t-1}^*) \frac{f(y_t^*,y_{t-1}^*)}{\int_{C\times C} f(y_t^*,y_{t-1}^*)dy_{t}^*dy_{t-1}^*} dy_{t}^* dy_{t-1}^* & y_t\le c, y_{t-1} \le c\\
+												\end{array}
+												\right.\\
+												=&\left\{
+												\begin{array}{ll}
+													S(y_t|y_{t-1}) &y_t>c,y_{t-1}>c\\
+													\int_C S(y_t^*|y_{t-1}^*) \frac{f(y_t^*|y_{t-1})}{\int_C f(y_t^*|y_{t-1})dy_{t}^*} dy_{t}^* & y_t\le c, y_{t-1}>c\\
+													\int_C S(y_t^*|y_{t-1}^*) \frac{f(y_t^*,y_{t-1}^*)}{\int_C f(y_t^*,y_{t-1}^*)dy_{t-1}^*} dy_{t-1}^* & y_t> c, y_{t-1}\le c\\
+													\int_{C\times C} S(y_t^*|y_{t-1}^*) \frac{f(y_t^*,y_{t-1}^*)}{\int_{C\times C} f(y_t^*,y_{t-1}^*)dy_{t}^*dy_{t-1}^*} dy_{t}^* dy_{t-1}^* & y_t>c, y_{t-1} \le c\\
+												\end{array}
+												\right.\\
+												=&\left\{
+												\begin{array}{ll}
+													S(y_t|y_{t-1}) &y_t>c,y_{t-1}>c\\
+													\int_C S(y_t^*|y_{t-1}^*) \frac{f(y_t^*|y_{t-1})}{\int_C f(y_t^*|y_{t-1})dy_{t}^*} dy_{t}^* & y_t\le c, y_{t-1}>c\\
+													\int_C S(y_t^*|y_{t-1}^*) \frac{f(y_t^*,y_{t-1}^*)}{\int_C f(y_t^*,y_{t-1}^*)dy_{t-1}^*} dy_{t-1}^* & y_t> c, y_{t-1} \le c\\
+													\int_{C\times C} S(y_t^*|y_{t-1}^*) \frac{f(y_t^*,y_{t-1}^*)}{\int_{C\times C} f(y_t^*,y_{t-1}^*)dy_{t}^*dy_{t-1}^*} dy_{t}^* dy_{t-1}^* & y_t\le c, y_{t-1}\le c\\
+												\end{array}
+												\right.\\
+												=&\left\{
+												\begin{array}{ll}
+													S(y_t|y_{t-1}) &y_t>c,y_{t-1}>c\\
+													\left[
+													\begin{array}{c}
+														\frac{y_{t-1}^*}{\sigma} \E\left[ N|N<\frac{c-\psi_1 y_{t-1}^*}{\sigma} \right]\\
+														\frac{1}{\sigma}\left( \E\left[ N^2|N<\frac{c-\psi_1 y_{t-1}^*}{\sigma} \right] -1 \right)\\
+													\end{array}
+													\right]
+													& y_t\le c, y_{t-1}>c\\
+													\left[ 
+													\begin{array}{c}
+														\psi_1(1-\psi_1^2)\left( \frac{y_{t}^*}{\sigma} \right)^2 - (1-2\psi_1^2)\frac{y_{t}^*}{\sigma}\E\left[ N| N<\frac{c-\psi_1 y_{t}^*}{\sigma} \right] -\psi_1 \E\left[ N^2|N<\frac{c-\psi_1 y_t^*}{\sigma} \right]\\
+														\frac{1}{\sigma}\left( \left( \frac{(1-\psi_1^2) y_t^*}{\sigma} \right)^2 - 2\frac{(1-\psi_1^2)y_t^*}{\sigma}\rho \E\left[ N|N < \frac{c-\psi_1 y_t^*}{\sigma}\right] + \psi_1^2 \E\left[ N^2|N < \frac{c-\psi_1 y_t^*}{\sigma}\right]   \right)
+													\end{array} \right]
+													& y_t > c, y_{t-1} \le c\\
+													\int_{C\times C} S(y_t^*|y_{t-1}^*) \frac{f(y_t^*,y_{t-1}^*)}{\int_{C\times C} f(y_t^*,y_{t-1}^*)dy_{t}^*dy_{t-1}^*} dy_{t}^* dy_{t-1}^* & y_t \le c, y_{t-1} \le c\\
+												\end{array}
+												\right.
+											\end{align*}
+
+											\newpage
+
+
+											Note that
+											\begin{align}
+												S(y_t,y_{t-1},\theta) = E\left[ 
+												S(y_t^*,y_{t-1}^*,\theta)|y_t,y_{t-1},\theta
+												\right]
+												\label{id2}
+											\end{align}
+
+
+											\newpage
+
+
+
+											useful inequalities:
+
+
+\section{Detection of outlier or test of external variable}
+
+Suppose that there are some data which the current model is not capable of modelling, such data point can be treated as an outlier. A natural question is: how can we detect a data point is an outlier in the current model?
+
+One way is to assume an additive outlier. Suppose an outlier occurs at time $\lambda$, let $I_\lambda(t) $ be the indicator function of $t$ at time $\lambda$. Then the model can be augmented as
+\begin{align}
+\Phi(B)(Y_t^*-\tau(X_t,\psi) - \omega I_\lambda(t)) = \varepsilon_t.
+\end{align}
+
+Then the test of an outlier at time $\lambda$ is equivalent to test $H_0: \omega=0$.
+
+
+Consider if there is a LM test for $\omega$. We need to choose the score function. But which one?
+The $Q$ function is not an exact likelihood, and thus its derivative is not the ``score'' in the normal literature. 
+However, we might use that derivative as an score under the current context.
+Note that
+\begin{align*}
+\left.\frac{\partial Q_t(\theta,\omega|\hat{\theta})}{ \partial \omega}\right|_{\theta=\hat{\theta},\omega=0}
+=\frac{1}{\sigma^2_\varepsilon}\left[ (z_t-\tau_t) - \sum_{j=1}^p\psi_j(z_{t-j}-\tau_{t-j}) \right]\left[ I_\lambda(t)-\sum_{j=1}^{p}\psi_jI_\lambda(t-j) \right],
+\end{align*}
+
+which implies that
+\begin{align*}
+\left.\frac{\partial Q_t(\theta,\omega|\hat{\theta})}{ \partial \omega}\right|_{\theta=\hat{\theta},\omega=0}
+=0, \textrm{ if } t<\lambda, \textrm{ or } t > \lambda+p,
+\end{align*}
+
+let $e_t = \Psi(B)(z_t -\tau_t) = E[\varepsilon_t| Y_{t},\cdots,Y_{t-p},\hat{\theta}]$, then
+%let $e_t = \Psi(B)(z_t -\tau_t - \omega I_\lambda(t) )$, then
+\begin{align*}
+\left.\frac{\partial Q(\theta,\omega|\hat{\theta})}{ \partial \omega}\right|_{\theta=\hat{\theta},\omega=0}
+&=\sum_{t=\lambda}^{\lambda+p} \left.\frac{\partial Q_t(\theta,\omega|\hat{\theta})}{ \partial \omega}\right|_{\theta=\hat{\theta},\omega=0}\\
+&=\frac{1}{\sigma^2_\varepsilon}\left( e_\lambda - \sum_{j=1}^p \psi_j e_{\lambda+j} \right)
+\end{align*}
+
+Need to calculate the distribution of $e_t$. $e_t$ can be written as a function $e_t(\hat{\theta}|Y_t,\cdots,Y_{t-p},{\theta}_0)$, where the first $\hat{\theta}$ is the estimated parameter, $\theta_0$ is the true parameter. If censor occurs in $t,\cdots,t-p$, conditional mean of multivariate-normal is involved. To find its dist., we need
+\begin{enumerate}
+\item the distibution of $\hat{\theta}$,
+\item apply delta's method to calulate
+\end{enumerate}
+
+\newpage
+Another simple way:
+
+We can test the deviation between the fitted value and the observations. Due to the possibility of censored observation in the series. We cannot use all the information, but as $\eta_t= y_t - \tau_t$ follows an $AR(p)$ process, we have
+\begin{align*}
+\eta_t = \sum_{j=1}^p \psi_j \eta_{t-j} + \varepsilon_t,
+\end{align*}
+and the conditional distribution of 
+$\mathcal{L}(Y^*_t |y_{t-1},\cdots,y_{t-p}) $
+can be obtained. 
+Let $C_t=\{j\in \{1,\dots,p\}:y_{t-j}\textrm{ is censored}\}$, then
+\begin{align*}
+Y^*_t = \tau_t + \sum_{j\ge c_t}\psi_j\eta_{t-j} + \sum_{j<c_t}\psi_j\eta_{t-j} + \varepsilon_t 
+\end{align*}
+
+Conditional $y_{t-1},\dots,y_{t-p}$ and parameter estimate $\hat{\theta}$, the randomness in the above formula is
+\begin{align}
+\varepsilon_t + \sum_{j<c_t}\psi_t(\eta_{t-j}|y_{t-1},\dots,y_{t-p})\label{}
+\end{align}
+
+The conditional mean can be given by the R package \verb$mtmvnorm$, which can be treated as the fitted values of model.
+
+However, there is no formula about linear combination of truncated normal variables and we need to use simulation to get its quantiles. 
+
+\underline{The test procedure}. To test an outlier at time $t$, compute $0.0025/n$ upper and lower quantiles of $y^*_{t} | y_{t-1},\dots,y_{t-p}$, denoted by $q_u$ and $q_l$, we accept the hypothesis that an outlier is at $t$ if either of the following conditions holds:
+\begin{itemize}
+\item $y_{t}$ is not censored, and $y_t > q_u$, or
+\item $y_{t}$ is censored, and $c_t < q_l$.
+\end{itemize}
+
+
+
+
+
+%Instead of constructing a very powerful test statistic, note that $e_\lambda$ is a function of $Y_t,\cdots,Y_{t-p}$ and estimated parameter $\hat{\theta}$, we can consider its distribution given $Y_{t-1},\cdots, Y_{t-p}$, then the only random variable is $Y_t$, 
+
+
+
+
+
+\bibliographystyle{jtsa1}
+%\bibliography{ref}
+%\bibliography{/mnt/nfs/netapp2/grad/cwang42/researches/bibfile/ref}
+\bibliography{/home/chao/researches/bibfile/ref}
+
+\end{document}
+
+											\section{Real data analysis}
+											In this analysis ten series of P are studied, the estimation result are reported in Table~\ref{tab:real}. 
+
+
+											\begin{table}
+												\centering
+												\begin{tabular}{cl}
+													\hline
+													StoretID & Station Name \\
+													10920001& English River at Riverside\\
+													10910002& North River near Norwalk\\
+													10030001& Upper Iowa River near Dorchester\\
+													10070003& West Fork Cedar River at Finchford\\
+													10430002& Soldier River near Pisgah\\
+													10750001& Floyd River near Sioux City\\
+													10490001& North Fork Maquoketa River near Hurstville\\
+													10630002& Cedar Creek near Bussey\\
+													10400001& Boone River near Stratford\\
+													10620001& South Skunk River near Oskaloosa\\
+													\hline
+												\end{tabular}
+												\caption{storetID and station name map}
+												\label{tab:id2name}
+											\end{table}
+
+											\begin{landscape}
+												\begin{table}
+													\centering
+													\begin{tabular}{ccrlllll}
+														storetID  & \#obs & censor rate  & $\rho$ & $\sigma_\epsilon$ &$\psi_0$ & $\psi_1$ &$\psi_2$ \\ % & \multicolumn{2}{l}{$\psi$} \\
+														\hline
+														10920001 & 175 & 4.6\% & 0.23 (0.06, 0.35) & 0.61 (0.54, 0.67) & -3.18 (-3.60, -2.79) & -0.0023 (-0.0046, 0.00003) & 0.38 (0.32, 0.45) \\
+														10490001 & 174 & 4.6\% & 0.27 (0.09, 0.39) & 0.57 (0.51, 0.63) & -7.13 (-8.07, -6.20) & -0.0031 (-0.0053, -0.0009) & 1.02 (0.86, 1.18) \\
+														10620001 & 163 & 1.8\% & 0.25 (0.06, 0.37) & 0.50 (0.44, 0.54) & -2.34 (-2.79, -1.87) & -0.0027 (-0.0049, -0.0005) & 0.21 (0.13, 0.27) \\
+														10630002 & 163 & 15.3\%& 0.33 (0.14, 0.46) & 0.78 (0.68, 0.86) & -3.61 (-4.09, -3.15) & -0.0025 (-0.0062, 0.0014) & 0.40 (0.31, 0.48) \\
+														10750001 & 174 & 0     & 0.44 (0.26, 0.54) & 0.43 (0.38, 0.46) & -1.66 (-2.13, -1.22) & -0.0036 (-0.0058, -0.0014) & 0.25 (0.17, 0.33)\\
+														10910002 & 175 & 4\%   & 0.57 (0.40, 0.66) & 0.68 (0.60, 0.73) & -1.94 (-2.50, -1.43) & -0.0038 (-0.0083, 0.0008) & 0.24 (0.17, 0.31)\\
+														10030001 & 174 &15.5\% & 0.14 (-0.03, 0.27) & 0.65 (0.57, 0.71) & -6.43 (-7.28, -5.65)& -0.0018 (-0.0040, 0.0005) & 0.71 (0.58, 0.83)\\
+														10070003 & 174 &12.6\% & 0.20 (0.02, 0.33) & 0.50 (0.44, 0.55) & -4.80 (-5.26, -4.30)  & -0.0005 (-0.0023, 0.0014) & 0.44 (0.37, 0.51)\\
+														10400001 & 163 &1.8\%  & 0.30 (0.11, 0.42) & 0.70 (0.61, 0.76) & -2.10 (-2.65, -1.53)  & -0.0012 (-0.0047, 0.0020) & 0.09 (0.01, 0.18) \\
+														10430002 & 174 &4.6\%  & 0.39 (0.21, 0.50) & 0.71 (0.63, 0.78) & -5.32 (-6.24, -4.48) & -0.0027 (-0.0061, 0.0006) & 0.90 (0.73, 1.08)\\
+														\hline
+													\end{tabular}
+													\caption{Real data analysis: Parameter estimates are followed by 95\% confidence intervals (in round brackets).  }
+													\label{tab:real}
+												\end{table}
+											\end{landscape}
+
+
+											\begin{landscape}
+												\begin{tiny}
+													\begin{table}
+														\centering
+														\begin{tabular}{lrlllllll}
+															storetID  & \#obs [cRate]  &order & $\phi$ & $\sigma_\epsilon$ &$\psi$ \\ % & \multicolumn{2}{l}{$\psi$} \\
+															\hline
+															%\newline English River at Riverside
+															\multirow{2}{*}{10920001} & \multirow{2}{*}{175 [4.6\%]} &   1 & 0.23 (0.06, 0.35)  & 0.61 (0.54, 0.67) & -3.18 (-3.60, -2.79)  -0.0023 (-0.0046, 0.0000)  0.38 (0.32, 0.45) \\
+															&                              &   2 & 0.21 (0.04, 0.34) 0.21 (0.04, 0.33) &  0.60 (0.53, 0.66) & -3.33 (-3.84, -2.89)  -0.0025 (-0.0054, 0.0006)  0.42 (0.35, 0.49) \\
+															%10490001 & 174 & 4.6\% & 0.27 (0.09, 0.39) & 0.57 (0.51, 0.63) & -7.13 (-8.07, -6.20) & -0.0031 (-0.0053, -0.0009) & 1.02 (0.86, 1.18) \\
+															%North Fork Maquoketa River& \\
+															%10620001 & 163 & 1.8\% & 0.25 (0.06, 0.37) & 0.50 (0.44, 0.54) & -2.34 (-2.79, -1.87) & -0.0027 (-0.0049, -0.0005) & 0.21 (0.13, 0.27) \\
+															%South Skunk River near Oskaloosa &\\
+															\multirow{2}{*}{10630002} & \multirow{2}{*}{163 [15.3\%]} & 1  & 0.33 (0.14, 0.46) & 0.78 (0.68, 0.86) & -3.61 (-4.09, -3.15) -0.0025 (-0.0062, 0.0014) 0.40 (0.31, 0.48) \\
+															&                              & 3  &  0.28 (0.08, 0.41)  0.0049 (-0.1975, 0.1406) 0.23 (0.01, 0.32) & 0.76 (0.65, 0.84)  &  -3.52 (-4.19, -3.03)  -0.0026 (-0.0070, 0.0028)  0.38 (0.31, 0.46)\\  
+															%Cedar Creek near Bussey& \\
+															\multirow{2}{*}{10750001} & \multirow{2}{*}{174 [0.0\%]}   & 1  & 0.44 (0.26, 0.54)                   & 0.43 (0.38, 0.46) & -1.66 (-2.13, -1.22) -0.0036 (-0.0058, -0.0014) 0.25 (0.17, 0.33)\\
+															&                                & 2  & 0.34 (0.16, 0.47)  0.28 (0.11, 0.34) & 0.41 (0.36, 0.45) &  -1.78 (-2.32, -1.23) -0.0039 (-0.0069, -0.0006)  0.28 (0.20, 0.36)\\
+
+															%Floyd River near Sioux City& \\
+															%10910002 & 175 & 4\%   & 0.57 (0.40, 0.66) & 0.68 (0.60, 0.73) & -1.94 (-2.50, -1.43) & -0.0038 (-0.0083, 0.0008) & 0.24 (0.17, 0.31)\\
+															%North River near Norwalk & \\
+															%10030001 & 174 &15.5\% & 0.14 (-0.03, 0.27) & 0.65 (0.57, 0.71) & -6.43 (-7.28, -5.65)& -0.0018 (-0.0040, 0.0005) & 0.71 (0.58, 0.83)\\
+															%Upper Iowa River near Dorchester & \\
+															%10070003 & 174 &12.6\% & 0.20 (0.02, 0.33) & 0.50 (0.44, 0.55) & -4.80 (-5.26, -4.30)  & -0.0005 (-0.0023, 0.0014) & 0.44 (0.37, 0.51)\\
+															%West Fork Cedar River at Finchford & \\ 
+															%10400001 & 163 &1.8\%  & 0.30 (0.11, 0.42) & 0.70 (0.61, 0.76) & -2.10 (-2.65, -1.53)  & -0.0012 (-0.0047, 0.0020) & 0.09 (0.01, 0.18) \\
+															%Boone River near Stratford & \\
+															%10430002 & 174 &4.6\%  & 0.39 (0.21, 0.50) & 0.71 (0.63, 0.78) & -5.32 (-6.24, -4.48) & -0.0027 (-0.0061, 0.0006) & 0.90 (0.73, 1.08)\\
+															%Soldier River near Pisgah & \\
+															\hline
+														\end{tabular}
+														\caption{Real data analysis: Parameter estimates are followed by 95\% confidence intervals (in round brackets).  }
+														\label{tab:real2}
+													\end{table}
+												\end{tiny}
+											\end{landscape}
+
+											The ACF of the estimated residuals are plotted as follows.
+
+											\begin{figure}[h]
+												\begin{center}
+													\includegraphics[scale=0.4]{residual_10920001__acf.ps}
+												\end{center}
+												\caption{ACF of estimated residuals for 10920001}
+												\label{fig:acf_10920001}
+											\end{figure}
+
+
+											\begin{figure}[h]
+												\begin{center}
+													\includegraphics[scale=0.4]{residual_10490001__acf.ps}
+												\end{center}
+												\caption{ACF of estimated residuals for 10490001}
+												\label{fig:acf_10490001}
+											\end{figure}
+
+
+											\begin{figure}[h]
+												\begin{center}
+													\includegraphics[scale=0.4]{residual_10620001__acf.ps}
+												\end{center}
+												\caption{ACF of estimated residuals for 10620001}
+												\label{fig:acf_10620001}
+											\end{figure}
+
+
+											\begin{figure}[h]
+												\begin{center}
+													\includegraphics[scale=0.4]{residual_10630002__acf.ps}
+												\end{center}
+												\caption{ACF of estimated residuals for 10630002}
+												\label{fig:acf_10630002}
+											\end{figure}
+
+
+
+											\begin{figure}[h]
+												\begin{center}
+													\includegraphics[scale=0.4]{residual_10750001__acf.ps}
+												\end{center}
+												\caption{ACF of estimated residuals for 10750001}
+												\label{fig:acf_10750001}
+											\end{figure}
+
+
+											\begin{figure}[h]
+												\begin{center}
+													\includegraphics[scale=0.4]{residual_10910002__acf.ps}
+												\end{center}
+												\caption{ACF of estimated residuals for 10910002}
+												\label{fig:acf_10910002}
+											\end{figure}
+
+
+											\begin{figure}[h]
+												\begin{center}
+													\includegraphics[scale=0.4]{residual_10030001__acf.ps}
+												\end{center}
+												\caption{ACF of estimated residuals for 10030001}
+												\label{fig:acf_10030001}
+											\end{figure}
+
+
+
+											\begin{figure}[h]
+												\begin{center}
+													\includegraphics[scale=0.4]{residual_10070003__acf.ps}
+												\end{center}
+												\caption{ACF of estimated residuals for 10070003}
+												\label{fig:acf_10070003}
+											\end{figure}
+
+
+
+											\begin{figure}[h]
+												\begin{center}
+													\includegraphics[scale=0.4]{residual_10400001__acf.ps}
+												\end{center}
+												\caption{ACF of estimated residuals for 10400001}
+												\label{fig:acf_10400001}
+											\end{figure}
+
+
+
+
+											\begin{figure}[h]
+												\begin{center}
+													\includegraphics[scale=0.4]{residual_10430002__acf.ps}
+												\end{center}
+												\caption{ACF of estimated residuals for 1043002}
+												\label{fig:acf_1043002}
+											\end{figure}
+
+
+											\section{log}
+											\begin{itemize}
+												\item We cannot consider calculate the residual in the way that $\varepsilon_t = E(Y_t-\tau_t - \rho(Y_{t-1}-\tau_{t-1}|\mathcal{F}_t)/\sqrt(Var(Y_t-\rho Y_{t-})|\mathcal{F}_t)$, if neither observation at time $t$ or $t-1$ is censored, the conditional variance is zero, and in this case, the residual should just be $Y_t-\tau_t - \rho (Y_{t-1}-\tau_{t-1})$. In this regard, the analogue to the residuals with complete data is $E(Y_t-\tau_t - \rho(Y_{t-1}-\tau_{t-1})|\mathcal{F}_t)$
+											\end{itemize}
+
+											\end{document}
+
+											\begin{lemma}
+												We have
+												\begin{align*}
+													&\E_{\theta_0}\left[ \nabla \E\left[S(y_t^*|y_{t-1}^*,\dots,y_{t-p}^*,\theta) |y_{t},y_{t-1},\dots,y_{t-p},\theta \right] \right]\\
+													=&\E_{\theta_0} \left[ \E\left[ B(y_t^*|y_{t-1}^*,\dots,y_{t-p}^*,\theta)|y_{t},y_{t-1},\dots, y_{t-p},\theta \right] \right]\\
+													&+\E_{\theta_0}\left[ \E\left[ S(y_t^*|y_{t-1}^*,\dots,y_{t-p}^*,\theta) S^T(y_t^*,y_{t-1}^*,\dots,y_{t-p}^* |y_{t},y_{t-1},\dots, y_{t-p},\theta) | y_t,\dots,y_{t-p} \right]\right]\\
+													=&\E_{\theta_0} \left[ B(y_t^*|y_{t-1}^*,\dots,y_{t-p}^*,\theta) \right]\\
+													&+\E_{\theta_0}\left[ \E\left[  S(y_t^*|y_{t-1}^*,\dots,y_{t-p}^*,\theta) \left( S(y_t^*,y_{t-1}^*,\dots,y_{t-p}^*) - S(y_{t},y_{t-1},\dots, y_{t-p},\theta)\right)^T|y_t,\dots,y_{t-p}\right]\right]\\
+													=&\E_{\theta_0} \left[ B(y_t^*|y_{t-1}^*,\dots,y_{t-p}^*,\theta) \right]
+													+\E_{\theta_0}\left[  S(y_t^*|y_{t-1}^*,\dots,y_{t-p}^*,\theta) S^T(y_t^*,y_{t-1}^*,\dots,y_{t-p}^*)\right]\\
+													&-\E_{\theta_0}\left[ \E\left[  S(y_t^*|y_{t-1}^*,\dots,y_{t-p}^*,\theta) \left(S(y_{t},y_{t-1},\dots, y_{t-p},\theta)\right)^T|y_t,\dots,y_{t-p}\right]\right]\\
+												\end{align*}
+											\end{lemma} 
+
+
+						north river near norwalk
+						south river near ackworth
+						wapsipinicon river near olin
+
+
+						select 10910003,south river near ackworth:
+						nar = 2, ninter, coef with seasonal effect
+						no outliers
+						estimated parameters
+[1]  0.1983653  0.1979915 -4.2531038 -5.3117497 -3.0811133 -4.2439399
+ [7]  0.5127234  0.7775646  0.3414786  0.6422334  0.5984934
+              [,1]       [,2]
+ [1,] -0.004124527  0.3515960
+ [2,]  0.007799421  0.3616939
+ [3,] -4.843384653 -3.7254458
+ [4,] -6.127846426 -4.5168557
+ [5,] -3.518555207 -2.6454845
+ [6,] -4.726115151 -3.7694007
+ [7,]  0.395694035  0.6360698
+ [8,]  0.637239684  0.9270784
+ [9,]  0.231626337  0.4547700
+[10,]  0.502004945  0.7853679
+[11,]  0.507316474  0.6507727
+		
+there is a significant acf at lag 5, should we change the AR model to be an AR 5?
+
+
+toEstimate_10070001_Beaver Creek near Cedar Falls.csv 0.128048780487805,  s
+toEstimate_10770001_Beaver Creek near Grimes.csv 0.0245398773006135
+toEstimate_10070004_Black Hawk Creek at Waterloo.csv 0.0359712230215827
+toEstimate_10220003_Bloody Run Creek Site #1 (BR01).csv 0.0942028985507246
+toEstimate_10400001_Boone River near Stratford.csv 0.0184049079754601
+toEstimate_10430001_Boyer River near Missouri Valley.csv 0
+toEstimate_10630002_Cedar Creek near Bussey.csv 0.153374233128834              s, strange outlier
+toEstimate_10440001_Cedar Creek near Oakland Mills.csv 0.0517241379310345
+toEstimate_10700001_Cedar River near Conesville.csv 0.0184049079754601
+toEstimate_10090001_Cedar River near Janesville.csv 0.0731707317073171
+toEstimate_10560001_Des Moines River near Keokuk.csv 0.0465116279069767
+toEstimate_10920001_English River at Riverside.csv 0.0457142857142857
+toEstimate_10750001_Floyd River near Sioux City.csv 0
+toEstimate_10500001_Indian Creek near Colfax.csv 0.037037037037037
+toEstimate_10580002_Iowa River near Lone Tree.csv 0
+toEstimate_10990001_Iowa River nr Rowan.csv 0.0675675675675676
+toEstimate_10180001_Little Sioux River near Larrabee.csv 0.0308641975308642
+toEstimate_10970001_Little Sioux River near Smithland.csv 0.0185185185185185
+toEstimate_10670002_Maple River near Mapleton.csv 0.0372670807453416
+toEstimate_10490002_Maquoketa River at Maquoketa.csv 0.099290780141844
+toEstimate_10910001_Middle River near Indianola.csv 0.0736196319018405
+toEstimate_10490001_North Fork Maquoketa River near Hurstville.csv 0.0459770114942529
+toEstimate_10370001_North Raccoon River near Jefferson.csv 0.0581395348837209
+toEstimate_10910002_North River near Norwalk.csv 0.04
+toEstimate_10540001_North Skunk River.csv 0.0613496932515337
+toEstimate_10520001_Old Mans Creek nr Iowa City.csv 0.033112582781457
+toEstimate_10840001_Rock River near Hawarden.csv 0.0432098765432099
+toEstimate_10120001_Shell Rock River at Shell Rock.csv 0.0552147239263804
+toEstimate_10430002_Soldier River near Pisgah.csv 0.0459770114942529
+toEstimate_10250001_South Raccoon River near Redfield.csv 0.0987654320987654
+toEstimate_10910003_South River near Ackworth.csv 0.134969325153374, significant res acf at lag 5
+toEstimate_10620001_South Skunk River near Oskaloosa.csv 0.0184049079754601
+toEstimat_10270001_Thompson Fork - Grand River at Davis City.csv 0.098159509202454, one outlier
+toEstimate_10220001_Turkey River near Garber.csv 0.117283950617284, : one sign. res acf at lag 4
+toEstimate_10030001_Upper Iowa River near Dorchester.csv 0.155172413793103 one sig. res acf at lag 11
+toEstimate_10220002_Volga River near Elkport.csv 0.117283950617284 : sign res acf at lag 4
+toEstimate_10820001_Wapsipinicon River at De Witt.csv 0.0432098765432099
+toEstimate_10530001_Wapsipinicon River near Olin.csv 0.116279069767442 : data only until 2006,
+toEstimate_10070003_West Fork Cedar River at Finchford.csv 0.126436781609195: 3 outliers
+toEstimate_10460001_West Fork Des Moines River near Humboldt.csv 0.0308641975308642
+toEstimate_10970002_West Fork Ditch at Hornick.csv 0.0214285714285714
+toEstimate_10650001_West Nishnabotna River near Malvern.csv 0.037037037037037
+toEstimate_10730001_West Nodaway River near Shambaugh.csv 0.0246913580246914
+toEstimate_10630003_Whitebreast Creek near Dallas.csv 0
+toEstimate_10630001_Whitebreast Creek near Knoxville.csv 0.1, OK but data are until 2010, total 120 obs. 
+toEstimate_10070002_Wolf Creek at La Porte City.csv 0.0845070422535211
+
+\begin{table}
+	\centering
+	\resizebox{40em}{!}{
+	\begin{tabular}{ccccc}
+		$\beta_0$ & $\beta_1$ & Outlier & $\psi$ & $\sigma$\\
+		\pbox{4cm}{
+		-7.66 (-9.09, -6.23)\\
+		-7.69 (-9.14, -6.20)\\
+		-5.52 (-6.78, -4.16)\\
+		-5.70 (-7.64, -3.79)
+		}
+		&
+		\pbox{4cm}{
+		0.937 (0.690, 1.17)\\
+		0.850 (0.627, 1.06) \\
+		0.541 (0.322, 0.746)\\
+		0.501 (0.185, 0.844)
+		}
+    &
+		\pbox{4cm}{
+		85: 2.81 (1.71, 3.94)\\
+		70: 2.81 (1.81, 3.78)
+		}
+		&
+		\pbox{4cm}{
+		0.268 (0.062,0.406)
+		} &
+		0.544 (0.460, 0.587)
+	\end{tabular}
+	}
+	\caption{Estimated parameters: each parameter are followed by a $95\%$ confidence interval. For
+	outliers, the time at which an outlier is identified precedes the estimate of its coefficient by a
+	 colon.}
+	\label{tab:prmtr}
+\end{table}
+
+
+In the first series of simulation studies, 
+there are two covariates, 
+the order of $AR$ model is 1, 
+and $\sigma_{\varepsilon}=0.3$.
+The results presented in Table~\ref{tab:sim_11}, \ref{tab:sim_12}, and \ref{tab:sim_13} correspond approximately $4\%$, $20\%$, $40\%$ censoring ratio.
+
+
+
+\begin{landscape}
+\begin{table}
+\centering
+\begin{tabular}{ccllll}
+Sample size          & Method & $\rho$                  & $\sigma_\epsilon$          & $\psi_1$                 &$\psi_2$ \\ % & \multicolumn{2}{l}{$\psi$} \\
+\hline
+&         & 0.5                      & 0.3                      & 0.3                      &-0.2\\
+\hline
+\multirow{2}{*}{100} & EM      & 0.4919 [0.0916] (95.1\%) & 0.2947 [0.0218] (88.6\%) & 0.2996 [0.0276] (94.3\%) & -0.2021 [0.0281] (94.5\%) \\
+& Naive   & 0.4839 [0.0913]          & 0.2884 [0.0206]          & 0.2887 [0.0262]          & -0.1950 [0.0271] \\
+\hline
+\multirow{2}{*}{200} & EM      & 0.4989 [0.0616] (95.4\%) & 0.2978 [0.0157] (91.2\%) & 0.3003 [0.0198] (94.0\%) & -0.1992 [0.0190] (95.2\%) \\
+& Naive   & 0.4903 [0.0613]          & 0.2915 [0.0148]          & 0.2895 [0.0189]          & -0.1922 [0.0185] \\
+\hline
+\multirow{2}{*}{500} & EM      & 0.4978 [0.0393] (94.5\%) & 0.2991 [0.0097] (92.9\%) & 0.3002 [0.0125] (94.5\%) & -0.1999 [0.0123] (94.4\%) \\
+& Naive   & 0.4889 [0.0391]          & 0.2929 [0.0092]          & 0.2893 [0.0120]          & -0.1926 [0.0119] \\
+\hline
+\multirow{2}{*}{1000}& EM      & 0.5012 [0.0283] (95.1\%) & 0.2995 [0.0065] (93.7\%) & 0.2996 [0.0086] (95.3\%) & -0.2001 [0.0082] (95.2\%) \\
+& Naive   & 0.4924 [0.0282]          & 0.2933 [0.0062]          & 0.2888 [0.0083]          & -0.1929 [0.0080] \\
+\hline
+\end{tabular}
+\caption{Simulation study (censor rate $\approx 4\%$): The true parameter values are immediately below the column labels. For each sample size, the external variables are generated from independent standard normal distribution, the censor limit is set to be -0.9, corresponding to a censor rate of approximately 4\%. 1000 replications are generated be calculate the mean, sample stand deviation (in square bracket), and coverage rate (in round brackets), if available, for each parameter.  }
+\label{tab:sim_11}
+\end{table}
+
+\end{landscape}
+
+\begin{landscape}
+\begin{table}
+\centering
+\begin{tabular}{ccllll}
+Sample size          & Method & $\rho$                  & $\sigma_\epsilon$          & $\psi_1$                 &$\psi_2$ \\ % & \multicolumn{2}{l}{$\psi$} \\
+\hline
+&        & 0.5                     & 0.3                & 0.3         &-0.2\\
+\hline
+\multirow{2}{*}{100} & EM      & 0.4930 [0.0997] (95.2\%) & 0.2935 [0.0246] (87.6\%) & 0.2992 [0.0308] (94.1\%) & -0.2018 [0.0306] (94.9\%) \\
+& Naive   & 0.4410 [0.1043]          & 0.2647 [0.0211]          & 0.2359 [0.0281]          & -0.1592 [0.0269] \\
+\hline
+\multirow{2}{*}{200} & EM      & 0.4991 [0.0666] (95.2\%) & 0.2972 [0.0181] (90.3\%) & 0.3000 [0.0226] (93.5\%) & -0.1993 [0.0213] (94.4\%) \\
+& Naive   & 0.4465 [0.0703]          & 0.2686 [0.0153]          & 0.2364 [0.0203]          & -0.1577 [0.0186] \\
+\hline
+\multirow{2}{*}{500} & EM      & 0.4979 [0.0424] (93.7\%) & 0.2989 [0.0110] (92.6\%) & 0.3001 [0.0141] (93.6\%) & -0.1997 [0.0137] (94.1\%) \\
+& Naive   & 0.4480 [0.0443]          & 0.2702 [0.0093]          & 0.2363 [0.0127]          & -0.1574 [0.0120] \\
+\hline
+\multirow{2}{*}{1000}& EM      & 0.5012 [0.0303] (94.5\%) & 0.2994 [0.0076] (94.6\%) & 0.2994 [0.0100] (94.9\%) & -0.2002 [0.0090] (95.2\%) \\
+& Naive   & 0.4510 [0.0324]          & 0.2706 [0.0065]          & 0.2361 [0.0092]          & -0.1578 [0.0081] \\
+\hline
+\end{tabular}
+\caption{Simulation study (censor rate $\approx21\%$): The true parameter values are immediately below the column labels. For each sample size, the external variables are generated from standard normal distribution, the censor limit is set to be -0.4, corresponding to a censor rate of approximately 21\%. 1000 replications are generated be calculate the mean, sample stand deviation (in square bracket), and coverage rate (in round brackets), if available, for each parameter.  }
+\label{tab:sim_12}
+\end{table}
+\end{landscape}
+
+\begin{landscape}
+\begin{table}
+\centering
+\begin{tabular}{ccllll}
+sample size          & method & $\rho$                  & $\sigma_\epsilon$          & $\psi_1$                 &$\psi_2$ \\ % & \multicolumn{2}{l}{$\psi$} \\
+\hline
+&        & 0.5                     & 0.3                & 0.3         &-0.2\\
+\hline
+\multirow{2}{*}{100} & EM      & 0.4899 [0.1163] (94.7\%) & 0.2903 [0.0293] (84.1\%) & 0.2988 [0.0376] (93.5\%) & -0.2018 [0.0365] (93.6\%) \\
+& Naive   & 0.5115 [0.1013]          & 0.2426 [0.0240]          & 0.1731 [0.0293]          & -0.1166 [0.0270] \\
+\hline
+\multirow{2}{*}{200} & EM      & 0.4957 [0.0768] (94.6\%) & 0.2964 [0.0212] (90.5\%) & 0.2997 [0.0269] (93.5\%) & -0.1998 [0.0245] (94.7\%) \\
+& Naive   & 0.5159 [0.0678]          & 0.2468 [0.0169]          & 0.1734 [0.0215]          & -0.1162 [0.0185] \\
+\hline
+\multirow{2}{*}{500} & EM      & 0.4983 [0.0465] (94.3\%) & 0.2985 [0.0131] (91.5\%) & 0.3000 [0.0169] (95.1\%) & -0.1996 [0.0157] (94.4\%) \\
+& Naive   & 0.5197 [0.0424]          & 0.2487 [0.0104]          & 0.1734 [0.0134]          & -0.1156 [0.0119] \\
+\hline
+\multirow{2}{*}{1000}& EM      & 0.5007 [0.0337] (95.2\%) & 0.2993 [0.0092] (94.6\%) & 0.2994 [0.0122] (94.0\%) & -0.2002 [0.0105] (95.1\%) \\
+& Naive   & 0.5221 [0.0305]          & 0.2491 [0.0075]          & 0.1734 [0.0097]          & -0.1160 [0.0082] \\
+\hline
+\end{tabular}
+\caption{Simulation study (censor rate $\approx40\%$): The true parameter values are immediately below the column labels. For each sample size, the external variables are generated from standard normal distribution, the censor limit is set to be -0.1, corresponding to a censor rate of approximately 40\%. 1000 replications are generated be calculate the mean, sample stand deviation (in square bracket), and coverage rate (in round brackets), if available, for each parameter.  }
+\label{tab:sim_13}
+\end{table}
+
+\end{landscape}
+
+\begin{proof}
+First note that the score function has the following form,
+\begin{align*}
+S(y_t^*|\F_t^*,\theta)
+=\frac{1}{\sigma^2}
+\left[\begin{array}{c}
+\varepsilon_t(x_t - \sum_{j=1}^p \psi_j x_{t-j})\\
+%\varepsilon_t(y_{t-1:t-p}^* - x_{t-1:t-p}\trans\beta)\\
+\varepsilon_t\eta_{t-1:t-p}\\
+\frac{1}{2}\left(1 - \frac{\varepsilon_t^2}{\sigma^2} \right)
+\end{array} \right]
+\end{align*}
+where $\eta_t = y_{t}^* - x_t\trans \beta$ and $\varepsilon_t = (1-\Phi(B))\eta_t$. %$\varepsilon_t $ is calculated from Eq~\eqref{arEqn2}.
+
+Expanding each term in the score function, it can be seen that each element in the vector $Z_t(\theta)$ can be written as linear combination of conditional expectations 
+$\E_\theta\left[ (y_{t-i}^*)^j|\G_t \right]x_{t-l}^m$,
+where $i,l=0,\dots,p$, $j,m=0,1,2$, and $j+m\le 2$.
+
+(Proof of existence of envelope function) Since we are consider a neighborhood of the true parameter $\theta_0$, it can be seen that 
+
+Let $\eta_t^* = y_{t}^* - x_t\trans \beta$, then it can be seen that for each element of the vector 
+$\E_\theta\left[ S(y_t^*|\F_t^*,\theta)|\G_t \right]$, it is a function of linear combination of the form
+$\E_\theta\left[ (\eta_{t-i}^*)^j|\G_t \right] x_{t-l}^{m}$, where $j\ge 0$, $m\ge 0$, and $ j+m \le2$,
+$i,l=1,\dots,p$. 
+
+By H\"older's inequality, it suffices to prove that $\E_\theta\left[ (\eta_{t-i}^*)^j|\G_t \right]$ is bounded by an
+envelope function which has finite $2q$ moment. Consider only right censoring case with
+censor limit being $c$.
+
+Since if $y_{t-i}$ is not censored, the conditional expectation will be just $y_{t-i}-x_{t-i}\trans \beta$,
+without loss of generality, we may consider only the case 
+$\E_{\theta}\left[ \eta_t^*|\G_t \right]$ 
+where $y_t,\dots,y_{t-i}$ is censored, but
+$y_{t-i-1},\dots,y_{t-p}$ is not censored for some $i\in\{1,\dots,p\}$.
+
+Let $I = \{t:t-i\}$, $J=\{t-i-1:t-p\}$.
+%then $y_I^*|y_J^*$ follows a multivariate normal distribution with mean $M(\theta)y_J^*$ and covariance matrix $\Sigma(\theta)$, 
+%and $y_I^*|y_I,y_J$ is a truncated multivariate-normal random vector. 
+%Furthermore, 
+Then $\eta_I^*|\G_t$ has the same distribution as 
+the multivariate normal $N(M(\theta)\eta_J^*,\Sigma(\theta))$ with truncation limit $c_I - x_I\trans\beta$ with some matrices $M(\theta)=M(\psi,\sigma)$ and $\Sigma(\theta)=\Sigma(\psi,\sigma)$.
+Note that $\eta_J^* = \eta_J = y_J - x_J \beta$.
+Then $\eta_I^* - M(\theta)\eta_J^*| \G_t$ has the same distribution as a truncated multivariate normal random vector $N(0,\Sigma(\theta))$ with truncation limit $c_I - x_I\beta - M(\theta)(y_J - x_J\beta)$. Without loss of generality, it can be assumed that $\Sigma(\theta)$ has unit diagonal elements. Let $d = |I|$.
+
+By \citet{Tallis1961}, for a multivariate standard normal random vector $X\in\R^d$ with mean zero and corrleation matrix $R=[\rho_{i,j}]$ with censor limit $a=(a_1,\dots,a_d)\trans$, let $X>a$ denote $X_i>a_i$ component-wisely, $\alpha = \pr(X > a)$, then the truncated mean and (co-)variance can be expressed as
+\begin{align*}
+  m_i(a) =& \E\left[ X_i |X>a\right] = \alpha^{-1} \sum_{q=1}^d\rho_{iq}\phi(a_q)\Phi_{d-1}(A_{qs};R_q),\\
+  v_{i,j}(a) =& \E\left[ X_i X_j |X>a\right] = \rho_{ij} + \alpha^{-1}\left( \sum_{q=1}^d\rho_{qi}\rho_{qj}a_q\phi(a_q)\Phi_{d-1}(A_{qs};R_q)\right.\\
+  &\left.+ \rho_{qi}\sum_{r \ne q}\phi(a_q,a_r;\rho_{qr})\Phi_{d-2}(A_{rs}^q;R_{qr})(\rho_{rj}-\rho_{qr}\rho_{qj})\right),
+\end{align*}
+where $\phi$ is the pdf of standard normal distribution, $\Phi_{d-1}(A_{qs};R_q) = \pr(Y_s>A_{qs},s=1\dots,d-1)$ with $Y\in\R^{d-1}$ multivariate standard normal random vector $Y$ with $Y_s>A_{qs}$ for $s=1,\dots,d-1$ and $R_q,R_{qr}$ are resepectively the matrices of first- and second-order partial correlation coefficients of $X_s$ for $s\ne q$, and for $s\ne q$, $s\ne r$. $A_{qs}=\frac{a_s-\rho_{sq}a_q}{\sqrt{1-\rho^2_{sq}}}$, $A_{rs}^q = \frac{a_s - \beta_{sq.r}a_q - \beta_{sr.q}a_r}{\sqrt{(1-\rho_{sq.r}^2)(1-\rho_{sr.q})^2}}$ with $\beta_{sq.r}$ the partial regression coefficients of $X_s$ on $X_q$ and $X_r$. For more details, see \citet{Tallis1961}.
+
+The above expressions show that the truncated mean and covariance are nonlinear function of the truncation limit, 
+we will show that they can be bounded by some polynomial function of the limit when the limits are large.
+
+It suffices to prove that the following assertion
+\begin{align}
+  &\alpha^{-1}\phi(a_q)\Phi_{d-1}(A_{qs};R_q)\label{e1} \\
+  &\alpha^{-1}\phi(a_q,a_r;\rho_{qr})\Phi_{d-2}(A_{rs}^{q};R_{qr})\label{e2} ;\forall r\ne q
+\end{align}
+for all $q=1,\dots, d$, can be bounded by some polynomial function of $a$ when at least one of its components goes to infinity. 
+
+The expressions are closely related to the asymtotic properties of $\alpha$, the tail properties of multivariate normal distribution.
+First consider the case when $d=1$. Then
+\begin{align*}
+  \eqref{e1} = \frac{\phi(a_1)}{\Phi(a_1)},
+\end{align*}
+the assertion is true as \citet[Page 17]{ItoMcKean1974} showed that for any $0<x\in\R$,
+\begin{align*}
+  x \le \frac{\phi(x)}{\Phi(x)} \le x + 1,
+\end{align*}
+while $x<0$, $\Phi(x)> 1/2$, which implies that $\frac{\phi(x)}{\Phi(x)}$ is bounded.
+
+
+Let us study the case when $d=2$ in detail. 
+
+Let $R = [1,\rho;\rho,1]$. By symmetry in $q$, we just need to consider the case when $q=2$,
+\begin{align}
+  \eqref{e1} &= \phi(a_2) \Phi(\frac{a_1 - \rho a_2}{\sqrt{1-\rho^2}})/\Phi(a;R)
+  \label{e1b}\\
+  \eqref{e2} &= \phi(a;R)/\Phi(a;R)\label{e2b}
+\end{align}
+
+We will first show that Eq~\eqref{e1b} is either asymptotically bounded or proportional to $a_2$ if at least one of $a_1$, $a_2$ goes to infinity.
+
+We will consider the case that one of $a_1$, $a_2$ goes to infinity, then consider the case when $a_1/a_2$ is constant and they goes to infinity together.
+
+Let us first consider the case that only one of $a_1$ and $a_2$ goes to infinity. It can be split into the following four cases.
+\begin{itemize}
+  \item[Case 1]  
+    $\rho>0$, $a_1$ is fixed, $a_2\to\infty$. Then $\Phi(\frac{a_1-\rho a_2}{\sqrt{1-\rho^2}})\to 1$.
+    $\alpha = \pr(X\ge a) = \pr(X\ge a_2 (0,1)\trans + (a_1,0)\trans)$. 
+    By Theorem 3.4 of \citet{Hashorva2005}, the index I and J are $\left\{ 2 \right\}$ and $\left\{ 1 \right\}$ respectively. And $b = (0,1)\trans$, $c=(a_1,0)\trans$. Then $b_J^* = \rho>0=b_J$, $b_{J,\infty}=-\infty$, $b_I^* = b_I=1$. We have $\alpha = (1+o(1))\phi(a_2)/ a_2$. Then $Eq~\eqref{e1b} = (1+o(1))a_2$.
+
+  \item [Case 2]
+    $\rho>0$, $a_2$ is fixed, $a_1\to\infty$. Then by similar argument, it can be proved that $\alpha = (1+o(1))\phi(a_1)/a_1$. Note also $\Phi(\frac{a_1-\rho a_2}{\sqrt{1-\rho^2}}) = (1+o(1))\phi(\frac{a_1-\rho a_2}{\sqrt{1-\rho^2}})/\frac{a_1-\rho a_2}{\sqrt{1-\rho^2}}$. Then $Eq~\eqref{e1b}\propto (1+o(1))\phi(\frac{a_1-\rho a_2}{\sqrt{1-\rho^2}})/\phi(a_1))$, which is a bounded function of $a_1$ as $a_1\to\infty$.
+
+  \item [Case 3] 
+    $\rho<0$, $a_1$ is fixed, $a_2\to\infty$. Then $\Phi(\frac{a_1-\rho a_2}{\sqrt{1-\rho^2}})\to 0$ 
+    and $\Phi(\frac{a_1-\rho a_2}{\sqrt{1-\rho^2}}) = (1+o(1))\phi(\frac{a_1-\rho a_2}{\sqrt{1-\rho^2}})/\frac{a_1-\rho a_2}{\sqrt{1-\rho^2}}$. By the same theorem of \citet{Hashorva2005}, we have $\alpha \propto (1+o(1))\phi(a_1,a_2;R)/a_2^2$. Then it can be seen that $Eq~\eqref{e1b}\propto (1+o(1))a_2 $.
+
+  \item [Case 4]
+    $\rho<0$, $a_2$ is fixed, $a_1\to\infty$. This situation is similar to Case 3 and it can be seen that $\Phi(\frac{a_1 - \rho a_2}{\sqrt{1-\rho^2}}) = (1+o(1))\phi(\frac{a_1 - \rho a_2}{\sqrt{1-\rho^2}})/\frac{a_1 - \rho a_2}{\sqrt{1-\rho^2}}$ and $\alpha = (1+o(1))\phi(a;R)/a_1^2$,  thus $Eq~\eqref{e1b}\propto (1+o(1))a_1$.
+\end{itemize}
+
+
+For the case where both $a_1$ and $a_2$ are very large, we consider the case when they goes to infinity together with $a_1/a_2$ being a constant.
+
+By Example 3 of \citet{Hashorva2005}, let $r = a_1/a_2 \le 1$, it holds that for as $a_2\to\infty$,
+\begin{align*}
+  \alpha \propto (1+o(1))\left\{  
+  \begin{array}{ll}
+    \phi(a_1,a_2;R)/\prod_i<e_i,R^{-1}a> &, r>\rho\\
+    \phi(a_2)/(a_2\left( 1+1_{r=\rho} \right))  &, r\le \rho
+  \end{array}
+  \right.
+\end{align*}
+and 
+
+\begin{align*}
+  \Phi(\frac{a_1 - \rho a_2}{\sqrt{1-\rho^2}}) \propto (1+o(1))\left\{
+  \begin{array}{ll}
+    \phi(\frac{a_1-\rho a_2}{\sqrt{1-\rho^2}})/ \frac{a_1-\rho a_2}{\sqrt{1-\rho^2}}&,r>\rho\\
+    1/(1+1_{ r=\rho}) &,r\le \rho
+  \end{array}
+  \right.
+\end{align*}
+
+The above two expression implies that $Eq~\eqref{e1b}$ is asymptotically proportional to $a_2$ for given $r \in (0, 1] $ and $\rho$. By the continuity in $r$, it can be seen that Eq~\eqref{e1b} is bounded uniformly by $\|a\|$ up to some constant asymptotically as $\|a\|\to\infty$ for all $r_0 \le a_1/a_2 \le 1$ for any $r_0>0$.
+%The above two expression implies that $Eq~\eqref{e1b}$ bounded if $r>\rho$ and asymptotically proportional to $a_2$ otherwise.
+
+As to Eq~\eqref{e2b}, note that $\phi(a;R) = \phi(a_2)\phi(\frac{a_1-\rho a_2}{\sqrt{1-\rho^2}})$, it can be seen to be bounded by $\max\{a_1^2,a_2^2\}$ when at least one of $a_1$ and $a_2$ goes to infinity, by argument similar to that of Eq~\eqref{e1b}.
+
+%Since the parameter space is restricted to a neighbourhood $\Theta$ of the true parameters, the envelope function can be chosen to be the supremum of $\sup_{\theta\in\Theta}\E_{\theta}\left[ S(y_t^*|\F_t^*,\theta)|\G_t \right]$, 
+The above arguments show that for AR(1) model with normal $\varepsilon_t$ and $x_t \in L_{2q}$, the envelope function is also $L_{2q}$.
+
+*************
+
+We want to find a uniform asymptotic value for the conditional mean/variance when the any component of censor limit vector goes to infinity.
+
+Consider
+\begin{align*}
+  \alpha = \Phi(a_1,a_2;R)
+\end{align*}
+
+Let $\rho\in(-1,1)$, $r\in(0,1]$ be fixed constants, for all $t>0$,
+
+let $l(t) = \phi(t)/t$,
+\begin{align*}
+  &\pr(X>rt, Y>t)\\
+  =& \int_{y>0} \pr(X>rt|Y=y) \phi_Y(y)dy\\
+  &\textrm{ let } y = t + s/t\\
+  =& t^{-1}\int_{s>0} \pr(X>rt| Y = t+s/t)\phi_Y(t+s/t) d s\\
+  =& t^{-1}\int_{s>0} \pr( (X>rt-\rho(t+s/t))/\sqrt{1-\rho^2}) \phi_Y(t+s/t)ds\\
+  =& t^{-1}\int_{s>0} \pr( (X>(r-\rho)t-\rho s/t))/\sqrt{1-\rho^2}) \phi_Y(t+s/t)ds
+\end{align*}
+
+When $r>\rho$, the savage condition that $\Delta = \Sigma^{-1} (r,1)\trans>0$ holds, i.e.,
+
+\begin{align*}
+  \Delta:=\frac{1}{1-\rho^2}
+  \left[\begin{array}{cc}
+    1 & -\rho\\
+    -\rho & 1
+  \end{array}
+  \right]
+  \left[
+  \begin{array}{c}
+  r\\
+  1\end{array}\right]
+  =
+  \frac{1}{1-\rho^2}
+\left[\begin{array}{c}
+  r-\rho\\
+  1-r\rho 
+\end{array}\right]
+>0
+\end{align*}
+
+\begin{align*}
+  (1- t^{-2}(1/\Delta )\trans \Sigma^{-1}(1/\Delta) ) < \frac{\alpha}{\phi(rt,t;R)/ (\Delta_1\Delta_2 t^2)}  \le 1
+\end{align*}
+together with
+\begin{align*}
+  \Phi(\frac{a_1-\rho a_2}{\sqrt{1-\rho^2}})\le \phi(\frac{a_1-\rho a_2}{\sqrt{1-\rho^2}})/(\frac{a_1-\rho a_2}{\sqrt{1-\rho^2}})
+\end{align*}
+we have
+\begin{align*}
+  \eqref{e1b}\le \frac{(1-\rho^2)^{-3/2}(a_2 - a_1\rho)}{1- t^{-2}(1/\Delta )\trans \Sigma^{-1}(1/\Delta) }
+\end{align*}
+
+Note that $r>\rho$, but $r$ can be very close to $\rho$, which means $\Delta_1^{-1}$ can be very large, thus $(1/\Delta )\trans \Sigma^{-1}(1/\Delta)$ can be very large . However, if $r>\rho + \varepsilon$, then this problem can be solved and we can have a uniform bound for $(a_1,a_2)$ such that $a_1/a_2>\rho+\varepsilon$. 
+
+Furthermore, we have
+\begin{align*}
+  \eqref{e1b} = (1+o(1)) \frac{a_2 - \rho a_1}{(1-\rho^2)^{3/2}}, a_1\to\infty, a_2/a_1 = r >\rho 
+\end{align*}
+
+If $r\le\rho$, we have
+\begin{align*}
+  &\frac{\pr(X>rt, Y>t)}{l(t)}\\
+  =& \int_{s>0} \pr( (X>(r-\rho)t-\rho s/t))/\sqrt{1-\rho^2}) \phi(t+s/t)/\phi(t)ds\\
+  =& \int_{s>0} \pr( (X>(r-\rho)t-\rho s/t))/\sqrt{1-\rho^2}) \exp(-\frac{s^2}{2t^2})\exp(-s) ds\\
+  \to &1/(1+1_{r=\rho}) \textrm{, as } t\to\infty, \forall r\le\rho
+\end{align*}
+So
+\begin{align*}
+  \eqref{e1b}=(1+o(1)) a_2 
+\end{align*}
+
+
+%Furthermore, the above function is decreasing in $r$,
+
+Since we assume $r\le 1$, we also need to consider the case
+$\pr(Y>rt,X>t)$, but $\pr(Y>rt,X>t) = \pr(X>rt,Y>t)$ by symmetry.
+
+
+For the case
+\begin{align*}
+  \pr(X>-rt,Y>t), a>0
+\end{align*}
+
+we have
+\begin{align*}
+  (E)=&\frac{\pr(X>-at,Y>t)}{l(t)}\\
+  =& \int_{s>0} \pr( (X>-(a+\rho)t-\rho s/t))/\sqrt{1-\rho^2}) \exp(-\frac{s^2}{2t^2})\exp(-s) ds\\
+\end{align*}
+\begin{itemize}
+  \item if $a>-\rho$,  $(E)\to 1$,
+  \item if $a=-\rho$, $(E)\to 1/2$.
+  \item if $a<-\rho$, savage condition holds.
+\end{itemize}
+
+
+
+Similarly, if $a>-\rho$, the 
+
+
+
+
+Then for any $a<\rho$, as $t\to\infty$, the abo
+
+---------------end of proof------the following is drafts--------
+
+For general $d>2$, consider the case when $a$ with identical elements, such that $a = t(1,\dots,1)\trans$. By Theorem 3.4 of \citet{Hashorva2005},
+%If there is no regressor $x_t$, then $\E_{\theta}\left[ \eta_t^*|G_t \right] $ is a
+%continuous function of the parameters and censor limit, but does not depend on the
+%observations, which is non-random, thus, the envelope function condition is
+%automatically valid.
+
+
+%Note that $ \eta_{t-i}^*|\left\{ y_t^*,\F^*_t \right\}-\{y_{t-i}^*\}$ 
+Note that $ \eta_{t:t-p}^*|x_{t:t-i}$ follows multivariate normal distribution with
+mean zero. 
+is conditional normal. With censoring limit replaced by $c - x_t\trans \beta$, it is
+equivalent to find an envelope function for
+$W_1|W_1<c_1,\dots,W_i<c_i,W_{i+1},\dots,W_p$ where $W_i$ are multivariate normal with
+mean 0 and some covariance matrix depending only on $\sigma_\varepsilon$ and
+$\psi$, and $c_i = c - \x_t\trans \beta$ are censoring limits.
+
+From \citet{Tallis1961}, it can be seen that for a normal random variable $X\sim N(\mu,\sigma^2)$ with censor limit $b$, it holds that
+\begin{align*}
+\E\left[ X|X<b\right] &= \mu - \sigma \frac{\phi(\beta)}{\Phi(\beta)},\\
+\var\left(  X|X<b \right) &= \sigma^2\left( 1- \beta \frac{\phi(\beta)}{\Phi(\beta)} - \left(\frac{\phi(\beta)}{\Phi(\beta)}\right)^2\right),
+\end{align*}
+where $\beta = (b-\mu)/\sigma$, and $\phi$ and $\Phi$ are the PDF and CDF of standard normal distribution respectively.
+
+It is known from \citep[Page 17]{ItoMcKean1974} that for any $0<x\in\R$,
+\begin{align*}
+  \frac{\sqrt{x^2+2}+x}{2} \le \frac{\phi(x)}{\Phi(x)} \le \frac{\sqrt{x^2+4}+x}{2}\le x + 1.
+\end{align*}
+Then
+\begin{align*}
+|\E\left[ X|X<b\right]| &\le |\mu| + \sigma (|\beta|+1),\\
+\var\left(  X|X<b \right) &\le \sigma^2\left( 2 + 3|\beta| + 2|\beta|^2\right),
+\end{align*}
+
+Then
+\begin{align*}
+|\E_\theta\left[ (y_{t-i}^*)^j|\G_t \right] | \le |\E_{\theta}\left[ \E_{\theta}\left[(y_{t-i}^*)^j|{y_{t-k},k=0,\dots,p,k\ne i,x_{t:t-p}}\right] |\G_t \right] |
+\end{align*}
+
+
+\end{proof}
+
+\newpage
+
+
+
+
+

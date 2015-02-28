@@ -1,0 +1,1180 @@
+#LyX file created by tex2lyx 2.1
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+
+
+%\usepackage[latin1]{inputenc}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{makeidx}
+\usepackage{mathrsfs}
+\usepackage{ucs}
+% use one of bsmi(trad Chinese), gbsn(simp Chinese), min(Japanese), mj(Korean); see:
+% /usr/share/texmf-dist/tex/latex/cjk/texinput/UTF8/*.fd
+\newcommand{\cntext}[1]{\begin{CJK}{UTF8}{bkai}#1\end{CJK}}
+%\newcommand{\cntext}[1]{\begin{CJK}{UTF8}{bsmi}#1\end{CJK}}
+%\newcommand{\cntext}[1]{\begin{CJK}{Bg5}{kai}#1\end{CJK}}
+
+\usepackage{pdflscape}
+\usepackage{color}
+%\usepackage{times}
+%\usepackage[cmbold]{mathtime}
+\usepackage{amsthm}\usepackage{amsfonts}
+%\usepackage{pbox}
+\usepackage{tabularx}
+\usepackage{makeidx}
+\usepackage{multirow}
+\usepackage{lscape}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{graphicx}
+%\usepackage{times}
+%\usepackage[cmbold]{mathtime}
+\usepackage{amsthm}\usepackage{amsfonts}
+\usepackage{makeidx}
+\usepackage{multirow}
+\usepackage{lscape}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{lineno}
+\usepackage{enumitem}
+\setenumerate[1]{label={(\arabic*)}}
+
+\newenvironment{steps}[1]{\begin{enumerate}[label=#1 \arabic*]}{\end{enumerate}}
+% http://tex.stackexchange.com/questions/29517/forcing-new-line-after-item-number-in-enumerate-environment/29518#29518
+\def\step{%
+   \@ifnextchar[ \@step{\@noitemargtrue\@step[\@itemlabel]}}
+\def\@step[#1]{\item[#1]\mbox{}\\\hspace*{\dimexpr-\labelwidth-\labelsep}}
+
+
+
+\newcommand{\rmnum}[1]{\romannumeral #1}
+\newcommand{\Rmnum}[1]{\expandafter\@slowromancap\romannumeral #1@}
+
+
+\newcommand{\E}{\mathop{\mathbb{E}}}
+\newcommand{\R}{\mathop{\mathbb{R}}}
+\newcommand{\pr}{\mathop{\mathrm{P}}}
+\newcommand{\pn}{\mathop{\mathbb{P}_n}}
+\newcommand{\gn}{\mathop{\mathbb{G}_n}}
+%\newcommand{\pr}{\textrm{pr}}
+\newcommand{\la}{\lambda}
+
+\def\ \iid {\stackrel{\mathrm{iid}}{\sim}}
+\def\ \logit {\mbox{logit}}
+
+\def\ \mean{\mbox{mean}}
+\def\ \median{\mbox{median}}
+\def\ \var{\mbox{var}}
+\def\ \cov{\mbox{cov}}
+\def\ \corr{\mbox{corr}}
+\def\ \trans{^\intercal}
+
+\def\ \inprob {\stackrel{P}{\longrightarrow}}
+\def\ \asconv {\stackrel{a.s.}{\longrightarrow}}
+\def\ \indist {\stackrel{\mathcal{L}}{\longrightarrow}}
+\def\ \sumn {\displaystyle\sum_{t=1}^n}
+\def\ \dotwt {\dot{W_t}}
+\def\ \minim {\displaystyle\min}
+\def\ \maxum {\displaystyle\max}
+\def\ \limit {\displaystyle\lim}
+\def\ \sumi {\displaystyle\sum_{i=0}^{\infty}}
+\def\ \lamow {\lambda_0,\lambda_1}
+\def\ \suminf {\displaystyle\sum_{n=0}^{\infty}}
+\def\ \sumk {\displaystyle\sum_{k=0}^{\infty}}
+\def\ \var{\mbox{var}}
+\def\ \tv{_{TV}}
+\def\ \E{\mbox{E}}
+\def\ \xx{\mathbf{x}}
+\def\ \yy{\mathbf{y}}
+\def\ \XX{\mathbf{X}}
+\def\ \argmin{\mbox{argmin}}
+\def\ \argmax{\mbox{argmax}}
+\def\ \Pois{\mbox{Pois}}
+\def\ \bfdelta{\boldsymbol{\delta}}
+\def\ \bflambda {\boldsymbol{\lambda}}
+
+\def\ \A {\mathcal{A}}
+\def\ \calA {\mathcal{A}}
+\def\ \B {\mathcal{B}}
+\def\ \C {\mathcal{C}}
+\def\ \G {\mathcal{G}}
+\def\ \J {\mathbf{J}}
+\def\ \Y {\mathbf{Y}}
+\def\ \U {\mathbf{U}}
+\def\ \I {\mathbf{I}}
+\def\ \u {\mathbf{u}}
+\def\ \U {\mathcal{U}}
+\def\ \P {\mathcal{P}}
+\def\ \S {\mathcal{S}}
+\def\ \T {\mathcal{T}}
+\def\ \x {\mathbf{x}}
+\def\ \z {\mathbf{z}}
+\def\ \y {\mathbf{y}}
+
+\def\ \F {\mathcal{F}}
+\def\ \mscrF {\mathscr{F}}
+
+
+\newtheorem{theorem}{}[section]
+\newtheorem{lemma}[theorem]{}\newtheorem{proposition}[theorem]{}\newtheorem{corollary}[theorem]{}\newtheorem{definition}[theorem]{}\newenvironment{remark}[1][Remark]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\newcommand{\independent}{\protect\mathpalette{\protect\independenT}{\perp}}
+
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+
+%\linenumbers
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\author{Wang Chao}
+\title{Research notes}
+
+
+\end_preamble
+\use_default_options false
+\maintain_unincluded_children false
+\language english
+\language_package none
+\inputencoding utf8x
+\fontencoding default
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 12
+\spacing single
+\use_hyperref true
+\pdf_bookmarks 0
+\pdf_bookmarksnumbered 0
+\pdf_bookmarksopen 0
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks 1
+\pdf_pdfborder 0
+\pdf_colorlinks 0
+\pdf_backref section
+\pdf_pdfusetitle 0
+\pdf_quoted_options "colorlinks,citecolor=blue,urlcolor=blue"
+\papersize a4paper
+\use_geometry false
+\use_package amsmath 2
+\use_package amssymb 2
+\use_package cancel 0
+\use_package esint 1
+\use_package mathdots 0
+\use_package mathtools 0
+\use_package mhchem 0
+\use_package stackrel 0
+\use_package stmaryrd 0
+\use_package undertilde 0
+\cite_engine natbib
+\cite_engine_type authoryear
+\biblio_style plainnat
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+maketitle
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Basic theory
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{definition}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "def:kernel"
+
+\end_inset
+
+ Given two measurable spaces 
+\begin_inset Formula $(S,\S)$
+\end_inset
+
+ and 
+\begin_inset Formula $(T,\T)$
+\end_inset
+
+, a mapping 
+\begin_inset Formula $\mu :S\times \T \to \R_+$
+\end_inset
+
+ is called a (probability) kernel from 
+\begin_inset Formula $S$
+\end_inset
+
+ to 
+\begin_inset Formula $T$
+\end_inset
+
+ if the function 
+\begin_inset Formula $\mu_s(B)=\mu(s,B)$
+\end_inset
+
+ is 
+\begin_inset Formula $\S-$
+\end_inset
+
+measurable in 
+\begin_inset Formula $s\in S$
+\end_inset
+
+ for fixed 
+\begin_inset Formula $B\in\T$
+\end_inset
+
+ and a (probability) measure in 
+\begin_inset Formula $B\in\T$
+\end_inset
+
+ for fixed 
+\begin_inset Formula $s\in S$
+\end_inset
+
+. 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{definition}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Any kernel 
+\begin_inset Formula $\mu$
+\end_inset
+
+ determines an associated operator that maps suitable functions 
+\begin_inset Formula $f:T\to\R$
+\end_inset
+
+ to their integrals 
+\begin_inset Formula $\mu f(s) = \int \mu(s,dt)f(t)$
+\end_inset
+
+. Kernels play an important role in probability theory where they appear in guises of random measures, conditional distributions, Markov transition functions, and potentials.
+\end_layout
+
+\begin_layout Standard
+The following characterizations of the kernel property are often useful. For simplicity we restrict our attention to probability kernels.
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{lemma}
+\end_layout
+
+\end_inset
+
+ Fix two measurable spaces 
+\begin_inset Formula $(S,\S)$
+\end_inset
+
+ and 
+\begin_inset Formula $(T,\T)$
+\end_inset
+
+, a 
+\begin_inset Formula $\pi$
+\end_inset
+
+-system 
+\begin_inset Formula $\C$
+\end_inset
+
+ with 
+\begin_inset Formula $\sigma(\C)=\T$
+\end_inset
+
+, and a family 
+\begin_inset Formula $\mu=\left\{ \mu_s;s\in S \right\}$
+\end_inset
+
+ of probability measures on 
+\begin_inset Formula $T$
+\end_inset
+
+. Then these conditions are equivalent. 
+\end_layout
+
+\begin_layout Enumerate
+
+\begin_inset Formula $\mu$
+\end_inset
+
+ is probability kernel from 
+\begin_inset Formula $S$
+\end_inset
+
+ to 
+\begin_inset Formula $T$
+\end_inset
+
+; 
+\end_layout
+
+\begin_layout Enumerate
+
+\begin_inset Formula $\mu$
+\end_inset
+
+ is a measurable mapping from 
+\begin_inset Formula $S$
+\end_inset
+
+ to 
+\begin_inset Formula $\mathcal{P}(T)$
+\end_inset
+
+; 
+\end_layout
+
+\begin_layout Enumerate
+
+\begin_inset Formula $s\mapsto \mu_s(B)$
+\end_inset
+
+ is a measurable mapping from 
+\begin_inset Formula $S$
+\end_inset
+
+ to 
+\begin_inset Formula $[0,1]$
+\end_inset
+
+ for every 
+\begin_inset Formula $B\in \C$
+\end_inset
+
+. 
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset CommandInset label
+LatexCommand label
+name "lem:kernel"
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{lemma}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{proof}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $(2) \to (3)$
+\end_inset
+
+: Note that 
+\begin_inset Formula $s\mapsto \mu_s(B) = s\mapsto \mu_s \mapsto \mu_s(B)$
+\end_inset
+
+ is a two-step mapping. The first part is measurable by (2), the second part is measurable as 
+\begin_inset Formula $\pi_B:\mu\mapsto \mu(B)$
+\end_inset
+
+ on 
+\begin_inset Formula $\P(T)$
+\end_inset
+
+ for every 
+\begin_inset Formula $B\in T$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset Formula $(3)\to(1)$
+\end_inset
+
+: by a 
+\begin_inset Formula $\lambda-$
+\end_inset
+
+system argument.
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset Formula $(1)\to(2)$
+\end_inset
+
+: let 
+\begin_inset Formula $\pi_B:\P(T)\to[0,1]$
+\end_inset
+
+ be defined as 
+\begin_inset Formula $\pi_B(\mu) = \mu(B)$
+\end_inset
+
+, then the 
+\begin_inset Formula $\sigma-$
+\end_inset
+
+algebra 
+\begin_inset Formula $\B(\P(T))=\sigma\left\{ \pi_B;B\in \T \right\}$
+\end_inset
+
+. To show 
+\begin_inset Formula $\mu$
+\end_inset
+
+ is 
+\begin_inset Formula $\S/\B(\P(T))-$
+\end_inset
+
+measurable, it is equivalent to show that 
+\begin_inset Formula $\pi_B\circ \mu$
+\end_inset
+
+ is 
+\begin_inset Formula $\S/\B([0,1])-$
+\end_inset
+
+measurable. Since 
+\begin_inset Formula $s\mapsto \pi_B\circ \mu(s)= \mu_s(B)$
+\end_inset
+
+ is measurable by the definition of probability kernel, 
+\begin_inset Formula $\pi_B\circ \mu$
+\end_inset
+
+ is 
+\begin_inset Formula $\S/\B([0,1])-$
+\end_inset
+
+measurable. 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{proof}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Let us now introduce a third measurable space 
+\begin_inset Formula $(U,\U)$
+\end_inset
+
+, and consider two kernels 
+\begin_inset Formula $\mu$
+\end_inset
+
+ and 
+\begin_inset Formula $\nu$
+\end_inset
+
+, one from 
+\begin_inset Formula $S$
+\end_inset
+
+ to 
+\begin_inset Formula $T$
+\end_inset
+
+ and the other from 
+\begin_inset Formula $S\times T$
+\end_inset
+
+ to 
+\begin_inset Formula $U$
+\end_inset
+
+. Imitating the construction of product measures, we may attempt to combine 
+\begin_inset Formula $\mu$
+\end_inset
+
+ and 
+\begin_inset Formula $\nu$
+\end_inset
+
+ into a kernel from 
+\begin_inset Formula $S$
+\end_inset
+
+ to 
+\begin_inset Formula $T\times U$
+\end_inset
+
+ given by 
+\begin_inset Formula \begin{align*}
+  (\mu\otimes \nu)(s,B) = \int \mu(s,dt) \int \nu(s,t, du) 1_B(t,u), B \in \T\otimes \U.
+\end{align*}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The following lemma justifies the formula and provides some further useful information. 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{lemma}
+\end_layout
+
+\end_inset
+
+ (kernels and functions) Fix three measurable spaces 
+\begin_inset Formula $(S,\S)$
+\end_inset
+
+, 
+\begin_inset Formula $(T,\T)$
+\end_inset
+
+, and 
+\begin_inset Formula $(U,\U)$
+\end_inset
+
+. Let 
+\begin_inset Formula $\mu$
+\end_inset
+
+ and 
+\begin_inset Formula $\nu$
+\end_inset
+
+ be probability kernels from 
+\begin_inset Formula $S$
+\end_inset
+
+ to 
+\begin_inset Formula $T$
+\end_inset
+
+ and 
+\begin_inset Formula $S\times T$
+\end_inset
+
+ to 
+\begin_inset Formula $U$
+\end_inset
+
+, respectively, and consider two measurable functions 
+\begin_inset Formula $f:S\times T\to \R_+$
+\end_inset
+
+ and 
+\begin_inset Formula $g:S\times T\to U$
+\end_inset
+
+. Then 
+\end_layout
+
+\begin_layout Enumerate
+
+\begin_inset Formula $\mu_sf(s,\cdot)$
+\end_inset
+
+ is a measurable function of 
+\begin_inset Formula $s\in S$
+\end_inset
+
+; 
+\end_layout
+
+\begin_layout Enumerate
+
+\begin_inset Formula $\mu_s \circ (g(s,\cdot))^{-1}$
+\end_inset
+
+ is a kernel from 
+\begin_inset Formula $S$
+\end_inset
+
+ to 
+\begin_inset Formula $U$
+\end_inset
+
+; 
+\end_layout
+
+\begin_layout Enumerate
+
+\begin_inset Formula $\mu\otimes \nu$
+\end_inset
+
+ is a kernel from 
+\begin_inset Formula $S$
+\end_inset
+
+ to 
+\begin_inset Formula $T\times U$
+\end_inset
+
+. 
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset CommandInset label
+LatexCommand label
+name "lem:kernel&function"
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{lemma}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{proof}
+\end_layout
+
+\end_inset
+
+ (1): It is true if 
+\begin_inset Formula $f $
+\end_inset
+
+ is the indicator function of a set 
+\begin_inset Formula $A=B\times C$
+\end_inset
+
+ with 
+\begin_inset Formula $B\in S$
+\end_inset
+
+ and 
+\begin_inset Formula $C\in T$
+\end_inset
+
+, i.e., 
+\begin_inset Formula $\mu_s 1_{B\times C}(s,t)= \mu_s(C) 1_B(s) $
+\end_inset
+
+. From here, we may extend to general 
+\begin_inset Formula $A\in \S\otimes\T$
+\end_inset
+
+ by a monotone class argument and then to arbitrary 
+\begin_inset Formula $f$
+\end_inset
+
+ by linearity and monotone convergence.
+\end_layout
+
+\begin_layout Standard
+(2): For given 
+\begin_inset Formula $U\in \U$
+\end_inset
+
+, 
+\begin_inset Formula $\mu_s\circ g(s,\cdot)^{-1}(U)= \int_T \mu_s(dt) 1\left\{ g(s,t)\in U \right\}$
+\end_inset
+
+. Let 
+\begin_inset Formula $f(s,t) = 1\left\{ t(s,t)\in U \right\}$
+\end_inset
+
+, then 
+\begin_inset Formula $f: S\times T\to \R_+$
+\end_inset
+
+ is measurable. Then 
+\begin_inset Formula $\mu_s\circ g(s,t)^{-1}(U) = \mu_s f(s,\cdot)$
+\end_inset
+
+ is measurable by 
+\begin_inset Formula $(1)$
+\end_inset
+
+. On the other hand, 
+\begin_inset Formula $\mu_s\circ g(s,\cdot)^{(-1)}$
+\end_inset
+
+ is a probability measure.
+\end_layout
+
+\begin_layout Standard
+(3): Firstly, it's easy to see that 
+\begin_inset Formula $\mu\otimes \nu(s,\cdot)$
+\end_inset
+
+ is a probability measure on 
+\begin_inset Formula $(T\times U)$
+\end_inset
+
+ for fixed 
+\begin_inset Formula $s\in S$
+\end_inset
+
+. For fixed 
+\begin_inset Formula $B\in \T\otimes \U$
+\end_inset
+
+, assume 
+\begin_inset Formula $B = A\times C$
+\end_inset
+
+ for 
+\begin_inset Formula $A\in \T$
+\end_inset
+
+ and 
+\begin_inset Formula $C\in \U$
+\end_inset
+
+, then 
+\begin_inset Formula \begin{align*}
+  &s\mapsto (\mu\otimes \nu)(s,A\times C)\\
+  = & \int \mu(s,dt) \int \nu(s,t,du) 1_{A\times C}(t,u) \\
+  = & \int \mu(s,dt) \int \nu(s,t,C) 1_{A}(t) \\
+  = & \int \mu(s,dt) \nu(s,t,C) 1_{A}(t),
+\end{align*}
+\end_inset
+
+where 
+\begin_inset Formula $\nu(s,t,C) 1_{A}(t) $
+\end_inset
+
+ is a measurable function from 
+\begin_inset Formula $S\times T$
+\end_inset
+
+ to 
+\begin_inset Formula $\R_+$
+\end_inset
+
+, by (1), 
+\begin_inset Formula $s\mapsto (\mu\otimes \nu)(s,A\times C)$
+\end_inset
+
+ is measurable, then by Lemma
+\begin_inset space ~
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lem:kernel"
+
+\end_inset
+
+(3), it is measurable for all 
+\begin_inset Formula $B \in \T\times \U$
+\end_inset
+
+. 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{proof}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For any measurable function 
+\begin_inset Formula $f\ge 0$
+\end_inset
+
+ on 
+\begin_inset Formula $T\times U$
+\end_inset
+
+, we get 
+\begin_inset Formula \begin{align*}
+  (\mu\otimes \nu)_s f  = \int \mu(s,dt) \int \nu(s,t,du)f(t,u), \forall s\in S,
+\end{align*}
+\end_inset
+
+or simply 
+\begin_inset Formula \begin{align*}
+  (\mu\otimes \nu)f = \mu(\nu f).
+\end{align*}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+By iteration we may combine any kernels 
+\begin_inset Formula $\mu_k$
+\end_inset
+
+ from 
+\begin_inset Formula $S_0\times \cdots \times S_{_k-1}$
+\end_inset
+
+ to 
+\begin_inset Formula $S_k$
+\end_inset
+
+, 
+\begin_inset Formula $k=1,\dots,n$
+\end_inset
+
+, into a kernel 
+\begin_inset Formula $\mu_1\otimes\cdots\otimes\mu_n$
+\end_inset
+
+ from 
+\begin_inset Formula $S_0$
+\end_inset
+
+ to 
+\begin_inset Formula $S_1\times\cdots S_n$
+\end_inset
+
+, given by 
+\begin_inset Formula \begin{align*}
+  (\mu_1\otimes\cdots\mu_n) f = \mu_1(\mu_2(\cdots \mu_n(f)\cdots))
+\end{align*}
+\end_inset
+
+for any measurable function 
+\begin_inset Formula $f\ge 0$
+\end_inset
+
+ on 
+\begin_inset Formula $S_1\times\cdots\times S_n$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+In applications we often encounter kernels 
+\begin_inset Formula $\mu_k$
+\end_inset
+
+ from 
+\begin_inset Formula $S_{k-1}$
+\end_inset
+
+ to 
+\begin_inset Formula $S_k$
+\end_inset
+
+, 
+\begin_inset Formula $k=1,\dots,n$
+\end_inset
+
+, in which case the composition 
+\begin_inset Formula $\mu_1\cdots \mu_n$
+\end_inset
+
+ is defined as a kernel from 
+\begin_inset Formula $S_0$
+\end_inset
+
+ to 
+\begin_inset Formula $S_n$
+\end_inset
+
+ for measurable 
+\begin_inset Formula $B\subset S_n$
+\end_inset
+
+ by 
+\begin_inset Formula \begin{align*}
+  (\mu_1\cdots \mu_n)_s B &= (\mu_1\otimes\cdots\otimes\mu_n)(S_1\times\cdots\times S_{n-1}\times B)\\
+  &= \int \mu_1(s,d s_1) \int \mu_2(s_1,ds_2)\cdots \int \mu_{n-1}(s_{n-2},ds_{n-1}) \mu_n(s_{n-1},B)
+\end{align*}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Fix a probability space 
+\begin_inset Formula $(\Omega,\A,P)$
+\end_inset
+
+ and an arbitrary sub-
+\begin_inset Formula $\sigma$
+\end_inset
+
+-field 
+\begin_inset Formula $\F\subset \A$
+\end_inset
+
+, in 
+\begin_inset Formula $L^2 = L^2(\A)$
+\end_inset
+
+, then 
+\begin_inset Formula $M=\left\{ \eta \in L^2; \eta = \tilde{\eta} \textrm{ a.s. for some } \tilde{\eta} \in L^2(\F) \right\}$
+\end_inset
+
+ is a closed subspace. The for all 
+\begin_inset Formula $\xi\in L^2$
+\end_inset
+
+, there exists a.s. unique 
+\begin_inset Formula $\eta \in M$
+\end_inset
+
+ s.t. 
+\begin_inset Formula $\xi - \eta \independent M $
+\end_inset
+
+. Define 
+\begin_inset Formula $\E^{\F}\xi  = \E\left[ \xi | \F \right]$
+\end_inset
+
+ as an arbitrary 
+\begin_inset Formula $\F$
+\end_inset
+
+-measurable version of 
+\begin_inset Formula $\eta$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{definition}
+\end_layout
+
+\end_inset
+
+ (conditional expectation, Kolmogorov) Fix a probability space 
+\begin_inset Formula $(\Omega,\A,P)$
+\end_inset
+
+, for any 
+\begin_inset Formula $\sigma-$
+\end_inset
+
+field 
+\begin_inset Formula $\F\in\A$
+\end_inset
+
+ there exists an a.s. unique linear operator 
+\begin_inset Formula $\E^{\F}: L_1\to L^1(\F)$
+\end_inset
+
+ s.t. 
+\end_layout
+
+\begin_layout Enumerate
+(averaging property) 
+\begin_inset Formula $\E\left[ \E^{\F}\xi; A \right] = \E\left[ \xi;A \right],\forall \xi\in L_1, A\in\F$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+The following additional properties hold whenever the corresponding expression exist for the absolute values:
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+(positivity) 
+\begin_inset Formula $\xi\ge 0 $
+\end_inset
+
+ implies 
+\begin_inset Formula $\E^{\F}\xi\ge 0$
+\end_inset
+
+ a.s.; 
+\end_layout
+
+\begin_layout Enumerate
+(
+\begin_inset Formula $L_1$
+\end_inset
+
+-contractivity) 
+\begin_inset Formula $\E|\E^{\F}\xi|\le \E|\xi|$
+\end_inset
+
+; 
+\end_layout
+
+\begin_layout Enumerate
+(monotone convergence) 
+\begin_inset Formula $0\le \xi_n \uparrow \xi$
+\end_inset
+
+ implies 
+\begin_inset Formula $\E^{\F}\xi_n \uparrow \E^{\F}\xi$
+\end_inset
+
+ a.s.; 
+\end_layout
+
+\begin_layout Enumerate
+(pull-out) 
+\begin_inset Formula $\E^{\F}\xi\eta = \xi \E^{\F}\eta$
+\end_inset
+
+ if 
+\begin_inset Formula $\xi$
+\end_inset
+
+ is 
+\begin_inset Formula $\F- $
+\end_inset
+
+measurable; 
+\end_layout
+
+\begin_layout Enumerate
+(self-adjoint) 
+\begin_inset Formula $\E\left[ \xi \E^{\F}\eta \right]=\E\left[ \eta \E^{\F}\xi \right]=\E\left[  \E^{\F}\eta \E^{\F}\xi \right]$
+\end_inset
+
+; 
+\end_layout
+
+\begin_layout Enumerate
+(chain rule) 
+\begin_inset Formula $\E^{\F}\E^{\G}\xi = \E^{\F}\xi$
+\end

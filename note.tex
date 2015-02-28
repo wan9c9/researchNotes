@@ -1,0 +1,641 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[utf8x]{inputenc}
+%\usepackage[latin1]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{makeidx}
+\usepackage{mathrsfs}
+%\usepackage[encapsulated]{CJK}
+\usepackage{ucs}
+\usepackage[utf8x]{inputenc}
+% use one of bsmi(trad Chinese), gbsn(simp Chinese), min(Japanese), mj(Korean); see:
+% /usr/share/texmf-dist/tex/latex/cjk/texinput/UTF8/*.fd
+\newcommand{\cntext}[1]{\begin{CJK}{UTF8}{bkai}#1\end{CJK}}
+%\newcommand{\cntext}[1]{\begin{CJK}{UTF8}{bsmi}#1\end{CJK}}
+%\newcommand{\cntext}[1]{\begin{CJK}{Bg5}{kai}#1\end{CJK}}
+
+\usepackage{pdflscape}
+\usepackage{color}
+%\usepackage{times}
+%\usepackage[cmbold]{mathtime}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[colorlinks,citecolor=blue,urlcolor=blue,breaklinks=true]{hyperref}
+\usepackage{amsfonts}
+%\usepackage{pbox}
+\usepackage{tabularx}
+\usepackage{makeidx}
+\usepackage{multirow}
+\usepackage{lscape}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{subfig}
+%\usepackage{times}
+%\usepackage[cmbold]{mathtime}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{amsfonts}
+\usepackage{makeidx}
+\usepackage{multirow}
+\usepackage{lscape}
+\usepackage{float}
+\usepackage{graphicx}
+%\usepackage{lineno}
+\usepackage[authoryear,round]{natbib}
+\usepackage{enumitem}
+\setenumerate[1]{label={(\arabic*)}}
+
+\newenvironment{steps}[1]{\begin{enumerate}[label=#1 \arabic*]}{\end{enumerate}}
+\makeatletter% http://tex.stackexchange.com/questions/29517/forcing-new-line-after-item-number-in-enumerate-environment/29518#29518
+\def\step{%
+   \@ifnextchar[ \@step{\@noitemargtrue\@step[\@itemlabel]}}
+\def\@step[#1]{\item[#1]\mbox{}\\\hspace*{\dimexpr-\labelwidth-\labelsep}}
+\makeatother
+
+\makeatletter
+\newcommand{\rmnum}[1]{\romannumeral #1}
+\newcommand{\Rmnum}[1]{\expandafter\@slowromancap\romannumeral #1@}
+\makeatother
+
+\newcommand{\E}{\mathop{\mathbb{E}}}
+\newcommand{\R}{\mathop{\mathbb{R}}}
+\newcommand{\pr}{\mathop{\mathrm{P}}}
+\newcommand{\pn}{\mathop{\mathbb{P}_n}}
+\newcommand{\gn}{\mathop{\mathbb{G}_n}}
+%\newcommand{\pr}{\textrm{pr}}
+\newcommand{\la}{\lambda}
+
+\def \iid {\stackrel{\mathrm{iid}}{\sim}}
+\def \logit {\mbox{logit}}
+
+\def \mean{\mbox{mean}}
+\def \median{\mbox{median}}
+\def \var{\mbox{var}}
+\def \cov{\mbox{cov}}
+\def \corr{\mbox{corr}}
+\def \trans{^\intercal}
+
+\def \inprob {\stackrel{P}{\longrightarrow}}
+\def \asconv {\stackrel{a.s.}{\longrightarrow}}
+\def \indist {\stackrel{\mathcal{L}}{\longrightarrow}}
+\def \sumn {\displaystyle\sum_{t=1}^n}
+\def \dotwt {\dot{W_t}}
+\def \minim {\displaystyle\min}
+\def \maxum {\displaystyle\max}
+\def \limit {\displaystyle\lim}
+\def \sumi {\displaystyle\sum_{i=0}^{\infty}}
+\def \lamow {\lambda_0,\lambda_1}
+\def \suminf {\displaystyle\sum_{n=0}^{\infty}}
+\def \sumk {\displaystyle\sum_{k=0}^{\infty}}
+\def \var{\mbox{var}}
+\def \tv{_{TV}}
+\def \E{\mbox{E}}
+\def \xx{\mathbf{x}}
+\def \yy{\mathbf{y}}
+\def \XX{\mathbf{X}}
+\def \argmin{\mbox{argmin}}
+\def \argmax{\mbox{argmax}}
+\def \Pois{\mbox{Pois}}
+\def \bfdelta{\boldsymbol{\delta}}
+\def \bflambda {\boldsymbol{\lambda}}
+
+\def \A {\mathcal{A}}
+\def \calA {\mathcal{A}}
+\def \B {\mathcal{B}}
+\def \C {\mathcal{C}}
+\def \G {\mathcal{G}}
+\def \J {\mathbf{J}}
+\def \L {\mathcal{L}}
+\def \Y {\mathbf{Y}}
+\def \U {\mathbf{U}}
+\def \I {\mathbf{I}}
+\def \u {\mathbf{u}}
+\def \U {\mathcal{U}}
+\def \P {\mathcal{P}}
+\def \S {\mathcal{S}}
+\def \T {\mathcal{T}}
+\def \Q {\mathcal{Q}}
+\def \x {\mathbf{x}}
+\def \z {\mathbf{z}}
+\def \y {\mathbf{y}}
+
+\def \F {\mathcal{F}}
+\def \mscrF {\mathscr{F}}
+
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newenvironment{remark}[1][Remark]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+
+%\linenumbers
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\author{Wang Chao}
+\title{Research notes}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Basic theory}
+
+\begin{definition}
+  \label{def:kernel}
+  Given two measurable spaces $(S,\S)$ and $(T,\T)$, a mapping $\mu :S\times \T \to \R_+$ is called a (probability) kernel from $S$ to $T$ if the function $\mu_s(B)=\mu(s,B)$ is $\S-$measurable in $s\in S$ for fixed $B\in\T$ and a (probability) measure in $B\in\T$ for fixed $s\in S$.
+\end{definition}
+
+Any kernel $\mu$ determines an associated operator that maps suitable functions $f:T\to\R$ to their integrals $\mu f(s) = \int \mu(s,dt)f(t)$. 
+Kernels play an important role in probability theory where they appear in guises of random measures, conditional distributions, Markov transition functions, and potentials.
+
+The following characterizations of the kernel property are often useful. For simplicity we restrict our attention to probability kernels.
+
+\begin{lemma}
+  Fix two measurable spaces $(S,\S)$ and $(T,\T)$, a $\pi$-system $\C$ with $\sigma(\C)=\T$, and a family $\mu=\left\{ \mu_s;s\in S \right\}$ of probability measures on $T$. Then these conditions are equivalent.
+  \begin{enumerate}
+    \item $\mu$ is probability kernel from $S$ to $T$;
+    \item $\mu$ is a measurable mapping from $S$ to $\mathcal{P}(T)$;
+      \item $s\mapsto \mu_s(B)$ is a measurable mapping from $S$ to $[0,1]$ for every $B\in \C$.
+  \end{enumerate}
+
+  \label{lem:kernel}
+\end{lemma}
+\begin{proof}
+    $(2) \to (3)$: Note that $s\mapsto \mu_s(B) = s\mapsto \mu_s \mapsto \mu_s(B)$ is a two-step mapping. The first part is measurable by (2), the second part is measurable as $\pi_B:\mu\mapsto \mu(B)$ on $\P(T)$ for every $B\in T$.
+
+    $(3)\to(1)$: by a $\lambda-$system argument.
+
+    $(1)\to(2)$: let $\pi_B:\P(T)\to[0,1]$ be defined as $\pi_B(\mu) = \mu(B)$, then the $\sigma-$algebra $\B(\P(T))=\sigma\left\{ \pi_B;B\in \T \right\}$. To show $\mu$ is $\S/\B(\P(T))-$measurable, it is equivalent to show that $\pi_B\circ \mu$ is $\S/\B([0,1])-$measurable. Since $s\mapsto \pi_B\circ \mu(s)= \mu_s(B)$ is measurable by the definition of probability kernel, $\pi_B\circ \mu$ is $\S/\B([0,1])-$measurable.
+\end{proof}
+
+Let us now introduce a third measurable space $(U,\U)$, and consider two kernels $\mu$ and $\nu$, one from $S$ to $T$ and the other from $S\times T$ to $U$. Imitating the construction of product measures, we may attempt to combine $\mu$ and $\nu$ into a kernel from $S$ to $T\times U$ given by
+\begin{align*}
+  (\mu\otimes \nu)(s,B) = \int \mu(s,dt) \int \nu(s,t, du) 1_B(t,u), B \in \T\otimes \U.
+\end{align*}
+
+The following lemma justifies the formula and provides some further useful information.
+\begin{lemma}
+  (kernels and functions) Fix three measurable spaces $(S,\S)$, $(T,\T)$, and $(U,\U)$. Let $\mu$ and $\nu$ be probability kernels from $S$ to $T$ and $S\times T$ to $U$, respectively, and consider two measurable functions $f:S\times T\to \R_+$ and $g:S\times T\to U$. Then
+  \begin{enumerate}
+    \item $\mu_sf(s,\cdot)$ is a measurable function of $s\in S$;
+    \item $\mu_s \circ (g(s,\cdot))^{-1}$ is a kernel from $S$ to $U$;
+      \item $\mu\otimes \nu$ is a kernel from $S$ to $T\times U$.
+  \end{enumerate}
+  \label{lem:kernel&function}
+\end{lemma}
+\begin{proof}
+  (1): It is true if $f $ is the indicator function of a set $A=B\times C$ with $B\in S$ and $C\in T$, i.e., $\mu_s 1_{B\times C}(s,t)= \mu_s(C) 1_B(s) $. From here, we may extend to general $A\in \S\otimes\T$ by a monotone class argument and then to arbitrary $f$ by linearity and monotone convergence.
+
+  (2): For given $U\in \U$, $\mu_s\circ g(s,\cdot)^{-1}(U)= \int_T \mu_s(dt) 1\left\{ g(s,t)\in U \right\}$. Let $f(s,t) = 1\left\{ t(s,t)\in U \right\}$, then $f: S\times T\to \R_+$ is measurable. Then $\mu_s\circ g(s,t)^{-1}(U) = \mu_s f(s,\cdot)$ is measurable by $(1)$. On the other hand, $\mu_s\circ g(s,\cdot)^{(-1)}$ is a probability measure. 
+
+  (3): Firstly, it's easy to see that $\mu\otimes \nu(s,\cdot)$ is a probability measure on $(T\times U)$ for fixed $s\in S$. 
+  For fixed $B\in \T\otimes \U$, assume $B = A\times C$ for $A\in \T$ and $C\in \U$, then
+\begin{align*}
+  &s\mapsto (\mu\otimes \nu)(s,A\times C)\\
+  = & \int \mu(s,dt) \int \nu(s,t,du) 1_{A\times C}(t,u) \\
+  = & \int \mu(s,dt) \int \nu(s,t,C) 1_{A}(t) \\
+  = & \int \mu(s,dt) \nu(s,t,C) 1_{A}(t),
+\end{align*}
+where $\nu(s,t,C) 1_{A}(t) $ is a measurable function from $S\times T$ to $\R_+$, by (1), $s\mapsto (\mu\otimes \nu)(s,A\times C)$ is measurable, then by Lemma~\ref{lem:kernel}(3), it is measurable for all $B \in \T\times \U$. 
+\end{proof}
+
+
+For any measurable function $f\ge 0$ on $T\times U$, we get
+\begin{align*}
+  (\mu\otimes \nu)_s f  = \int \mu(s,dt) \int \nu(s,t,du)f(t,u), \forall s\in S,
+\end{align*}
+or simply
+\begin{align*}
+  (\mu\otimes \nu)f = \mu(\nu f).
+\end{align*}
+
+By iteration we may combine any kernels $\mu_k$ from $S_0\times \cdots \times S_{_k-1}$ to $S_k$, $k=1,\dots,n$, into a kernel $\mu_1\otimes\cdots\otimes\mu_n$ from $S_0$ to $S_1\times\cdots S_n$, given by
+\begin{align*}
+  (\mu_1\otimes\cdots\mu_n) f = \mu_1(\mu_2(\cdots \mu_n(f)\cdots))
+\end{align*}
+for any measurable function $f\ge 0$ on $S_1\times\cdots\times S_n$.
+
+In applications we often encounter kernels $\mu_k$ from $S_{k-1}$ to $S_k$, $k=1,\dots,n$, in which case the composition $\mu_1\cdots \mu_n$ is defined as a kernel from $S_0$ to $S_n$ for measurable $B\subset S_n$ by 
+\begin{align*}
+  (\mu_1\cdots \mu_n)_s B &= (\mu_1\otimes\cdots\otimes\mu_n)(S_1\times\cdots\times S_{n-1}\times B)\\
+  &= \int \mu_1(s,d s_1) \int \mu_2(s_1,ds_2)\cdots \int \mu_{n-1}(s_{n-2},ds_{n-1}) \mu_n(s_{n-1},B)
+\end{align*}
+
+
+For any two measures $\mu$ and $\nu$ on $(\Omega, \A)$, we say that $\nu$ is absolutely continuous w.r.t. $\mu$ and write $\nu\ll \mu$ if $\mu A=0$ implies $\nu A=0$ for all $A\in \A$. The following result gives a fundamental decomposition of a measure into an absolutely continuous and a singular component; at the same time it provides a basic representation of the former part.
+\begin{theorem}
+  (Lebesgue decomposition, Radon-Nikodym theorem) For any $\sigma$-finite measures $\mu$ and $\nu$ on $\Omega$, there exist some unique measures $\nu_a\ll\mu$ and $\nu_s\independent\mu$ s.t. $\nu = \nu_a + \nu_s$. Furthermore, $\nu_a = f\cdot \mu$ for some $\mu$-a.e. measurable function $f\ge 0$ on $\Omega$.
+  \label{thm:radonNikodym}
+\end{theorem}
+
+
+
+Fix a probability space $(\Omega,\A,P)$ and an arbitrary sub-$\sigma$-field $\F\subset \A$, in $L^2 = L^2(\A)$, then $M=\left\{ \eta \in L^2; \eta = \tilde{\eta} \textrm{ a.s. for some } \tilde{\eta} \in L^2(\F) \right\}$ is a closed subspace. The for all $\xi\in L^2$, there exists a.s. unique $\eta \in M$ s.t. $\xi - \eta \independent M $. Define $\E^{\F}\xi  = \E\left[ \xi | \F \right]$ as an arbitrary $\F$-measurable version of $\eta$.
+
+\begin{definition}
+  (conditional expectation, Kolmogorov) Fix a probability space $(\Omega,\A,P)$, for any $\sigma-$field $\F\in\A$ there exists an a.s. unique linear operator $\E^{\F}: L^1\to L^1(\F)$ s.t.
+  \begin{enumerate}
+    \item (averaging property) $\E\left[ \E^{\F}\xi; A \right] = \E\left[ \xi;A \right],\forall \xi\in L^1, A\in\F$. 
+
+      The following additional properties hold whenever the corresponding expression exist for the absolute values:
+
+    \item (positivity) $\xi\ge 0 $ implies $\E^{\F}\xi\ge 0$ a.s.;
+    \item ($L^1$-contractivity) $\E|\E^{\F}\xi|\le \E|\xi|$;
+    \item (monotone convergence) $0\le \xi_n \uparrow \xi$ implies $\E^{\F}\xi_n \uparrow \E^{\F}\xi$ a.s.;
+    \item (pull-out) $\E^{\F}\xi\eta = \xi \E^{\F}\eta$ if $\xi$ is $\F- $measurable;
+    \item (self-adjoint) $\E\left[ \xi \E^{\F}\eta \right]=\E\left[ \eta \E^{\F}\xi \right]=\E\left[  \E^{\F}\eta \E^{\F}\xi \right]$;
+    \item (chain rule) $\E^{\F}\E^{\G}\xi = \E^{\F}\xi$ a.s. for all $\F\subset \G$.  
+  \end{enumerate}
+\end{definition}
+
+Note that $\E^{\F}\xi$ is a $\F$-measurable random variable. 
+In particular, we note that $\E^{\F}\xi = \xi$ a.s. iff $\xi$ has an $\F-$measurable version and that $\E^{\F}\xi = \E\xi$ a.s. iff $\xi\independent \F$.
+
+{\em How to find condtional expectation in practice?} 
+
+The next result shows that the conditional expectation $\E^{\F}\xi$ is {\em local} in both $\xi$ and $\F$, an observation that simplifies many proofs. Given two $\sigma$-fields $\F$ and $\G$, we say that $\F=\G$ on $A$ if $A\in\F\cap\G$ and $A\cap\F = A\cap\G$.
+\begin{lemma}
+  (local property) Let the $\sigma$-fields $\F,\G\subset\A$ and functions $\xi,\eta\in L^1$ be such that $\F=\G$ and $\xi=\eta$ a.s. on some set $A\in\F\cap\G$. Then $\E^{\F}\xi = \E^{\G}\eta$ a.s. on $A$. 
+  \label{lem:ce_local_property}
+\end{lemma}
+
+\begin{proof}
+  To prove the assertion, it's equivalent to prove $1_A \E^{\F}\xi = 1_A \E^{\G}\eta$ a.s..
+
+  Since $1_A \E^{\F}\xi$ and $1_A \E^{\G}\eta$ are $\F\cap\G$-measurable, we get $B=A\cap\left\{ \E^{\F}\xi > \E^{\F}\eta \right\} \in \F\cap\G$, and the average property yields
+  \begin{align*}
+    &\E\left[ \E^{\F}\xi;B \right] = \E[\xi;B] = \E\left[ \eta;B \right] = \E\left[ \E^{\G}\eta;B \right]\\
+    \implies & \E\left[ \E^{\F}\xi - \E^{ G }\eta;B \right] =0 \\
+  \end{align*}
+  however, $1_{B}(\E^{\F}\xi - \E^{ G }\eta) \ge 0$, so we have $1_{B}(\E^{\F}\xi - \E^{ G }\eta) = 0$ a.s. which means $\E^{\F}\xi \le \E^{ G }\eta$ a.s. on $A$. The opposite inequality is obtained by interchanging the roles of $(\F,\xi)$ and $(\G,\eta)$.
+\end{proof}
+
+The conditional probability of an event $A\in\A$, given $\F$, is defined as
+\begin{align*}
+  P^{\F}A = \E^{\F} 1_A.
+\end{align*}
+
+Thus, $P^{\F}A $ is the a.s. unique r.v. in $L^1(\F)$ s.t.
+\begin{align*}
+  \E\left[ P^{\F}A;B \right] = P(A\cap B), \forall B\in\F.
+\end{align*}
+Note that
+\begin{itemize}
+  \item $P^{F}A = PA $ a.s. iff $A \independent \F$.
+  \item $\P^{F}A = 1_A$ a.s. iff $A$ agrees a.s. with a set in $\F$.
+  \item $0\le P^{F}A\le 1$ by positivity of $\E^{\F}$.
+  \item $P^{\F}\cup_n A_n = \sum_n P^{\F}A_n$ a.s., if $\left\{ A_n \right\}$ are disjoint (by monotone convergence)
+\end{itemize}
+
+If $\eta$ is a r.e. in some measurable space $(S,\S)$, we define conditional on $\eta$ as conditional w.r.t. the induced $\sigma$-field $\sigma(\eta)$. Thus,
+\begin{align*}
+  \E^{\eta}\xi= \E^{\sigma(\eta)}\xi,\; P^{\eta}A = P^{\sigma(\eta)}A.
+\end{align*}
+
+By Lemma~(??), the $\eta$-measurable function $\E^{\eta}\xi$ may be represented in the form $f(\eta)$, where $f$ is a measurable function on $S$, determined a.e. by $\L(\eta)$ by the averaging property
+\begin{align*}
+  \E\left[ f(\eta);\eta\in B \right] = \E\left[ \xi;\eta\in B \right],\forall B \in \S.
+\end{align*}
+
+In particular, the function $f$ depends only on the distribution of $(\xi,\eta)$. Conditional w.r.t. a $\sigma$-field $\F$ is the special case when $\eta$ is the identity map from $(\Omega,\A)$ to $(\Omega,\F)$.
+
+
+We proceed to examine the existence of measure-valued version of $P^{\F}$ and $P^{\eta}$. Note that kernels on the basic probability space $\Omega$ is called {\em random measurs}.
+
+Now fix a $\sigma$-field $\F\subset \A$ and a r.e. $\xi$ in some measurable space $(S,\S)$. By a {\em regular conditional distribution of $\xi$, given $\F$}, we mean a version of $P\left[ \xi\in\cdot|\F \right]$ on $\Omega\times\S$ which is a probability kernel from $(\Omega,\F)$ to $(S,\S)$, hence an $\F$-measurable random probability measure on $S$. More generally, if $\eta$ is another r.e. in some measurable space $(T,\T)$, a regular conditional distribution of $\xi$, given $\eta$, is defined as a random measure of the form
+\begin{align*}
+  \mu(\eta,B) = P[\xi\in B | \eta]\; a.s.,\forall B\in \S,
+\end{align*}
+where $\mu$ is a probablity kernel from $T$ to $\S$.
+Special cases:
+\begin{itemize}
+  \item If $\xi$ is $\F$-measurable or independent of $\F$, then $P[\xi\in B|\F] $ has regular version $1\left\{ \xi\in B \right\}$ or $P\left\{ \xi \in B \right\}$, respectively. 
+\end{itemize}
+The general case requires some regularity condition on $S$.
+
+\begin{theorem}
+  (conditional distribution) For any Borel space $S$ and measurable space $T$, let $\xi$ and $\eta$ be r.e. in $S$ and $T$, respectively. Then there exists a probablity kernel $\mu$ from $T$ to $S$ s.t. $P[\xi\in\cdot|\eta] = \mu(\eta,\cdot)$ a.s., and $\mu$ is unique a.e. $\L(\eta)$.
+  \label{thm:conditionalDistribution}
+\end{theorem}
+
+\begin{proof}
+  We may assume that $S \in \B(\R)$. For every rational number $r$ we may choose some measurable function $f_r = f(\cdot, r):T\to[0,1]$ s.t. 
+  \begin{align*}
+    f(\eta,r) = P[\xi\le r | \eta]\; a.s., \forall r\in\Q.
+  \end{align*}
+Let $A$ be the set of all $t\in T$ s.t. $f(t,r)$ is non-decreasing in $r\in \Q$ with limits 1 and 0 at $\pm \infty$. Since $A$ is specified by countably many measurable conditions, each of which holds a.s. at $\eta$, we have $A\in\T$ and $\eta \in \A \;a.s.$ Define
+\begin{align*}
+  F(t,x) = 1_{A}\inf_{r>x} f(t,r) + 1_{A^c}1\left\{ x\ge 0 \right\}, \; x\in\R,t\in T,
+\end{align*}
+note that $F(t,\cdot)$ is a distribution function on $\R$ for every $t\in T$
+\end{proof}<++>
+
+\newpage
+\begin{definition}
+  A set $K$ is totally bounded iff $\forall \varepsilon>0$, it can be covered by finitely many balls of radius $\varepsilon$.
+\end{definition}
+
+
+
+\begin{definition}
+  (Uniform tightness)
+  A set of random vectors $\left\{ X_\alpha:\alpha\in A \right\}$ is {uniformly tight} if $\forall \varepsilon>0, \exists M \; s.t. \; \sup_{\alpha} \pr(\|X_\alpha\|>M) <\varepsilon$.
+\end{definition}
+
+Uniformly tight = bounded in probability.
+
+\begin{definition}
+  (Uniform integrability) (a notion for expected values)
+  A family of r.v. $\left\{ \xi_t,t\in T \right\}$ are said to be uniformly integrable if
+  \begin{align*}
+	\lim_{r\to\infty} \sup_{t\in T}\E \left[ |\xi_t|;|\xi_t|>r \right] = 0.
+  \end{align*}
+  \label{def:ui}
+\end{definition}
+
+Examples:
+\begin{enumerate}
+  \item For sequences $\left\{ \xi_n \right\}$ in $L^1$, it is equivalent to
+\begin{align*}
+\lim_{r\to\infty} \limsup_{n}\E \left[ |\xi_n|;|\xi_n|>r \right] = 0.
+\end{align*}
+
+  \item If $\xi_t$ are $L^p$-bounded for some $p>1$, in the sense that $\sup_t \E |\xi|^p <\infty$. As $\E\left[ |\xi|;|\xi|>r \right]\le \E\left[ |\xi|\left(\frac{|\xi|}{r}\right)^{p-1};|\xi|>r \right] \le \frac{\E|\xi|^p}{r^{p-1}}$.
+
+\end{enumerate}<++>
+
+\begin{lemma}
+  The r.v. $\xi_t,t\in T$ are said to be uniformly integrable iff
+ \begin{enumerate}
+	\item $\sup_t \E|\xi_t|<\infty$,
+	\item $\lim_{\pr A \to 0} \sup_{t\in T} \E[|\xi_t|;A]=0$
+  \end{enumerate}
+ \label{lem:ui}
+\end{lemma}
+
+  
+\begin{theorem}
+  (Prohorov's theorem)
+  Let $X_n$ be vectors,
+  \begin{enumerate}
+	\item If $X_n\indist X$ for some $X$, then $\left\{ X_n \right\}$ is uniformly tight.
+	\item If $X_n$ is uniformly tight, then $\exists $ a subsequence with $X_{n_j}\indist X$ as $j\to\infty$.
+  \end{enumerate}
+  \label{thm:Prohorov}
+\end{theorem}
+
+\begin{definition}\citep[Section 3.1]{NzeDoukhan2004}
+  (Mixing) 
+  Let $(\Omega,\calA,\pr)$ be a probability space and let $\calA_1,\calA_2$ be two sub $\sigma$-algebra of $\calA$. the coefficients
+  \begin{align*}
+	\alpha(\calA_1,\calA_2) &= \sup\left\{ |\pr(a\cap b) - \pr(a)\pr(b)|;a\in\calA_1,b\in\calA_2 \right\}\\
+	\beta(\calA_1,\calA_2) &= \E \sup\left\{ |\pr(b|\calA_1) - \pr(a)|;b\in\calA_2 \right\}\\
+	\phi(\calA_1,\calA_2) &= \sup\left\{ |\pr(b|a) - \pr(a)|;a\in\calA_1,b\in\calA_2 \right\}\\
+	\rho(\calA_1,\calA_2) &= \sup\left\{ |\corr(a,b)|;a\in L^2(\calA_1),b\in L^2(\calA_2) \right\}\\
+  \end{align*}
+  are, respectively, the strong mixing coefficient $\alpha$, absolute regularity coefficient $\beta$, uniform mixing coefficient $\phi$, and maximal correlation coefficient $\rho$.
+\end{definition}
+\begin{lemma}
+  (Slutsky)
+  Let $X_n,X,Y_n$ be r.v. If $X_n\indist X$ and $Y_n\indist c$ for a const $c$, then
+  \begin{enumerate}
+	\item $X_n+Y_n \indist X+c$,
+	\item $X_nY_n\indist cX$,
+	\item $X_n/Y_n\indist X/c$ if $c\ne 0$.
+  \end{enumerate}
+  \label{lem:Slutsky}
+\end{lemma}
+
+
+\begin{definition}
+  A stochastic process $X=\left\{ X_t:t\in T \right\}$ is a collection of random variables $X_t:(\Omega,\F, \pr)\mapsto R$, 
+  indexed by an arbitrary set $T$.
+  
+  For each fixed $\omega\in \Omega$, the map $t\mapsto X_t(\omega)$ is called a sample path.
+  If every sample path is a bounded function, X an be viewed as a map $X:\mapsto \ell^\infty(T)$.
+\end{definition}
+
+\begin{definition}
+  (Weak convergence of stochastic processes, \citet[page 261, thm 18.4]{vaart}).
+
+  A sequence of arbitrary maps $X_n:\Omega_n\mapsto \ell^\infty(T)$ converges weakly to a right random element iff both of the following conditions hold:
+  \begin{enumerate}
+	\item $\forall t_1,\dots, t_k \in T$, the sequence $(X_{n,t_1},\dots,X_{n,t_k})$ converges in distribution.
+	  \item $\forall \varepsilon, \eta>0, \exists$ a partition of $T$ into finitely many sets $T_1,\dots,T_k$ s.t.
+		\begin{align*}
+		  \limsup_{n\to\infty} \pr^*\left( \sup_{i}\sup_{s,t\in T_i}|X_{n,s}-X_{n,t}|\ge \varepsilon \right) \le \eta.
+		\end{align*}
+  \end{enumerate}
+\end{definition}
+
+
+\begin{definition}
+  A time series is weak stationary, if it has finite second-order moment, invariant unconditional mean and well-defined auto-covariance function.
+\end{definition}
+\section{M- and Z- estimators}
+
+\begin{theorem}
+  \citep[page 45]{vaart}
+  Let $M_n$ be random functions and let $M$ be a fixed function of $\theta$ s.t. 
+  \footnote{Some expression may not be measurable, in which case, they shall be understood outer measure}
+  \begin{enumerate}
+	\item $\sup_{\theta\in\Theta}|M_n(\theta) - M(\theta)|\inprob 0$,
+	\item $\forall \varepsilon, \sup_{\theta:d(\theta,\theta_0)>\varepsilon} M(\theta) < M(\theta_0)$,
+	\item $\hat{\theta}_n$ is a sequence of estimators s.t. $M_n(\hat{\theta}_n) \ge M_n(\theta_0) - o_P(1)$.
+  \end{enumerate}
+  then $\hat{\theta}_n\inprob \theta_0$.
+  \label{m-est:con}
+\end{theorem}
+\begin{proof}
+  $\forall \varepsilon$, consider the event 
+  $A=\left\{ |\hat{\theta}_n - \theta_0|>\varepsilon \right\}$.
+  Let 
+  $\eta = \sup_{\theta:|\theta-\theta_0|>\varepsilon}|M_{\theta_0} - M_{\theta}$, then 
+  $\eta>0$. 
+
+  Let $B= \left\{ \sup_\theta| M_n(\theta) - M(\theta)| \le \eta/4  \right\} $.
+  Condition (1) implies %$\exist N$ s.t. $\forall n>N$, 
+  $\pr( B^c ) \to 0$.
+
+  On $A \cap B $
+  \begin{align*}
+	M_n(\theta_0) - M_n(\hat{\theta}_n)
+  \ge & M(\theta_0) - \eta/4 - (M(\theta)+\eta/4)\\
+  =& M(\theta_0) - M(\theta) - \eta/2\\
+  \ge& \eta - \eta/2\\
+  =&\eta/2
+  \end{align*}
+  which has prob. $\to$ 0 by condition (3).
+
+  As $A = (A\cap B) \cup (A\cap B^c) $ ,
+  $\pr(A) = \pr(A\cap B) + \pr(A\cap B^c)\le \pr(A\cap B) + \pr (B)\inprob 0$.
+\end{proof}
+
+\begin{theorem}
+  Let $\Psi_n$ be random vector-valued functions and $\Psi$ a fixed vector-valued function of $\theta$ s.t. 
+  \begin{enumerate}
+	\item $\sup_{\theta \in \Theta}\|\Psi_n(\theta)-\Psi(\theta)\|\inprob 0$,
+	\item $\forall \varepsilon>0, \inf_{\theta:d(\theta,\theta_0)\ge \varepsilon}\|\Psi(\theta)\|\ge 0=\|\Psi_(\theta_0)\}$,
+	\item $\hat{\theta}_n$ s.t. $\Psi_n(\hat{\theta}_n)=o_P(1)$.
+  \end{enumerate}
+	  then $\hat{\theta}_n\inprob \theta_0$.
+  \label{z-est:con}
+\end{theorem}
+\begin{proof}
+  It follows by applying Theorem~\ref{m-est:con} to the functions $M_n(\theta) = -\|\Psi_n\|$ and $M = -\|\Psi\|$.
+\end{proof}
+
+The uniform convergence of functions is equivalent to the set of functions 
+$\left\{ \psi(\theta),\theta \in \Theta\right\}<++>$ being Glivenko-Cantelli.
+
+\begin{theorem}\citep[page 266, thm 19.1]{vaart}
+  (Glivenko-Cantelli) If $X_i$ are iid r.v. with dist. func. $F$, then
+  \begin{align*}
+	\|\mathbb{F}_n - F\|\asconv 0.
+  \end{align*}
+  \label{g-c}
+\end{theorem}
+\begin{proof}
+  (Based on compact range and monotonicity of cdf function)
+
+  By SLLN, $\forall t$, $\mathbb{F}_n(t)\asconv F(t)$ and $\mathbb{F}_n(t-)\asconv F(t-)$ .
+
+  $\forall \varepsilon$, $\exists$ partition $-\infty=t_0<t_1\cdots <t_k=\infty$ s.t.  $\forall i, F(t_i-)-F(t_{i-1})<\varepsilon$.
+  Then $\forall t\in[t_{i-1},t_i)$,
+  \begin{align*}
+	\mathbb{F}_n(t) - F(t) &\le \mathbb{F}_n(t_i-)-F(t_i-) + \varepsilon,\\
+	\mathbb{F}_n(t) - F(t) &\ge \mathbb{F}_n(t_{i-1})-F(t_{i-1}) - \varepsilon,
+  \end{align*}
+
+  Also, $\mathbb{F}_n\asconv F$ is uniformly for any finite set $\left\{ t_1,\dots,t_{k-1} \right\}$.
+  That implies $\lim\sup \|\mathbb{F}_n-F\|_{\infty}\le \varepsilon,a.s.$  Since $\varepsilon$ is arbitrary, the lim sup is zero.
+\end{proof}
+
+\begin{definition}
+	(P-Glivenko-Cantelli \& P-Donsker)
+  For a class $\mscrF$ of measurable functions $f:\XX\mapsto \R$, 
+	\begin{enumerate}
+		\item it is called P-Glivenko-Cantelli if
+  \begin{align*}
+	\|\pn f - \pr f\|_\mscrF = \sup_{f\in\mscrF} \| \pn f - \pr f\| \asconv 0.
+  \end{align*}
+
+  \item it is P-Donsker if the sequence of empirical process $\left\{ \gn f : f\in \mscrF \right\}$
+		converges in distribution to a tight limit process in the space $\ell^\infty(\mscrF)$,where the empirical process evaluated at $f$ is defined as $\gn f = \sqrt{n}(\pn f - \pr f)$.
+	\end{enumerate}
+\end{definition}
+
+Wether a class is Glivenko-Cantelli or Donsker depends on the ``size'' of the class. A relative
+simple way to measure the size of a class $\mscrF$ is in terms of entropy. Consider the bracketing
+entropy relative to the $L^p(P)$-norm
+\begin{align*}
+	\|f\|_{P,r} = (\pr\left[ |f|^r \right])^{1/r}.
+\end{align*}
+
+Given two functions $l$ and $u$, the bracket $[l,u]$ is the set of all functions $f$ s.t. $l\le f
+\le u$. An $\varepsilon$-bracket in $L^r(P)$ is a bracket $[l,u]$ with $ \|u-l\|_{P,r}\le
+\varepsilon$. The bracketing number $N_{[]}(\varepsilon,\mscrF,L^{r}(P))$ is the minimum number of
+$\varepsilon$-brackets needed to cover $\mscrF$, where the bracketing function $l$ and $u$ must have
+finite $L^r(P)$-norm but need not belong to $\mscrF$. The entropy with bracketing is the log of the
+bracketing number.
+
+\begin{theorem}
+	(Glivenko-Cantelli, thm 19.4 \citep{vaart})
+	Every class $\mscrF$ of measurable functions s.t. $N_{[]}(\varepsilon,\mscrF,L^1(P))<\infty $ for
+	every $\varepsilon>0$ is P-Glivenko-Cantelli.
+	\label{<++>}
+\end{theorem}
+
+
+For most class of interest, the bracketing number grow to ininfity as $\varepsilon\to 0$. A
+sufficient condition for a class to be Donsker is that they do not grow too fast. The speed can be
+measured in terms of the bracketing integral
+\begin{align*}
+	J_{[]}\left( \delta,\mscrF,L^2(P) \right) 
+	= \int_{0}^\delta \sqrt{\log N_{[]}\left(
+	\varepsilon,\mscrF,L^2(P)
+	\right)}d\varepsilon.
+\end{align*}
+
+If this integral is finite-valued, then the class $\mscrF$ is P-Donsker.
+
+\begin{theorem}
+	Every class $\mscrF$ of measurable functions with $
+	J_{[]}\left( \delta,\mscrF,L^2(P) \right) <\infty$  is P-Donsker.
+	\label{thm:donsker}
+\end{theorem}
+
+\begin{theorem}
+  \citep{ArconesYu1994} 
+  Given a sequence of strictly stationary sequence $\left\{ X_i \right\}_{j=1}^\infty$ in a measurable space $(S,\S)$. 
+  Suppose that 
+  \begin{enumerate}
+	\item $\mathscr{F}$ is a measurable V-C subgraph class of functions, s.t.
+	\item $P F^p<\infty$ for some $p\in(2,\infty)$ and $F(x)=\sup_{f\in\mathscr{F}}|f(x)|$.  
+    \item If the $\beta$-mixing coefficient of the stationary sequence satisfies
+  \begin{align*}
+	k^{p/(p-2)} (\log k)^{2(p-1)/(p-2)}\beta_k \to 0,
+  \end{align*}
+  \end{enumerate}
+  then the empirical process
+  \begin{align*}
+	\left\{ n^{-1/2} \sumn \left( f(X_i) - \pr f \right):f\in\mathscr{F} \right\}
+  \end{align*}
+  converges in law to a Gaussian process $\left\{ G(f):f\in\mathscr{F} \right\}$ which has a version with uniformly bounded and uniformly continuous paths w.r.t. the $L^2$ norm.  \label{}
+\end{theorem}<++>
+
+\begin{definition}
+  (V-C class)
+
+\end{definition}<++>
+
+
+{\em The Reinsch form} Let 
+\begin{align*}
+  S_\lambda = N(N\trans N + \lambda \Omega_N)^{-1}N\trans 
+\end{align*}
+be the spline smoother and $N=UDV\trans$ the singular value decomposition of $N$. Since $N$ is $n\times n$, $U$ is orthogonal hence invertible with $U^{-1}=U\trans$, and $D$ is invertible since $N$ has full rank $n$. Then
+\begin{align*}
+  S_\lambda 
+  & = N(N\trans N + \lambda \Omega_N)^{-1}N\trans \\
+  & = UDV\trans(VD^2V\trans + \lambda \Omega_N)^{-1}VDU\trans \\
+  & \cdots\\
+  & = (I  + \lambda U\trans D^{-1}V\trans \Omega_N VD^{-1}U)^{-1} \\
+  & = (I  + \lambda K)^{-1} \\
+\end{align*}
+
+
+
+\section{Linear Algebra}
+
+Eigen-decomposition: A matrix $M$ can be written as $M = P^{-1}DP$.
+
+
+Schur complement:
+\begin{align*}
+\left[ 
+\begin{array}{cc}
+  A & B\\
+  C & D\\
+\end{array}
+\right]
+\end{align*}
+
+%%%%%%%%%%%%%%%%%%
+\bibliographystyle{jtsa1}
+%\bibliography{ref}
+\bibliography{/home/chao/researches/bibfile/ref}
+
+\end{document} 

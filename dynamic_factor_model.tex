@@ -1,0 +1,11 @@
+\section{dynamic factor model}
+Consider a J-dimensional vector of counts $ y_t=(y_{t,1},\cdots,y_{t,J}) $  recorded at time $ t=1,\cdots,T $. Since $ y_t $ are counts, they are naturally assumed to be conditionally independently distributed with Poisson distributions $$ y_{t,j}|\theta_{t,j} \sim Poisson(\theta_{t,j}). $$
+
+The specification of $ \theta_t=(\theta_{t,j}) $ determines the model to a large extent.
+\begin{enumerate}
+\item $ \theta_t=\mu=Const $: an ordinary regression problem.
+\item $ b(\theta_t)=\mu+\Gamma f_t $: $ b $ is a link function. $ \Gamma $ is a matrix (of factor loadings), $ f_t $ is the vector of latent factors. 
+\\The elements of $ f_t $ (when random) are assumed to be independent from each other, since $ \Gamma $ can already mix the effects.
+\\Restriction of $ \Gamma $ can lead to restricted effects of factors on different $ \theta_{t,j} $.
+\\Due to form  $ b(\theta_t)=\mu+\Gamma f_t $, restriction on $ \mu $, $ \Gamma $ and the dynamics of $ f_t $ are required in order to be able to identify the parameters.
+\end{enumerate}

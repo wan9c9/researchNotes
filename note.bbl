@@ -1,0 +1,22 @@
+\begin{thebibliography}{3}
+\providecommand{\natexlab}[1]{#1}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
+  \providecommand{\doi}{doi:\discretionary{}{}{}\begingroup
+  \urlstyle{rm}\Url}\fi
+
+\bibitem[{Arcones and Yu(1994)}]{ArconesYu1994}
+Arcones, M.~A. and Yu, B. (1994) Central limit theorems for empirical
+  andu-processes of stationary mixing sequences.
+\newblock \emph{Journal of Theoretical Probability} \textbf{7}(1), 47--71.
+
+\bibitem[{Nze and Doukhan(2004)}]{NzeDoukhan2004}
+Nze, P.~A. and Doukhan, P. (2004) Weak dependence: models and applications to
+  econometrics.
+\newblock \emph{Econometric Theory} \textbf{20}(06), 995--1045.
+
+\bibitem[{van~der Vaart(2000)}]{vaart}
+van~der Vaart, A.~W. (2000) \emph{Asymptotic Statistics}.
+\newblock Cambridge: Cambridge University Press.
+
+\end{thebibliography}

@@ -1,0 +1,185 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[latin1]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{makeidx}
+\usepackage{hyperref}
+%\usepackage{cjk}
+\author{Wang Chao}
+\begin{document}
+\begin{enumerate}
+\item the intepretation of conditional expectation $ E(\xi|\mathcal{F}) $ as a version of the density $ d(\xi\cdot P)/dP $ on the $ \sigma $-field $ \mathcal{F} $? (on Kallenberg p103).
+\item \textbf{A general CLT}\\
+Let $ \{X_{n,t}, n\geq 1,t=1,\cdots,n\} $ be a triangular stochastic array, \\
+let $ \{\mathbf{V}_{n,t}, -\infty<t<\infty, n\geq 1\} $ be a (possibly vector-valued) stochastic array,\\
+and $ \mathcal{F}_{n,t-m}^{t+m}=\sigma(\mathbf{V}_{n,s},t-m\leq s \leq t+m) $.
+Also, let $ S_n=\sum_{t=1}^n X_{n,t} $.
+Suppose the following assumptions hold:
+\begin{enumerate}
+\item $ X_{n,t} $ is $ \mathcal{F}_{n,-\infty}^t/\mathcal{B} $-measurable, with $ E(X_{n,t})=0 $ and $ E(S_n^2)=1 $.
+\item $ \exists \{c_{n,t}>0\} $ s.t. $ \sup_{n,t}\|X_{n,t}/c_{n,t}\|_r<\infty $ for some $ r>2 $.
+\item $ X_{n,t} $ is $ L_2-NED $ of size $ -1 $ on $ \{\mathbf{V}_{n,t} \} $ w.r.t. $ \{c_{n,t}\} $ specified above, and $ \{\mathbf{V}_{n,t}\} $ is $ \alpha-mixing $ of size $ -(1+2\theta)r/(r-2) $, for some $ \theta\in [0,1/2) $.
+\item Let $ b_n=[n^{1-\alpha}] $ and $ r_n=[n/b_n] $ for some $ \alpha\in(0,1] $, and defining $ M_{n,i}=\max_{(i-1)b_n<t\leq i b_n} c_{n,t} $ for $ i=1,\cdots,r_n $ and $ M_{n,r_n+1}=\max_{r_nb_n<t\leq n}\{c_{n,t}\} $, the following conditions hold:
+\[\max_{1\leq i\leq r_n+1}M_{n,i}=o(b_n^{-1/2}),\]
+\[\sum_{i=1}^{r_n+1}M_{n,i}=O(b_n^{\theta-1/2}),\]
+where $ \theta $ is given in $ (c) $, and
+\[ \sum_{i=1}^{r_n+1} M_{n,i}^2=O(b_n^{-1}). \]
+\item $ X_{n,t} $ is $ L_2-NED $ of size $ -1 $ on $ \{\mathbf{V}_{n,t}\} $, which is $ \alpha-mixing $ of size $ -r/(r-2) $.
+\item Let $ M_n=\max_{1\leq t \leq n}c_{n,t} $,  $ \sup_n nM_n^2<\infty $.
+\end {enumerate}
+Then under assumptions $ (a),(b),(c),(d) $, or $ (a),(b),(e),(f) $
+\[ S_n\xrightarrow{D}N(0,1). \]
+
+To interpretate this result, consider the case that $ X_{n,t}=(Y_t-\mu_t)/s_n $, $ s_n=E(\sum_{t=1}^n(Y_t-\mu_t))^2 $, then we may set $ c_{n,t}=(1\vee\sigma_t)/s_n $, where $ \sigma_t=Var(Y_t) $
+\item The sum of a series
+
+ $$ \sum_{j=1}^{k-1}jx^{j-1}=\frac{1-kx^{k-1}+(k-1)x^k}{(1-x)^2} $$
+  $$ \sum_{j=1}^{T-1}(T-j)x^{j-1}=\frac{T}{1-x}-\frac{1-x^T}{(1-x)^2} $$
+
+\item Substochastic matrix\\
+A real matrix is called substochastic, if all of its elements lie in $ [0,1] $ and 1 is a upper bound for its row sums.
+Accordingly, a substochastic transition kernel $ T(x,A) $ should be a kernel measure with $ T(\omega,\Omega)\leq 1 $, for all $ \omega $.
+
+
+\item The indicator function $ I_{C} $ where $ C $ is open is not continuous! Since the preimage of the open set $ (0-\epsilon,0+\epsilon) $ is a closed set! But this function is lower semicontinuous, i.e., its value at any point is not larger than the lower limit of any series in its neighbourhood converging to itself.
+
+This is the reason why we need the Feller condition.
+%\begin{cjk}{utf8}
+??
+%\end{cjk}
+
+\item Sample paths and limit theorems of Markov chains.\\
+CLT for postive Harris chain with invariant probability $ \pi $.
+positive Harris chain if Harris recurrent and positive.
+
+\item
+intradaily prices --- lognormal diffusion, whose coefficient $ \leftarrow $ conditional variance equation
+
+\textit{2010.08.12}
+Using OHLC data to analyze the dynamics of the stock returns.
+(Lildholdt, 2002) considered a GARCH model.
+
+Consider a stochastic process $ X $, let $ X_i(t) $ be its value at time $ i+f_i+t(1-f_i) $, where $ f_i\in [0,1] $ and $ t\in[0,1] $. Assume that
+\begin{itemize}
+\item  from $ X(i) $ to $ X(i+f_i) $, $ X $ unobservable except its values at the endpoints,
+\item from $ X(i+f_i) $ to $ X(i+1) $, that is, $ X_i(t) $ for $ t\in[0,1] $ follow some general diffusions,
+\[ dX_i(t)=\mu_i dt + \nu_i d W_t, \]
+\[ d\sigma_t \]a Brownian motion with drift $ \mu_i $ and variance $ \sigma_i^2 $
+\end{itemize}
+\begin{align*}
+r_i=&P_i(1)-P_i(0),\\
+dP_i(t)=&\mu dt+\sigma_i dW(t), \ 0\leq t\leq 1,\\
+\sigma_i^2=&\omega+\sum_j\alpha_j(r_{i-j}-\mu)^2+\sum_j \beta_j\sigma^2_{i-j},\\
+a_i=&\sup_{t\in[0,1]}P_i(t)-P_i(0)\\
+b_i=&P_i(0)-\inf_{t\in[0,1]}P_i(t)\\
+\end{align*}
+In this setting, the variance is determined by past squared closed value(the realized
+There are other ways to define the volatility process. For example, (Chou, 2006) considered a separate regression of the daily upper range and lower range. 
+
+We wish to establish a model which could handle with OPN, UPR, DNR, CLS, and VOL data. If we assume the price movement during a day is governed by a geometric Brownian motion. Note that this assumption is very common in the 
+continuous-time stochastic process, but it is problematic to assume that the long-run price is a geometric Brownian motion, due to the change of information. However, it may be more plausible to assume that the price follows a GBM in a short time range, in which no apparent change of information occurs.
+
+$( UPR_i, DNR_i, CLS_i ) $ can be characterized by the $ (\mu_i, \sigma_i) $,  we need only to specify the dymamics of $$ (OPN_i,\mu_i,\sigma_i, VOL_i)=(o_i,\mu_i,\sigma_i,v_i)\leftarrow ?(o_i,\mu_i,\log \sigma_i,v_i) $$
+
+We would expect that the information before the trading of a day can be obsorbed in the movement of the the price in the day with some moises, which can have further influence with the trading in the sequent day.
+
+How to compare the performance of two models?
+
+Firstly, suppose the process is 
+
+
+
+Volume should have positive impact on the volatility.
+realized volatility
+
+\textit{2010.08.13,10:37} P171, Applied Stochastic Processes by Lin Yuanlie, finished Ch5.1.
+
+\textit{2010.08.13,15:55}
+Barrier option: an option with a payoff depending on the close value, but conditionally on the extrema lying in some region.
+\end{enumerate}
+
+
+\section{Joint density of normalized high, low and close}
+\textit{2010.08.13}\\
+Consider a Brownian motion
+\[ P(t),\; t\in[0,T] \]
+with diffusion coefficient $ \sigma $ and drift $ \mu $:
+\[ dP_t=\mu d t+\sigma d W_t,\]
+where $W_t$ is a standard Wiener process.
+
+The the joint p.d.f. of the highest value $a$, the lowest value $b$, and the close value $r$ is given in (Lildholdt, 2002).
+also in Cox and Miller ( the theory of stochastic process, P222).
+
+\section{leverage effect}
+The leverage effect refers to the asymmetric behaviour of the stock price that the amplitude of relative price fluctuation tends to increase when the price drops.
+\section{local martingale}
+\subsection{intro.}
+A local martingale is a type of stochastic process satisfying the localized version of the martingale property.
+\subsection{defi.}
+Let $(\Omega,F,\mathcal{F},P)$ be a filtered probability space, let $X:[0,\infty)\times \Omega)\to S$ be a $\mathcal{F}$-adapted s.p.. Then $X$ is called an $\mathcal{F}$-local martingale if there exists a sequence of $\mathcal{F}$-stpping times $\tau_k:\Omega\to[0,\infty)$ s.t.
+\begin{itemize}
+  \item $P(\tau_k \uparrow)=1$, $\tau_k$ is a.s. strictly increasing;
+  \item $P(\lim \tau_k=\infty)=1$;
+  \item the stopped process $1_{\tau_k>0}X_t^{\tau_k}=1_{\tau_k>0}X_{t\wedge\tau_k}$ is a margingale for every $k$.
+\end{itemize}
+\subsection{e.g.}
+Let $W_t$ be the standard Wiener process and $T=\inf\{t:W_t=-1\}$, then $ W_t^T=W_{t\wedge T} $ is a martingale,
+
+
+\section{Estimation of integrated covariance matrics of multivariate diffusion processes}
+A LDRMT theorem
+%\begin{theorem}
+Let $ (X_{j,k})_{j=1,\cdots,p, n\geq 0} $ be a double array
+%\end{theorem}
+
+\section{Semimartingales and stochastic integrals.}
+$ X $ is a local martingale, if it is adapted, cadlag, and there exists a sequence of increasing stopping times, $ T_n $ s.t. $ \lim T_n=\infty, a.s. $, and $ \forall n $, $ X^{T_n} 1\{T_n>0 \} $ is uniformly integrable martingale.
+Such $ T_n $ is called a fundamental sequence.
+
+Topology generated by convergence of sequences.
+
+An operator $ I_X $, to be an integral, should be linear and s.t. some version of bounded convergence theorem.
+
+X is a total semimartingale, if X is cadlag, adapted, $ I_X $: $ S_u \to L^0 $ is continuous, where $ S_u $ is the set of simple predictable processes, and $ L^0 $ be the space of finite valued r.v. topologized by convergence in probability.
+
+X is a semimartingale, if $ \forall t\in[0,\infty) $, $ X^t $, i.e., X stopped by t, is a total semimartingale.
+
+The set of (total) semimartingales is a vector space.
+
+Note that $ L^0 $ is dependent of the probability measure defined on it. If Q is a probability and is absolutely continuous w.r.t. P, and X is a P (total) semimartingale, then X is also a Q (total) semimartingale. (This is because Convergence in P-probability implies convergence in Q-probability, as $ P(An)\to 0 \rightarrow P(fI\{An\})\to 0) $, $ \forall f  $ integrable w.r.t. P.)
+
+If X is a $ P_k $ semimartingale  for each k, and let $ P=\sum \lambda_k P_k $ with $ \lambda_k>=0 $ and $ \sum \lambda_k=1 $. Then X is a P semimartingale as well.
+
+(Stricker's Theorem). Let X be a semimartingale for the filtration $ \mathbb{F} $, $ \mathbb{G} $ be a subfiltration of $ \mathbb{F} $ and  X is adapted to $ \mathbb{G} $. Then X is also a $ \mathbb{G} $ semimartingale. {\em Note for $ \mathbb{G} $ its test simple predictable processes is a subset of that of $ \mathbb{F} $.} Then we can always thrink a filtration and preserve the property of being a semimartingale as long as it is still adapted. Expanding the filtration, is a much delicate issue.  
+
+(Jacod's countable expansion) Let $ \mathcal{A} $ be a collection of disjoint events in $ \mathcal{F} $. Let $ \mathcal{H}_t=\sigma\{\mathcal{F}_t,\mathcal{A}\} $. Then every $ (\mathbb{F}, P) $ semimartingale is an $ (\mathbb{H},P) $ semimartingale.  Particularly, this is true when $\mathcal{A} $ is a finite collections of events in $ \mathcal{F} $.
+
+Note if B is a Brownian motion for a filtration, then we are able to add, in a certain manner, an infinite number of future events to the filtration and B will no longer be a martingale but it will stay a semimartingale. This has interesting implications in theory of continuous trading (Duffie-Huang).
+
+Being a semimartingale is a local property. A process X is stoped at $ T- $ if $ X^{T-}=X_t 1\{0\leq t <T\}+X_{T-} 1\{t\geq T\} $, where $ X_{0-}=0 $. If X is a cadlag, adapted process. Let $ (T_n) $ be a sequence of positive r.v. increasing to $ \infty $ a.s., and $ (X^n) $ be a sequence of semimartingales s.t. $ X^{T_n-}=(X^n)^{T_n-} $, then X is a semimartingale.{\small \em Note $ T_n $ may not be stopping times. We need to show $ X^t $ is a total semimartingale for every $ t>0 $. Define $ R_n= T_n 1\{T_n\leq t\} +\infty 1\{T_n > t\} $, then $ P(|I_{X^t}(H)| \geq c)\leq P(|I_{(X^n)^t}(H)|\geq c) +P(R_n<\infty)$. } A corollary is that a process $ X $ s.t. there exists a sequence of stopping times $ (T_n) $ such that $ X^{T_n} $ or $ X^{T_n} 1\{T_n>0\} $ is a semimartingale for each $ n $, then $ X $ is a semimartingale.
+
+Examples of semimartingales: adapted process with cadlag paths of finite variation on compacts (by definition), every $ L^2 $ martingale with cadlag paths. Cadlag, locally square integrable local martingale
+
+
+\section{ MCMC in finance and risk management}
+
+\subsection{option pricing}
+
+Assume that under some measure $ \mathbb{Q} $, $ S_T=S_0 \exp(\mu+cX) $, where $ X $ has cdf $ F$. To compare it wit B-S model, some constraints are put on $\mu, c $. Note that the variance of log-return in B-S model over length $ T $ is $ \sigma^2T $, where $ \sigma^2 $ is the annual volatility(?? precise need here), then $ var(cX)=\sigma^2T\Rightarrow c=\sqrt{\sigma^2T/var(X)} $. Another constraint required of all option-pricing measures is the martingale constraint, this implies $ e^{-rT}E_Q S_t=S_0 \Rightarrow e^{\mu-rT}E_Q\exp(cX)=1\Rightarrow e^{\mu-rT}m(c)=1 $, where $ m(\cdot) $ is the moment generating function of $ X $. Then $ \mu=rT-\log(m(c)) $. 
+
+The price of a call option with stike price K with mature date T will be priced with $ e^{-rT}E_Q(S_T-K)^+ $. To estimate its value, use $ e^{-rT}\frac{1}{N}\sum_{i=1}^N(S_{T_i}-K)^+=\frac{1}{N}\sum_{i=1}^N{(\frac{S_0}{m(c)}e^{cX_i}-e^{-rT}K)^+} $, where $ X_i\sim_{iid} F $. To compare it with that of a normal distribution, suppose we can invert $ F $, and the above $ X_i=F^{-1}(U_i) $, the same $ U_i $ are transformed to normal random number by $ \Phi^{-1}(U_i) $, then the difference is given by 
+
+$ \frac{1}{N}\sum_{i=1}^N{((\frac{S_0}{m(c)}e^{cF^{-1}(U_i)}-e^{-rT}K)^+-(\frac{S_0}{m(c)}e^{c\Phi^{-1}(U_i)}-e^{-rT}K)^+}) $. In case that $ m $ and $ var(X) $ is unknown, they can be simulated.
+
+
+
+\section{ estimating theory}
+consider a family of sampling density $f(x|\theta)$ depending on parameters $\theta$ and the sampling space is $\mathfrak{X}$. 
+The EM theory, based on the following inequality
+
+
+
+
+\end{document} 

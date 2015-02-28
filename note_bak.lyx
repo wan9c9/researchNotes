@@ -1,0 +1,1944 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+
+
+%\usepackage[latin1]{inputenc}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{makeidx}
+\usepackage{mathrsfs}
+\usepackage{ucs}
+% use one of bsmi(trad Chinese), gbsn(simp Chinese), min(Japanese), mj(Korean); see:
+% /usr/share/texmf-dist/tex/latex/cjk/texinput/UTF8/*.fd
+\newcommand{\cntext}[1]{\begin{CJK}{UTF8}{bkai}#1\end{CJK}}
+%\newcommand{\cntext}[1]{\begin{CJK}{UTF8}{bsmi}#1\end{CJK}}
+%\newcommand{\cntext}[1]{\begin{CJK}{Bg5}{kai}#1\end{CJK}}
+
+\usepackage{pdflscape}
+\usepackage{color}
+%\usepackage{times}
+%\usepackage[cmbold]{mathtime}
+\usepackage{amsthm}\usepackage{amsfonts}
+%\usepackage{pbox}
+\usepackage{tabularx}
+\usepackage{makeidx}
+\usepackage{multirow}
+\usepackage{lscape}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{graphicx}
+%\usepackage{times}
+%\usepackage[cmbold]{mathtime}
+\usepackage{amsthm}\usepackage{amsfonts}
+\usepackage{makeidx}
+\usepackage{multirow}
+\usepackage{lscape}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{lineno}
+\usepackage{enumitem}
+\setenumerate[1]{label={(\arabic*)}}
+
+\newenvironment{steps}[1]{\begin{enumerate}[label=#1 \arabic*]}{\end{enumerate}}
+% http://tex.stackexchange.com/questions/29517/forcing-new-line-after-item-number-in-enumerate-environment/29518#29518
+\def\step{%
+   \@ifnextchar[ \@step{\@noitemargtrue\@step[\@itemlabel]}}
+\def\@step[#1]{\item[#1]\mbox{}\\\hspace*{\dimexpr-\labelwidth-\labelsep}}
+
+
+
+\newcommand{\rmnum}[1]{\romannumeral #1}
+\newcommand{\Rmnum}[1]{\expandafter\@slowromancap\romannumeral #1@}
+
+
+\newcommand{\E}{\mathop{\mathbb{E}}}
+\newcommand{\R}{\mathop{\mathbb{R}}}
+\newcommand{\pr}{\mathop{\mathrm{P}}}
+\newcommand{\pn}{\mathop{\mathbb{P}_n}}
+\newcommand{\gn}{\mathop{\mathbb{G}_n}}
+%\newcommand{\pr}{\textrm{pr}}
+\newcommand{\la}{\lambda}
+
+\def\ \iid {\stackrel{\mathrm{iid}}{\sim}}
+\def\ \logit {\mbox{logit}}
+
+\def\ \mean{\mbox{mean}}
+\def\ \median{\mbox{median}}
+\def\ \var{\mbox{var}}
+\def\ \cov{\mbox{cov}}
+\def\ \corr{\mbox{corr}}
+\def\ \trans{^\intercal}
+
+\def\ \inprob {\stackrel{P}{\longrightarrow}}
+\def\ \asconv {\stackrel{a.s.}{\longrightarrow}}
+\def\ \indist {\stackrel{\mathcal{L}}{\longrightarrow}}
+\def\ \sumn {\displaystyle\sum_{t=1}^n}
+\def\ \dotwt {\dot{W_t}}
+\def\ \minim {\displaystyle\min}
+\def\ \maxum {\displaystyle\max}
+\def\ \limit {\displaystyle\lim}
+\def\ \sumi {\displaystyle\sum_{i=0}^{\infty}}
+\def\ \lamow {\lambda_0,\lambda_1}
+\def\ \suminf {\displaystyle\sum_{n=0}^{\infty}}
+\def\ \sumk {\displaystyle\sum_{k=0}^{\infty}}
+\def\ \var{\mbox{var}}
+\def\ \tv{_{TV}}
+\def\ \E{\mbox{E}}
+\def\ \xx{\mathbf{x}}
+\def\ \yy{\mathbf{y}}
+\def\ \XX{\mathbf{X}}
+\def\ \argmin{\mbox{argmin}}
+\def\ \argmax{\mbox{argmax}}
+\def\ \Pois{\mbox{Pois}}
+\def\ \bfdelta{\boldsymbol{\delta}}
+\def\ \bflambda {\boldsymbol{\lambda}}
+
+\def\ \A {\mathbf{A}}
+\def\ \calA {\mathcal{A}}
+\def\ \B {\mathbf{B}}
+\def\ \J {\mathbf{J}}
+\def\ \Y {\mathbf{Y}}
+\def\ \U {\mathbf{U}}
+\def\ \I {\mathbf{I}}
+\def\ \u {\mathbf{u}}
+\def\ \x {\mathbf{x}}
+\def\ \z {\mathbf{z}}
+\def\ \y {\mathbf{y}}
+
+\def\ \F {\mathcal{F}}
+\def\ \mscrF {\mathscr{F}}
+
+
+\newtheorem{theorem}{}[section]
+\newtheorem{lemma}[theorem]{}\newtheorem{proposition}[theorem]{}\newtheorem{corollary}[theorem]{}\newtheorem{definition}[theorem]{}\newenvironment{remark}[1][Remark]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+%\linenumbers
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\author{Wang Chao}
+\title{Research notes}
+\end_preamble
+\use_default_options false
+\maintain_unincluded_children false
+\language english
+\language_package none
+\inputencoding utf8x
+\fontencoding default
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 12
+\spacing single
+\use_hyperref true
+\pdf_bookmarks false
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks true
+\pdf_pdfborder false
+\pdf_colorlinks false
+\pdf_backref section
+\pdf_pdfusetitle false
+\pdf_quoted_options "colorlinks,citecolor=blue,urlcolor=blue"
+\papersize a4paper
+\use_geometry false
+\use_package amsmath 2
+\use_package amssymb 2
+\use_package cancel 0
+\use_package esint 1
+\use_package mathdots 0
+\use_package mathtools 0
+\use_package mhchem 0
+\use_package stackrel 0
+\use_package stmaryrd 0
+\use_package undertilde 0
+\cite_engine natbib
+\cite_engine_type authoryear
+\biblio_style plainnat
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+maketitle
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Basic theory
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{definition}
+\end_layout
+
+\end_inset
+
+ A set 
+\begin_inset Formula $K$
+\end_inset
+
+ is totally bounded iff 
+\begin_inset Formula $\forall\varepsilon>0$
+\end_inset
+
+, it can be covered by finitely many balls of radius 
+\begin_inset Formula $\varepsilon$
+\end_inset
+
+.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{definition}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{definition}
+\end_layout
+
+\end_inset
+
+ (Uniform tightness) A set of random vectors 
+\begin_inset Formula $\left\{ X_{\alpha}:\alpha\in A\right\} $
+\end_inset
+
+ is 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+uniformly tight
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ if 
+\begin_inset Formula $\forall\varepsilon>0,\exists M\; s.t.\;\sup_{\alpha}\pr(\|X_{\alpha}\|>M)<\varepsilon$
+\end_inset
+
+.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{definition}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Uniformly tight = bounded in probability.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{definition}
+\end_layout
+
+\end_inset
+
+ (Uniform integrability) The r.v.
+ 
+\begin_inset Formula $\xi_{t},t\in T$
+\end_inset
+
+ are said to be uniformly integrable if 
+\begin_inset Formula 
+\begin{align*}
+\lim_{r\to\infty}\sup_{t\in T}\E\left[|\xi_{t}|;|\xi_{t}|>r\right]=0.
+\end{align*}
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "def:ui"
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{definition}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{lemma}
+\end_layout
+
+\end_inset
+
+ The r.v.
+ 
+\begin_inset Formula $\xi_{t},t\in T$
+\end_inset
+
+ are said to be uniformly integrable iff 
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\sup_{t}\E|\xi_{t}|<\infty$
+\end_inset
+
+, 
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\lim_{\pr A\to0}\sup_{t\in T}\E[|\xi_{t}|;A]=0$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "lem:ui"
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{lemma}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{theorem}
+\end_layout
+
+\end_inset
+
+ (Prohorov's theorem) Let 
+\begin_inset Formula $X_{n}$
+\end_inset
+
+ be vectors, 
+\end_layout
+
+\begin_layout Enumerate
+If 
+\begin_inset Formula $X_{n}\indist X$
+\end_inset
+
+ for some 
+\begin_inset Formula $X$
+\end_inset
+
+, then 
+\begin_inset Formula $\left\{ X_{n}\right\} $
+\end_inset
+
+ is uniformly tight.
+ 
+\end_layout
+
+\begin_layout Enumerate
+If 
+\begin_inset Formula $X_{n}$
+\end_inset
+
+ is uniformly tight, then 
+\begin_inset Formula $\exists$
+\end_inset
+
+ a subsequence with 
+\begin_inset Formula $X_{n_{j}}\indist X$
+\end_inset
+
+ as 
+\begin_inset Formula $j\to\infty$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "thm:Prohorov"
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{theorem}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{definition}
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand citep
+after "Section 3.1"
+key "NzeDoukhan2004"
+
+\end_inset
+
+ (Mixing) Let 
+\begin_inset Formula $(\Omega,\calA,\pr)$
+\end_inset
+
+ be a probability space and let 
+\begin_inset Formula $\calA_{1},\calA_{2}$
+\end_inset
+
+ be two sub 
+\begin_inset Formula $\sigma$
+\end_inset
+
+-algebra of 
+\begin_inset Formula $\calA$
+\end_inset
+
+.
+ the coefficients 
+\begin_inset Formula 
+\begin{align*}
+\alpha(\calA_{1},\calA_{2}) & =\sup\left\{ |\pr(a\cap b)-\pr(a)\pr(b)|;a\in\calA_{1},b\in\calA_{2}\right\} \\
+\beta(\calA_{1},\calA_{2}) & =\E\sup\left\{ |\pr(b|\calA_{1})-\pr(a)|;b\in\calA_{2}\right\} \\
+\phi(\calA_{1},\calA_{2}) & =\sup\left\{ |\pr(b|a)-\pr(a)|;a\in\calA_{1},b\in\calA_{2}\right\} \\
+\rho(\calA_{1},\calA_{2}) & =\sup\left\{ |\corr(a,b)|;a\in L^{2}(\calA_{1}),b\in L^{2}(\calA_{2})\right\} \\
+\end{align*}
+
+\end_inset
+
+are, respectively, the strong mixing coefficient 
+\begin_inset Formula $\alpha$
+\end_inset
+
+, absolute regularity coefficient 
+\begin_inset Formula $\beta$
+\end_inset
+
+, uniform mixing coefficient 
+\begin_inset Formula $\phi$
+\end_inset
+
+, and maximal correlation coefficient 
+\begin_inset Formula $\rho$
+\end_inset
+
+.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{definition}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{lemma}
+\end_layout
+
+\end_inset
+
+ (Slutsky) Let 
+\begin_inset Formula $X_{n},X,Y_{n}$
+\end_inset
+
+ be r.v.
+ If 
+\begin_inset Formula $X_{n}\indist X$
+\end_inset
+
+ and 
+\begin_inset Formula $Y_{n}\indist c$
+\end_inset
+
+ for a const 
+\begin_inset Formula $c$
+\end_inset
+
+, then 
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $X_{n}+Y_{n}\indist X+c$
+\end_inset
+
+, 
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $X_{n}Y_{n}\indist cX$
+\end_inset
+
+, 
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $X_{n}/Y_{n}\indist X/c$
+\end_inset
+
+ if 
+\begin_inset Formula $c\ne0$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "lem:Slutsky"
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{lemma}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{definition}
+\end_layout
+
+\end_inset
+
+ A stochastic process 
+\begin_inset Formula $X=\left\{ X_{t}:t\in T\right\} $
+\end_inset
+
+ is a collection of random variables 
+\begin_inset Formula $X_{t}:(\Omega,\F,\pr)\mapsto R$
+\end_inset
+
+, indexed by an arbitrary set 
+\begin_inset Formula $T$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+For each fixed 
+\begin_inset Formula $\omega\in\Omega$
+\end_inset
+
+, the map 
+\begin_inset Formula $t\mapsto X_{t}(\omega)$
+\end_inset
+
+ is called a sample path.
+ If every sample path is a bounded function, X an be viewed as a map 
+\begin_inset Formula $X:\mapsto\ell^{\infty}(T)$
+\end_inset
+
+.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{definition}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{definition}
+\end_layout
+
+\end_inset
+
+ (Weak convergence of stochastic processes, 
+\begin_inset CommandInset citation
+LatexCommand citet
+after "page 261, thm 18.4"
+key "vaart"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+A sequence of arbitrary maps 
+\begin_inset Formula $X_{n}:\Omega_{n}\mapsto\ell^{\infty}(T)$
+\end_inset
+
+ converges weakly to a right random element iff both of the following conditions
+ hold: 
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\forall t_{1},\dots,t_{k}\in T$
+\end_inset
+
+, the sequence 
+\begin_inset Formula $(X_{n,t_{1}},\dots,X_{n,t_{k}})$
+\end_inset
+
+ converges in distribution.
+ 
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\forall\varepsilon,\eta>0,\exists$
+\end_inset
+
+ a partition of 
+\begin_inset Formula $T$
+\end_inset
+
+ into finitely many sets 
+\begin_inset Formula $T_{1},\dots,T_{k}$
+\end_inset
+
+ s.t.
+ 
+\begin_inset Formula 
+\begin{align*}
+\limsup_{n\to\infty}\pr^{*}\left(\sup_{i}\sup_{s,t\in T_{i}}|X_{n,s}-X_{n,t}|\ge\varepsilon\right)\le\eta.
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{definition}
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Section
+M- and Z- estimators
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{theorem}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand citep
+after "page 45"
+key "vaart"
+
+\end_inset
+
+ Let 
+\begin_inset Formula $M_{n}$
+\end_inset
+
+ be random functions and let 
+\begin_inset Formula $M$
+\end_inset
+
+ be a fixed function of 
+\begin_inset Formula $\theta$
+\end_inset
+
+ s.t.
+ 
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Some expression may not be measurable, in which case, they shall be understood
+ outer measure
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\sup_{\theta\in\Theta}|M_{n}(\theta)-M(\theta)|\inprob0$
+\end_inset
+
+, 
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\forall\varepsilon,\sup_{\theta:d(\theta,\theta_{0})>\varepsilon}M(\theta)<M(\theta_{0})$
+\end_inset
+
+, 
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\hat{\theta}_{n}$
+\end_inset
+
+ is a sequence of estimators s.t.
+ 
+\begin_inset Formula $M_{n}(\hat{\theta}_{n})\ge M_{n}(\theta_{0})-o_{P}(1)$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+then 
+\begin_inset Formula $\hat{\theta}_{n}\inprob\theta_{0}$
+\end_inset
+
+.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "m-est:con"
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{theorem}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{proof}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $\forall\varepsilon$
+\end_inset
+
+, consider the event 
+\begin_inset Formula $A=\left\{ |\hat{\theta}_{n}-\theta_{0}|>\varepsilon\right\} $
+\end_inset
+
+.
+ Let 
+\begin_inset Formula $\eta=\sup_{\theta:|\theta-\theta_{0}|>\varepsilon}|M_{\theta_{0}}-M_{\theta}$
+\end_inset
+
+, then 
+\begin_inset Formula $\eta>0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Let 
+\begin_inset Formula $B=\left\{ \sup_{\theta}|M_{n}(\theta)-M(\theta)|\le\eta/4\right\} $
+\end_inset
+
+.
+ Condition (1) implies 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%$
+\backslash
+exist N$ s.t.
+ $
+\backslash
+forall n>N$, 
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $\pr(B^{c})\to0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+On 
+\begin_inset Formula $A\cap B$
+\end_inset
+
+ 
+\begin_inset Formula 
+\begin{align*}
+M_{n}(\theta_{0})-M_{n}(\hat{\theta}_{n})\ge & M(\theta_{0})-\eta/4-(M(\theta)+\eta/4)\\
+= & M(\theta_{0})-M(\theta)-\eta/2\\
+\ge & \eta-\eta/2\\
+= & \eta/2
+\end{align*}
+
+\end_inset
+
+which has prob.
+ 
+\begin_inset Formula $\to$
+\end_inset
+
+ 0 by condition (3).
+\end_layout
+
+\begin_layout Standard
+As 
+\begin_inset Formula $A=(A\cap B)\cup(A\cap B^{c})$
+\end_inset
+
+ , 
+\begin_inset Formula $\pr(A)=\pr(A\cap B)+\pr(A\cap B^{c})\le\pr(A\cap B)+\pr(B)\inprob0$
+\end_inset
+
+.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{proof}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{theorem}
+\end_layout
+
+\end_inset
+
+ Let 
+\begin_inset Formula $\Psi_{n}$
+\end_inset
+
+ be random vector-valued functions and 
+\begin_inset Formula $\Psi$
+\end_inset
+
+ a fixed vector-valued function of 
+\begin_inset Formula $\theta$
+\end_inset
+
+ s.t.
+ 
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\sup_{\theta\in\Theta}\|\Psi_{n}(\theta)-\Psi(\theta)\|\inprob0$
+\end_inset
+
+, 
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\forall\varepsilon>0,\inf_{\theta:d(\theta,\theta_{0})\ge\varepsilon}\|\Psi(\theta)\|\ge0=\|\Psi_{(}\theta_{0})\}$
+\end_inset
+
+, 
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\hat{\theta}_{n}$
+\end_inset
+
+ s.t.
+ 
+\begin_inset Formula $\Psi_{n}(\hat{\theta}_{n})=o_{P}(1)$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+then 
+\begin_inset Formula $\hat{\theta}_{n}\inprob\theta_{0}$
+\end_inset
+
+.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "z-est:con"
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{theorem}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{proof}
+\end_layout
+
+\end_inset
+
+ It follows by applying Theorem
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "m-est:con"
+
+\end_inset
+
+ to the functions 
+\begin_inset Formula $M_{n}(\theta)=-\|\Psi_{n}\|$
+\end_inset
+
+ and 
+\begin_inset Formula $M=-\|\Psi\|$
+\end_inset
+
+.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{proof}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The uniform convergence of functions is equivalent to the set of functions
+ 
+\begin_inset Formula $\left\{ \psi(\theta),\theta\in\Theta\right\} <++>$
+\end_inset
+
+ being Glivenko-Cantelli.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{theorem}
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand citep
+after "page 266, thm 19.1"
+key "vaart"
+
+\end_inset
+
+ (Glivenko-Cantelli) If 
+\begin_inset Formula $X_{i}$
+\end_inset
+
+ are iid r.v.
+ with dist.
+ func.
+ 
+\begin_inset Formula $F$
+\end_inset
+
+, then 
+\begin_inset Formula 
+\begin{align*}
+\|\mathbb{F}_{n}-F\|\asconv0.
+\end{align*}
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "g-c"
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{theorem}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{proof}
+\end_layout
+
+\end_inset
+
+ (Based on compact range and monotonicity of cdf function)
+\end_layout
+
+\begin_layout Standard
+By SLLN, 
+\begin_inset Formula $\forall t$
+\end_inset
+
+, 
+\begin_inset Formula $\mathbb{F}_{n}(t)\asconv F(t)$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbb{F}_{n}(t-)\asconv F(t-)$
+\end_inset
+
+ .
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\forall\varepsilon$
+\end_inset
+
+, 
+\begin_inset Formula $\exists$
+\end_inset
+
+ partition 
+\begin_inset Formula $-\infty=t_{0}<t_{1}\cdots<t_{k}=\infty$
+\end_inset
+
+ s.t.
+ 
+\begin_inset Formula $\forall i,F(t_{i}-)-F(t_{i-1})<\varepsilon$
+\end_inset
+
+.
+ Then 
+\begin_inset Formula $\forall t\in[t_{i-1},t_{i})$
+\end_inset
+
+, 
+\begin_inset Formula 
+\begin{align*}
+\mathbb{F}_{n}(t)-F(t) & \le\mathbb{F}_{n}(t_{i}-)-F(t_{i}-)+\varepsilon,\\
+\mathbb{F}_{n}(t)-F(t) & \ge\mathbb{F}_{n}(t_{i-1})-F(t_{i-1})-\varepsilon,
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Also, 
+\begin_inset Formula $\mathbb{F}_{n}\asconv F$
+\end_inset
+
+ is uniformly for any finite set 
+\begin_inset Formula $\left\{ t_{1},\dots,t_{k-1}\right\} $
+\end_inset
+
+.
+ That implies 
+\begin_inset Formula $\lim\sup\|\mathbb{F}_{n}-F\|_{\infty}\le\varepsilon,a.s.$
+\end_inset
+
+ Since 
+\begin_inset Formula $\varepsilon$
+\end_inset
+
+ is arbitrary, the lim sup is zero.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{proof}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{definition}
+\end_layout
+
+\end_inset
+
+ (P-Glivenko-Cantelli & P-Donsker) For a class 
+\begin_inset Formula $\mscrF$
+\end_inset
+
+ of measurable functions 
+\begin_inset Formula $f:\XX\mapsto\R$
+\end_inset
+
+, 
+\end_layout
+
+\begin_layout Enumerate
+it is called P-Glivenko-Cantelli if 
+\begin_inset Formula 
+\begin{align*}
+\|\pn f-\pr f\|_{\mscrF}=\sup_{f\in\mscrF}\|\pn f-\pr f\|\asconv0.
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+it is P-Donsker if the sequence of empirical process 
+\begin_inset Formula $\left\{ \gn f:f\in\mscrF\right\} $
+\end_inset
+
+ converges in distribution to a tight limit process in the space 
+\begin_inset Formula $\ell^{\infty}(\mscrF)$
+\end_inset
+
+,where the empirical process evaluated at 
+\begin_inset Formula $f$
+\end_inset
+
+ is defined as 
+\begin_inset Formula $\gn f=\sqrt{n}(\pn f-\pr f)$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{definition}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wether a class is Glivenko-Cantelli or Donsker depends on the 
+\begin_inset Quotes eld
+\end_inset
+
+size
+\begin_inset Quotes erd
+\end_inset
+
+ of the class.
+ A relative simple way to measure the size of a class 
+\begin_inset Formula $\mscrF$
+\end_inset
+
+ is in terms of entropy.
+ Consider the bracketing entropy relative to the 
+\begin_inset Formula $L_{p}(P)$
+\end_inset
+
+-norm 
+\begin_inset Formula 
+\begin{align*}
+\|f\|_{P,r}=(\pr\left[|f|^{r}\right])^{1/r}.
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Given two functions 
+\begin_inset Formula $l$
+\end_inset
+
+ and 
+\begin_inset Formula $u$
+\end_inset
+
+, the bracket 
+\begin_inset Formula $[l,u]$
+\end_inset
+
+ is the set of all functions 
+\begin_inset Formula $f$
+\end_inset
+
+ s.t.
+ 
+\begin_inset Formula $l\le f\le u$
+\end_inset
+
+.
+ An 
+\begin_inset Formula $\varepsilon$
+\end_inset
+
+-bracket in 
+\begin_inset Formula $L_{r}(P)$
+\end_inset
+
+ is a bracket 
+\begin_inset Formula $[l,u]$
+\end_inset
+
+ with 
+\begin_inset Formula $\|u-l\|_{P,r}\le\varepsilon$
+\end_inset
+
+.
+ The bracketing number 
+\begin_inset Formula $N_{[]}(\varepsilon,\mscrF,L_{r}(P))$
+\end_inset
+
+ is the minimum number of 
+\begin_inset Formula $\varepsilon$
+\end_inset
+
+-brackets needed to cover 
+\begin_inset Formula $\mscrF$
+\end_inset
+
+, where the bracketing function 
+\begin_inset Formula $l$
+\end_inset
+
+ and 
+\begin_inset Formula $u$
+\end_inset
+
+ must have finite 
+\begin_inset Formula $L_{r}(P)$
+\end_inset
+
+-norm but need not belong to 
+\begin_inset Formula $\mscrF$
+\end_inset
+
+.
+ The entropy with bracketing is the log of the bracketing number.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{theorem}
+\end_layout
+
+\end_inset
+
+ (Glivenko-Cantelli, thm 19.4 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "vaart"
+
+\end_inset
+
+) Every class 
+\begin_inset Formula $\mscrF$
+\end_inset
+
+ of measurable functions s.t.
+ 
+\begin_inset Formula $N_{[]}(\varepsilon,\mscrF,L_{1}(P))<\infty$
+\end_inset
+
+ for every 
+\begin_inset Formula $\varepsilon>0$
+\end_inset
+
+ is P-Glivenko-Cantelli.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "<++>"
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{theorem}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For most class of interest, the bracketing number grow to ininfity as 
+\begin_inset Formula $\varepsilon\to0$
+\end_inset
+
+.
+ A sufficient condition for a class to be Donsker is that they do not grow
+ too fast.
+ The speed can be measured in terms of the bracketing integral 
+\begin_inset Formula 
+\begin{align*}
+J_{[]}\left(\delta,\mscrF,L_{2}(P)\right)=\int_{0}^{\delta}\sqrt{\log N_{[]}\left(\varepsilon,\mscrF,L_{2}(P)\right)}d\varepsilon.
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+If this integral is finite-valued, then the class 
+\begin_inset Formula $\mscrF$
+\end_inset
+
+ is P-Donsker.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{theorem}
+\end_layout
+
+\end_inset
+
+ Every class 
+\begin_inset Formula $\mscrF$
+\end_inset
+
+ of measurable functions with 
+\begin_inset Formula $J_{[]}\left(\delta,\mscrF,L_{2}(P)\right)<\infty$
+\end_inset
+
+ is P-Donsker.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "thm:donsker"
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{theorem}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{theorem}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "ArconesYu1994"
+
+\end_inset
+
+ Suppose that 
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\mathscr{F}$
+\end_inset
+
+ is a measurable V-C subgraph class of functions, s.t.
+ 
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\pr F^{p}<\infty$
+\end_inset
+
+ for some 
+\begin_inset Formula $p\in(2,\infty)$
+\end_inset
+
+ and 
+\begin_inset Formula $F(x)=\sup_{f\in\mathscr{F}}|f(x)|$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Enumerate
+If the 
+\begin_inset Formula $\beta$
+\end_inset
+
+-mixing coefficient of the stationary sequence satisfies 
+\begin_inset Formula 
+\begin{align*}
+k^{p/(p-2)}(\log k)^{2(p-1)/(p-2)}\beta_{k}\to0,
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+then the empirical process 
+\begin_inset Formula 
+\begin{align*}
+\left\{ n^{-1/2}\sumn\left(f(X_{i})-\pr f\right):f\in\mathscr{F}\right\} 
+\end{align*}
+
+\end_inset
+
+converges in law to a Gaussian process 
+\begin_inset Formula $\left\{ G(f):f\in\mathscr{F}\right\} $
+\end_inset
+
+ which has a version with uniformly bounded and uniformly continuous paths
+ w.r.t.
+ the 
+\begin_inset Formula $L_{2}$
+\end_inset
+
+ norm.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{theorem}
+\end_layout
+
+\end_inset
+
+<++>
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{definition}
+\end_layout
+
+\end_inset
+
+ (V-C class)
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{definition}
+\end_layout
+
+\end_inset
+
+<++>
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+em
+\end_layout
+
+\end_inset
+
+ The Reinsch form
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ Let 
+\begin_inset Formula 
+\begin{align*}
+S_{\lambda}=N(N\trans N+\lambda\Omega_{N})^{-1}N\trans
+\end{align*}
+
+\end_inset
+
+be the spline smoother and 
+\begin_inset Formula $N=UDV\trans$
+\end_inset
+
+ the singular value decomposition of 
+\begin_inset Formula $N$
+\end_inset
+
+.
+ Since 
+\begin_inset Formula $N$
+\end_inset
+
+ is 
+\begin_inset Formula $n\times n$
+\end_inset
+
+, 
+\begin_inset Formula $U$
+\end_inset
+
+ is orthogonal hence invertible with 
+\begin_inset Formula $U^{-1}=U\trans$
+\end_inset
+
+, and 
+\begin_inset Formula $D$
+\end_inset
+
+ is invertible since 
+\begin_inset Formula $N$
+\end_inset
+
+ has full rank 
+\begin_inset Formula $n$
+\end_inset
+
+.
+ Then 
+\begin_inset Formula 
+\begin{align*}
+S_{\lambda} & =N(N\trans N+\lambda\Omega_{N})^{-1}N\trans\\
+ & =UDV\trans(VD^{2}V\trans+\lambda\Omega_{N})^{-1}VDU\trans\\
+ & \cdots\\
+ & =(I+\lambda U\trans D^{-1}V\trans\Omega_{N}VD^{-1}U)^{-1}\\
+ & =(I+\lambda K)^{-1}\\
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Linear Algebra
+\end_layout
+
+\begin_layout Standard
+Eigen-decomposition: A matrix 
+\begin_inset Formula $M$
+\end_inset
+
+ can be written as 
+\begin_inset Formula $M=P^{-1}DP$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Schur's complemtation
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%%%%%%%%%%%%%%%%%%
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%
+\backslash
+bibliography{ref}
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "/home/chao/researches/bibfile/ref"
+options "jtsa1"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

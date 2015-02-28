@@ -1,0 +1,37 @@
+\section{OHLC data}
+\textit{2010.08.12}
+Using OHLC data to analyze the dynamics of the stock returns.
+(Lildholdt, 2002) considered a GARCH model.
+
+Consider a stochastic process $ X $, let $ X_i(t) $ be its value at time $ i+f_i+t(1-f_i) $, where $ f_i\in [0,1] $ and $ t\in[0,1] $. Assume that
+\begin{itemize}
+\item  from $ X(i) $ to $ X(i+f_i) $, $ X $ unobservable except its values at the endpoints,
+\item from $ X(i+f_i) $ to $ X(i+1) $, that is, $ X_i(t) $ for $ t\in[0,1] $ follow some general diffusions,
+\[ dX_i(t)=\mu_i dt + \nu_i d W_t, \]
+\[ d\sigma_t \]a Brownian motion with drift $ \mu_i $ and variance $ \sigma_i^2 $
+\end{itemize}
+\begin{align*}
+r_i=&P_i(1)-P_i(0),\\
+dP_i(t)=&\mu dt+\sigma_i dW(t), \ 0\leq t\leq 1,\\
+\sigma_i^2=&\omega+\sum_j\alpha_j(r_{i-j}-\mu)^2+\sum_j \beta_j\sigma^2_{i-j},\\
+a_i=&\sup_{t\in[0,1]}P_i(t)-P_i(0)\\
+b_i=&P_i(0)-\inf_{t\in[0,1]}P_i(t)\\
+\end{align*}
+In this setting, the variance is determined by past squared closed value(the realized
+There are other ways to define the volatility process. For example, (Chou, 2006) considered a separate regression of the daily upper range and lower range. 
+
+We wish to establish a model which could handle with OPN, UPR, DNR, CLS, and VOL data. If we assume the price movement during a day is governed by a geometric Brownian motion. Note that this assumption is very common in the 
+continuous-time stochastic process, but it is problematic to assume that the long-run price is a geometric Brownian motion, due to the change of information. However, it may be more plausible to assume that the price follows a GBM in a short time range, in which no apparent change of information occurs.
+
+$( UPR_i, DNR_i, CLS_i ) $ can be characterized by the $ (\mu_i, \sigma_i) $,  we need only to specify the dymamics of $$ (OPN_i,\mu_i,\sigma_i, VOL_i)=(o_i,\mu_i,\sigma_i,v_i)\leftarrow ?(o_i,\mu_i,\log \sigma_i,v_i) $$
+
+We would expect that the information before the trading of a day can be obsorbed in the movement of the the price in the day with some moises, which can have further influence with the trading in the sequent day.
+
+How to compare the performance of two models?
+
+Firstly, suppose the process is 
+
+
+
+Volume should have positive impact on the volatility.
+realized volatility

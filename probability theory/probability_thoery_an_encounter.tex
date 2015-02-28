@@ -1,0 +1,74 @@
+\documentclass[10pt,a4paper]{book}
+\usepackage[latin1]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{makeidx}
+\usepackage{hyperref}
+\usepackage{fouridx}
+
+\title{Probability theory, an encounter between experiments and mathematics}
+\author{WANG, Chao}
+
+\makeindex
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\chapter{Measurable sets}
+\section{The very beginning of probability: the mathematics of chance}
+The evidence that gamin and gambling have been a major pastime for difference peoples since the dawn of civilization by archaeologists\footnote{http://mathforum.org/isaac/problems/prob1.html}. But it is too long to be just a pastime. It seems that no one considered the mathematics of chance until the seventeenth century, in which the very beginning of rigorous mathematics of probability was developed by French mathematicians \href{http://en.wikipedia.org/wiki/Pierre_de_Fermat}{Pierre de Fermat} and \href{http://en.wikipedia.org/wiki/Blaise_pascal}{Blaise Pascal}.
+
+The problem which stimulates the development of mathematical probability in Renaissance Europe was the \textit{the problem of points}, which can be stated as follows:
+
+\textit{Two equally skilled players are interrupted while playing a game of chance for a certain amount of money. Given the score of the game at that point, how should the stakes be divided? }
+
+In the above context, 'equally skilled' indicates that each player started the game with an equal chance of winning. For the sake of illustration, imagine the following scenario.
+
+Pascal and Fermat are sitting in a caf\'e in Paris and decide, after many arduous hours discussing more difficult scenarios, to play the simplest of all games, flipping a coin. If the coin comes up heads, Fermat gets a point. If it comes up tails, Pascal gets a point. The first to get 10 points wins. Knowing that they'll just end up taking each other out to dinner anyway, they each ante up a generous 50 Francs, making the total pot worth 100. They are, of course, playing 'winner takes all'. But then a strange thing happens. Fermat is winning, 8 points to 7, when he receives an urgent message that a friend is sick, and he must rush to his home town of Toulouse. The carriage man who has delivered the message offers to take him, but only if they leave immediately. Of course Pascal understands, but later, in correspondence, the problem arises: how should the 100 Francs be divided?
+
+In a letter to Pascal, Fermat proposes this solution:
+
+
+Dearest Blaise,
+
+As to the problem of how to divide the 100 Francs, I think I have found a solution that you will find to be fair. Seeing as I needed only two points to win the game, and you needed 3, I think we can establish that after four more tosses of the coin, the game would have been over. For, in those four tosses, if you did not get the necessary 3 points for your victory, this would imply that I had in fact gained the necessary 2 points for my victory. In a similar manner, if I had not achieved the necessary 2 points for my victory, this would imply that you had in fact achieved at least 3 points and had therefore won the game. Thus, I believe the following list of possible endings to the game is exhaustive. I have denoted 'heads' by an 'h', and tails by a 't.' I have starred the outcomes that indicate a win for myself.
+\begin{verbatim}
+h h h h * 	  	h h h t * 	  	h h t h * 	  	h h t t *
+h t h h * 	  	h t h t * 	  	h t t h * 	  	h t t t
+t h h h * 	  	t h h t * 	  	t h t h * 	  	t h t t
+t t h h * 	  	t t h t 	  	  t t t h 	    	t t t t
+\end{verbatim}
+
+I think you will agree that all of these outcomes are equally likely. Thus I believe that we should divide the stakes by the ration 11:5 in my favor, that is, I should receive (11/16)*100 = 68.75 Francs, while you should receive 31.25 Francs.
+
+I hope all is well in Paris,
+
+Your friend and colleague,
+
+Pierre 
+
+An analysis of Fermat's method. The (sample) space consists of all possible outcomes of a random experiment. An event consists of some possible outcomes. 
+
+
+The manner in which Fermat considered the formulation of outcomes, events, probabilities, in fact applied to most of the classical probabilistic problems. Such a thinking can solve most elementary problems, but when considering more complex problem, Femat's formulation may not be useful.
+
+The modern probability, Kolomogorov axioms of probability.
+
+
+element, set, subset, field,class, algebra, $ \sigma $-algebra, $ \pi $-system, $ \lambda $-system, topology, measure,
+
+One of the central problem in probability theory is to calculate the probability of the occurrence of some event $ A $ which consists of some possible outcomes of an experience. 
+
+of.  event is a set of outcomes. Since we want to calulate containsmathematically speaking, is some measurable set. S
+
+A triple $ (\Omega, \mathcal{A},P) $ is called a probability space, where $ \Omega $ is a space, $ \mathcal{A} $ is a $ \sigma $-algebra of subsets of $ \Omega $, $ P $ is a probability measure on $ (\Omega, \mathcal{A}) $. Such a couple $ (\Omega, \mathcal{A}) $ is called a measurable space. Subset of $ \Omega $ in $ \mathcal{A} $ is called a measurable set.
+
+topolgical space and probabilistic space generated by a topology. $ \fourIdx{1}{2}{3}{4}a $
+
+continuity and measurability
+
+
+
+\end{document}
